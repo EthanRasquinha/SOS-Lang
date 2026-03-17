@@ -1,7 +1,5 @@
-import { useState } from 'react'
-
 import './App.css'
-import HomePage from './src/pages/homepage/HomePage'
+import { HomePage } from './src/pages/homepage/HomePage'
 
 function App() {
   return (
