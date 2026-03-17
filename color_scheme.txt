@@ -1,0 +1,7 @@
+#dc6505 | Dark Orange
+#004d73 | Dark Blue
+#c1c4c7 | Medium Grey
+#7c7f86 | Dark Grey
+#efb486 | Light Orange
+#36718f | Light Blue
+#ebe9e8 | Light Grey
