@@ -1,23 +1,31 @@
 import React from 'react';
 import RegistrationForm from "@/components/RegistrationForm";
 
-const Registration = () => {
-    const handleRegistrationSuccess = () => {
-        // Handle successful registration (redirect, show message, etc.)
-        return console.log('Registration successful');
-    };
+export const Registration = () => {
+  const handleRegistrationSuccess = () => {
+    console.log('Registration successful');
+  };
 
-    return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-50">
-            <div className="w-full max-w-md">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
-                    <p className="text-gray-600 mt-2">Join us today</p>
-                </div>
-                <RegistrationForm onSuccess={handleRegistrationSuccess} />
-            </div>
+  return (
+    <div className="min-h-screen bg-[#ebe9e8] flex items-center justify-center px-6 py-16">
+      <div className="w-full max-w-md bg-white border border-[#c1c4c7] rounded-xl shadow-sm p-8 space-y-6 animate-fade-in-up">
+        
+        {/* Page Header */}
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl font-bold text-[#004d73]">
+            Create Account
+          </h1>
+          <p className="text-[#7c7f86]">
+            Join SOS-Lang today
+          </p>
         </div>
-    );
+
+        {/* Registration Form */}
+        <RegistrationForm onSuccess={handleRegistrationSuccess} />
+
+      </div>
+    </div>
+  );
 };
 
 export default Registration;
