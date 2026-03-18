@@ -3,29 +3,18 @@ import { Link } from 'react-router-dom';
 
 export const NavBar: React.FC = () => {
     return (
-        <nav className="navbar">
-            <div className="navbar-container">
-                <Link to="/" className="navbar-logo">
-                    SOS Lang
-                </Link>
-                <ul className="navbar-menu">
-                    <li className="navbar-item">
-                        <Link to="/" className="navbar-link">
-                            Home
-                        </Link>
-                    </li>
-                    <li className="navbar-item">
-                        <Link to="/about" className="navbar-link">
-                            About
-                        </Link>
-                    </li>
-                    <li className="navbar-item">
-                        <Link to="/contact" className="navbar-link">
-                            Contact
-                        </Link>
-                    </li>
-                </ul>
-            </div>
+        <nav className="w-full bg-[#dc6505] text-white px-4 py-3">
+        <div className="flex justify-between items-center">
+            <Link to="/" className="text-xl font-bold">
+            SOS Lang
+            </Link>
+
+            <ul className="flex gap-6">
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
+            </ul>
+        </div>
         </nav>
     );
 };

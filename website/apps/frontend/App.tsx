@@ -8,12 +8,12 @@ import { Contact } from './src/components/Contact';
 
 function App() {
   return (
-    <>
+    <div className="min-h-screen w-screen">
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
       </Routes>
-      </>
+      </div>
   );
 }
 

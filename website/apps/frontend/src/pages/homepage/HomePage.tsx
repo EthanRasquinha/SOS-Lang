@@ -5,10 +5,7 @@ import { Button } from '@/components/ui/button';
 export const HomePage = () => {
     console.log('HomePage rendering');
     return (
-        <div className="home-page bg-blue-500 min-h-screen">
-            <header className="header">
-                <h1>SOS-LANG</h1>
-            </header>
+        <div className="home-page  min-h-screen min-w-screen">
 
             <main className="main-content">
                 <Card className="hero">
