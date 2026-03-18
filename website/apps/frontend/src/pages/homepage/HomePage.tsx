@@ -8,14 +8,6 @@ export const HomePage = () => {
         <div className="home-page bg-blue-500 min-h-screen">
             <header className="header">
                 <h1>SOS-LANG</h1>
-                <nav>
-                    <ul>
-                        <li><Button variant="link" asChild><a href="/">Home</a></Button></li>
-                        <li><Button variant="link" asChild><a href="/about">About</a></Button></li>
-                        <li><Button variant="link" asChild><a href="/contact">Contact</a></Button></li>
-                        <li><Button variant="link" asChild><a href="/register">Register</a></Button></li>
-                    </ul>
-                </nav>
             </header>
 
             <main className="main-content">
