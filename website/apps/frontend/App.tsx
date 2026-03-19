@@ -6,16 +6,19 @@ import { NavBar } from './src/components/NavBar'
 import { About } from './src/pages/About';
 import { Contact } from './src/pages/Contact';
 import { Registration } from './src/pages/register/Registration'
+import { NoteDashboard } from './src/pages/NoteDashboard'
+
 
 function App() {
+  
   return (
     <div className="min-h-screen w-screen">
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/signup" element={<Registration />} />
+        <Route path="/newnote" element={<NoteDashboard />} />
       </Routes>
       </div>
   );

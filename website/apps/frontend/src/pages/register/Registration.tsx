@@ -1,9 +1,10 @@
 import React from 'react';
-import RegistrationForm from "@/components/RegistrationForm";
+import {RegistrationForm} from "@/components/RegistrationForm";
 
 export const Registration = () => {
   const handleRegistrationSuccess = () => {
     console.log('Registration successful');
+    
   };
 
   return (
@@ -27,5 +28,3 @@ export const Registration = () => {
     </div>
   );
 };
-
-export default Registration;

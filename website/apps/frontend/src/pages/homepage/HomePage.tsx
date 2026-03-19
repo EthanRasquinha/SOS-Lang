@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import heroImage from '../../../assets/hero-image.png'
 
 export const HomePage = () => {
+  
   return (
     <div className="min-h-screen w-full bg-[#ebe9e8] text-[#7c7f86] flex flex-col">
 

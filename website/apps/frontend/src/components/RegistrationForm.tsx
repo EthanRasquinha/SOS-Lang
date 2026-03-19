@@ -3,6 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
+import bullImage from '../../assets/icon.png'
+
 
 import { Button } from "@/components/ui/button"
 import {
@@ -32,9 +34,13 @@ const formSchema = z.object({
 })
 type RegistrationFormProps = {
   onSuccess: () => void;
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
 };
 
-export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
+export const RegistrationForm = ({ onSuccess, open, onClose, children }: RegistrationFormProps) => {
+  if (!open) return null;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,22 +68,36 @@ export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   }
 
   return (
-    <Card className="w-full sm:max-w-md">
+<div
+  className={`fixed inset-0 flex items-center justify-center transition-all duration-300 ${
+    open ? "bg-black/20 opacity-100" : "opacity-0 pointer-events-none"
+  }`}
+>      
+    <Card className={`bg-white rounded-lg shadow p-7 transition-all max-w-xl ${ open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}>
+        <Button className="absolute top-2 right-2 py-1 px-2 border berder-neutral-200 rounded-md text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600" onClick={onClose}>
+        X
+        </Button>
+        {children}
       <CardHeader>
-        <CardTitle>Login</CardTitle>
+        <div class=" flex items-center justify-center space-x-8">
+        <div className="bg-[#004d73] w-12 h-12 rounded-full flex items-center justify-center"><img src={bullImage} className="w-9 h-10 "/></div>
+        </div>
+        <CardTitle className="text-2xl mb-5 text-[#004d73]">SOS-Lang</CardTitle>
+
+        <CardTitle>Sign-Up</CardTitle>
         <CardDescription>
-          Enter your credentials to access your account.
+          Enter your credentials to create your account.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form id="login-form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="login-form"  onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <Controller
               name="email"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="login-email">
+                  <FieldLabel htmlFor="login-email" className="text-sm ">
                     Email
                   </FieldLabel>
                   <Input
@@ -87,6 +107,8 @@ export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     aria-invalid={fieldState.invalid}
                     placeholder="your@email.com"
                     autoComplete="email"
+                    className="w-full px-4 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505] h-12 bg-white border-[#c1c4c7]"
+
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -98,10 +120,16 @@ export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               name="password"
               control={form.control}
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="login-password">
+                <Field
+                  data-invalid={fieldState.invalid}
+                >
+                  <FieldLabel
+                    htmlFor="login-password"
+                    className="text-sm"
+                  >
                     Password
                   </FieldLabel>
+
                   <Input
                     {...field}
                     id="login-password"
@@ -109,9 +137,14 @@ export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     aria-invalid={fieldState.invalid}
                     placeholder="Enter your password"
                     autoComplete="current-password"
+                    className="w-full px-4 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505] h-12"
                   />
+
                   {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
+                    <FieldError
+                      errors={[fieldState.error]}
+                      className="text-red-500 text-sm"
+                    />
                   )}
                 </Field>
               )}
@@ -119,17 +152,18 @@ export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
           </FieldGroup>
         </form>
       </CardContent>
-      <CardFooter>
-        <Field orientation="horizontal">
-          <Button type="button" variant="outline" onClick={() => form.reset()}>
-            Reset
-          </Button>
-          <Button type="submit" form="login-form">
-            Login
-          </Button>
-        </Field>
+      <CardFooter className="flex w-full">
+
+        <Button
+          type="submit"
+          form="login-form"
+          className="w-full px-6 py-6 text-base bg-[#004d73] hover:bg-[#36718f]"
+        >
+          Sign-Up
+        </Button>
       </CardFooter>
     </Card>
+    </div>
   )
 }
 

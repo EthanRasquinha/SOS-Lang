@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const About: React.FC = () => {
+
+    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    setFormData({ name: '', email: '', message: '' });
+  };
   return (
-    <div className="min-h-screen bg-[#ebe9e8] text-[#7c7f86] flex flex-col px-6 py-16">
+    <div className=" bg-[#ebe9e8] text-[#7c7f86] flex flex-col px-6 py-16">
       
       <div className="max-w-4xl mx-auto space-y-12">
 
@@ -34,19 +51,30 @@ export const About: React.FC = () => {
         </section>
 
         {/* Get In Touch */}
-        <section className="bg-white border border-[#c1c4c7] rounded-xl p-8 shadow-sm animate-fade-in-up">
-          <h2 className="text-2xl font-semibold text-[#004d73] mb-4">
-            Get In Touch
-          </h2>
-          <p>
-            Have questions? We'd love to hear from you. Contact us at:{' '}
-            <a
-              href="mailto:info@example.com"
-              className="text-[#dc6505] hover:text-[#efb486] transition-colors duration-200"
-            >
-              info@example.com
-            </a>
-          </p>
+        <section className="bg-white border border-[#c1c4c7] rounded-xl p-2 shadow-sm animate-fade-in-up">
+              <div className=" px-6 py-10 flex flex-col items-center">
+      <h1 className="text-4xl font-bold text-[#004d73] mb-8 animate-fade-in">Contact Us</h1>
+
+      <Card className="w-full max-w-2xl border-[#c1c4c7] shadow-sm animate-fade-in-up">
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex flex-col space-y-1">
+              <label htmlFor="name" className="font-medium text-[#7c7f86]">Name</label>
+              <Input id="name" name="name" value={formData.name} onChange={handleChange} required />
+            </div>
+            <div className="flex flex-col space-y-1">
+              <label htmlFor="email" className="font-medium text-[#7c7f86]">Email</label>
+              <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required />
+            </div>
+            <div className="flex flex-col space-y-1">
+              <label htmlFor="message" className="font-medium text-[#7c7f86]">Message</label>
+              <Textarea id="message" name="message" rows={5} value={formData.message} onChange={handleChange} required />
+            </div>
+            <Button type="submit" className="bg-[#dc6505] hover:bg-[#efb486] text-white w-full">Send Message</Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
         </section>
 
       </div>
