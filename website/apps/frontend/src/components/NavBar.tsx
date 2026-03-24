@@ -50,14 +50,6 @@ export const NavBar: React.FC = ({userRole, setUserRole} : Props ) => {
           </li>
           <li>
             <Link
-              to="/contact"
-              className="hover:text-[#004d73] transition-colors duration-200"
-            >
-              Contact
-            </Link>
-          </li>
-          <li>
-            <Link
               to="/newnote"
               className="hover:text-[#004d73] transition-colors duration-200"
             >
