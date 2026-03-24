@@ -36,7 +36,7 @@ type RegistrationFormProps = {
   onSuccess: () => void;
   open: boolean;
   onClose: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export const RegistrationForm = ({ onSuccess, open, onClose, children }: RegistrationFormProps) => {
@@ -79,7 +79,7 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
         </Button>
         {children}
       <CardHeader>
-        <div class=" flex items-center justify-center space-x-8">
+        <div className=" flex items-center justify-center space-x-8">
         <div className="bg-[#004d73] w-12 h-12 rounded-full flex items-center justify-center"><img src={bullImage} className="w-9 h-10 "/></div>
         </div>
         <CardTitle className="text-2xl mb-5 text-[#004d73]">SOS-Lang</CardTitle>

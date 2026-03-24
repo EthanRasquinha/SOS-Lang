@@ -9,7 +9,7 @@ type Props = {
     setUserRole: (newRole: string) => void;
 };
 
-export const NavBar: React.FC = ({userRole, setUserRole} : Props ) => {
+export const NavBar: React.FC<Props> = ({userRole, setUserRole} : Props ) => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [popupVisible, setPopupVisible] = useState<boolean>(false)
 
@@ -63,8 +63,13 @@ export const NavBar: React.FC = ({userRole, setUserRole} : Props ) => {
           Get Started
         </button>
         
-        <RegistrationForm open={popupVisible} onClose={() => togglePopup()}/>
-
+        <RegistrationForm
+          open={true}
+          onClose={() => {}}
+          onSuccess={() => console.log("Success")}
+        >
+          {/* optional children here */}
+        </RegistrationForm>
         {/* MOBILE MENU ICON */}
         <div className="md:hidden">
           {/* You can add a hamburger menu icon here later */}
