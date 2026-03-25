@@ -4,7 +4,13 @@ import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 import bullImage from '../../assets/icon.png'
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -31,6 +37,9 @@ const formSchema = z.object({
   password: z
     .string()
     .min(6, "Password must be at least 6 characters."),
+  language: z
+  .string()
+  .min(2, "Please select a language."),
 })
 type RegistrationFormProps = {
   onSuccess: () => void;
@@ -46,6 +55,7 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
     defaultValues: {
       email: "",
       password: "",
+      language: "",
     },
   })
 
@@ -74,7 +84,7 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
   }`}
 >      
     <Card className={`bg-white rounded-lg shadow p-7 transition-all max-w-xl ${ open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}>
-        <Button className="absolute top-2 right-2 py-1 px-2 border berder-neutral-200 rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-600" onClick={onClose}>
+        <Button className="absolute top-2 right-2 py-1 px-2 text-gray-600 border border-neutral-200 rounded-md text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-600" onClick={onClose}>
         X
         </Button>
         {children}
@@ -145,6 +155,36 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
                       errors={[fieldState.error]}
                       className="text-red-500 text-sm"
                     />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              name="language"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel className="text-sm">
+                    Language you are learning
+                  </FieldLabel>
+
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full h-12 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505]">
+                      <SelectValue placeholder="Select a language" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      <SelectItem value="russian">Russian</SelectItem> /* language code 0 */
+                      <SelectItem value="spanish">Spanish</SelectItem> /* language code 1 */
+                      <SelectItem value="english">English</SelectItem> /* language code 2 */
+                    </SelectContent>
+                  </Select>
+
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
                   )}
                 </Field>
               )}
