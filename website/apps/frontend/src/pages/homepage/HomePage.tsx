@@ -2,9 +2,16 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import heroImage from '../../../assets/hero-image.png'
+import { RegistrationForm } from '@/components/RegistrationForm';
+import { useState} from 'react';
 
 export const HomePage = () => {
   
+  const [popupVisible, setPopupVisible] = useState<boolean>(false)
+  function togglePopup() {
+        setPopupVisible(!popupVisible)
+    } 
+
   return (
     <div className="min-h-screen w-full bg-[#ebe9e8] text-[#7c7f86] flex flex-col">
 
@@ -23,9 +30,17 @@ export const HomePage = () => {
               retain and master languages through active review.
             </p>
 
-            <Button className="bg-[#dc6505] hover:bg-[#efb486] text-white px-6 py-2 transition-all duration-300 hover:scale-105">
+            <Button onClick={togglePopup} className="bg-[#dc6505] hover:bg-[#efb486] text-white px-6 py-2 transition-all duration-300 hover:scale-105">
               Get Started
             </Button>
+
+            <RegistrationForm
+                      open={popupVisible}
+                      onClose={togglePopup}
+                      onSuccess={() => console.log("Success")}
+                    >
+                      {/* optional children here */}
+                    </RegistrationForm>
           </div>
 
           {/* IMAGE */}
