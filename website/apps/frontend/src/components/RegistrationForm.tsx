@@ -74,7 +74,7 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
   }`}
 >      
     <Card className={`bg-white rounded-lg shadow p-7 transition-all max-w-xl ${ open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}>
-        <Button className="absolute top-2 right-2 py-1 px-2 border berder-neutral-200 rounded-md text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600" onClick={onClose}>
+        <Button className="absolute top-2 right-2 py-1 px-2 border berder-neutral-200 rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-600" onClick={onClose}>
         X
         </Button>
         {children}

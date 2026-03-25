@@ -64,8 +64,8 @@ export const NavBar: React.FC<Props> = ({userRole, setUserRole} : Props ) => {
         </button>
         
         <RegistrationForm
-          open={true}
-          onClose={() => {}}
+          open={popupVisible}
+          onClose={togglePopup}
           onSuccess={() => console.log("Success")}
         >
           {/* optional children here */}
