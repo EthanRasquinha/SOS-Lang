@@ -29,6 +29,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { supabase } from "@/lib/supabaseClient"
 
 const formSchema = z.object({
   email: z
@@ -59,24 +60,62 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    toast("Login attempt:", {
-      description: (
-        <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-code p-4 text-code-foreground">
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-      position: "bottom-right",
-      classNames: {
-        content: "flex flex-col gap-2",
+async function onSubmit(data: z.infer<typeof formSchema>) {
+  console.log("Running onSubmit with data:", data);
+  // Convert language string → numeric code
+  const languageMap: Record<string, number> = {
+    english: 0,
+    spanish: 1,
+    russian: 2,
+  };
+
+  const selectedLanguage = languageMap[data.language];
+
+  const { data: signupData, error } = await supabase.auth.signUp({
+    email: data.email,
+    password: data.password,
+    options: {
+      data: {
+        language: selectedLanguage,
       },
-      style: {
-        "--border-radius": "calc(var(--radius)  + 4px)",
-      } as React.CSSProperties,
-    })
-    onSuccess()
+    },
+  });
+  console.log("Form errors:", form.formState.errors);
+  if (error) {
+    toast("Signup failed", {
+      description: error.message,
+      position: "bottom-right",
+    });
+    return;
   }
 
+  toast("Signup successful!", {
+    description: "Check your email to confirm your account.",
+    position: "bottom-right",
+  });
+
+  onSuccess();
+}
+
+  // function onSubmit(data: z.infer<typeof formSchema>) {
+  //   toast("Login attempt:", {
+  //     description: (
+  //       <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-code p-4 text-code-foreground">
+  //         <code>{JSON.stringify(data, null, 2)}</code>
+  //       </pre>
+  //     ),
+  //     position: "bottom-right",
+  //     classNames: {
+  //       content: "flex flex-col gap-2",
+  //     },
+  //     style: {
+  //       "--border-radius": "calc(var(--radius)  + 4px)",
+  //     } as React.CSSProperties,
+  //   })
+  //   onSuccess()
+  // }
+
+  
   return (
 <div
   className={`fixed inset-0 flex items-center justify-center transition-all duration-300 ${
@@ -177,9 +216,9 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
                     </SelectTrigger>
 
                     <SelectContent>
-                      <SelectItem value="russian">Russian</SelectItem> /* language code 0 */
-                      <SelectItem value="spanish">Spanish</SelectItem> /* language code 1 */
-                      <SelectItem value="english">English</SelectItem> /* language code 2 */
+                      <SelectItem value="russian">Russian {/* language code 2 */}</SelectItem>
+                      <SelectItem value="spanish">Spanish {/* language code 1 */}</SelectItem>
+                      <SelectItem value="english">English {/* language code 0 */}</SelectItem>
                     </SelectContent>
                   </Select>
 
@@ -191,9 +230,6 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
             />
           </FieldGroup>
         </form>
-      </CardContent>
-      <CardFooter className="flex w-full">
-
         <Button
           type="submit"
           form="login-form"
@@ -201,6 +237,11 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
         >
           Sign-Up
         </Button>
+        console.log("Form errors:", form.formState.errors);
+      </CardContent>
+      <CardFooter className="flex w-full">
+
+
       </CardFooter>
     </Card>
     </div>
