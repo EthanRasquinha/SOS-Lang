@@ -4,7 +4,13 @@ import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 import bullImage from '../../assets/icon.png'
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -23,6 +29,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { supabase } from "@/lib/supabaseClient"
 
 const formSchema = z.object({
   email: z
@@ -31,6 +38,9 @@ const formSchema = z.object({
   password: z
     .string()
     .min(6, "Password must be at least 6 characters."),
+  language: z
+  .string()
+  .min(2, "Please select a language."),
 })
 type RegistrationFormProps = {
   onSuccess: () => void;
@@ -46,27 +56,66 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
     defaultValues: {
       email: "",
       password: "",
+      language: "",
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    toast("Login attempt:", {
-      description: (
-        <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-code p-4 text-code-foreground">
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-      position: "bottom-right",
-      classNames: {
-        content: "flex flex-col gap-2",
+async function onSubmit(data: z.infer<typeof formSchema>) {
+  console.log("Running onSubmit with data:", data);
+  // Convert language string → numeric code
+  const languageMap: Record<string, number> = {
+    english: 0,
+    spanish: 1,
+    russian: 2,
+  };
+
+  const selectedLanguage = languageMap[data.language];
+
+  const { data: signupData, error } = await supabase.auth.signUp({
+    email: data.email,
+    password: data.password,
+    options: {
+      data: {
+        language: selectedLanguage,
       },
-      style: {
-        "--border-radius": "calc(var(--radius)  + 4px)",
-      } as React.CSSProperties,
-    })
-    onSuccess()
+    },
+  });
+  console.log("Form errors:", form.formState.errors);
+  if (error) {
+    toast("Signup failed", {
+      description: error.message,
+      position: "bottom-right",
+    });
+    return;
   }
 
+  toast("Signup successful!", {
+    description: "Check your email to confirm your account.",
+    position: "bottom-right",
+  });
+
+  onSuccess();
+}
+
+  // function onSubmit(data: z.infer<typeof formSchema>) {
+  //   toast("Login attempt:", {
+  //     description: (
+  //       <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-code p-4 text-code-foreground">
+  //         <code>{JSON.stringify(data, null, 2)}</code>
+  //       </pre>
+  //     ),
+  //     position: "bottom-right",
+  //     classNames: {
+  //       content: "flex flex-col gap-2",
+  //     },
+  //     style: {
+  //       "--border-radius": "calc(var(--radius)  + 4px)",
+  //     } as React.CSSProperties,
+  //   })
+  //   onSuccess()
+  // }
+
+  
   return (
 <div
   className={`fixed inset-0 flex items-center justify-center transition-all duration-300 ${
@@ -74,7 +123,7 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
   }`}
 >      
     <Card className={`bg-white rounded-lg shadow p-7 transition-all max-w-xl ${ open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}>
-        <Button className="absolute top-2 right-2 py-1 px-2 border berder-neutral-200 rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-600" onClick={onClose}>
+        <Button className="absolute top-2 right-2 py-1 px-2 text-gray-600 border border-neutral-200 rounded-md text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-600" onClick={onClose}>
         X
         </Button>
         {children}
@@ -149,11 +198,38 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
                 </Field>
               )}
             />
+            <Controller
+              name="language"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel className="text-sm">
+                    Language you are learning
+                  </FieldLabel>
+
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full h-12 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505]">
+                      <SelectValue placeholder="Select a language" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      <SelectItem value="russian">Russian {/* language code 2 */}</SelectItem>
+                      <SelectItem value="spanish">Spanish {/* language code 1 */}</SelectItem>
+                      <SelectItem value="english">English {/* language code 0 */}</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
           </FieldGroup>
         </form>
-      </CardContent>
-      <CardFooter className="flex w-full">
-
         <Button
           type="submit"
           form="login-form"
@@ -161,6 +237,10 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
         >
           Sign-Up
         </Button>
+      </CardContent>
+      <CardFooter className="flex w-full">
+
+
       </CardFooter>
     </Card>
     </div>
