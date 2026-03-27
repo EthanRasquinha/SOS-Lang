@@ -1,21 +1,15 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  theme: {
-     extend: {
-        fontFamily: {
-           'poppins': ['Poppins'],
-        }
-     }
-  }
-}
 export default {
   content: [
     "./index.html",
-    "./apps/frontend/index.html",
-    "./apps/frontend/src/**/*.{js,ts,jsx,tsx}"
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./*.{js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Poppins', 'system-ui', 'sans-serif'],
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
