@@ -8,5 +8,5 @@
     "types": ["@types/react"],
     "moduleResolution": "node"
   },
-  "include": ["src"]
+  "include": ["src", "AuthContext.tsx"]
 }

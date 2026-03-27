@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api import notes, ai, auth
+from api import notes, ai, auth, root
 
 app = FastAPI()
 
