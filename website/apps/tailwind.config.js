@@ -1,4 +1,16 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config}
+
+ */
+
+module.exports = {
+  theme: {
+     extend: {
+        fontFamily: {
+           'poppins': ['Poppins'],
+        }
+     }
+  }
+}
 export default {
   content: [
     "./index.html",
@@ -57,3 +69,4 @@ export default {
   },
   plugins: []
 }
+

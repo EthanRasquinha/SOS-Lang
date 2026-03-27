@@ -42,13 +42,13 @@ export const AIStudyMaterial: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#ebe9e8] p-8 flex flex-col gap-6">
-      <h1 className="text-2xl font-bold text-[#004d73]">AI Study Material Generator</h1>
+    <div className="min-h-screen font-['Poppins'] bg-[#ebe9e8] p-8 flex flex-col gap-6">
+      <h1 className="text-2xl font-bold font-['Poppins'] text-[#004d73]">AI Study Material Generator</h1>
 
       {/* Prompt input */}
       <Card className="bg-white rounded-xl shadow-md p-6 flex flex-col space-y-4">
         <CardHeader>
-          <CardTitle className="text-[#004d73] text-lg font-semibold">Enter your study topic or question</CardTitle>
+          <CardTitle className="text-[#004d73] text-lg font-['Poppins'] font-semibold">Enter your study topic or question</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col space-y-4">
           <Textarea
@@ -72,7 +72,7 @@ export const AIStudyMaterial: React.FC = () => {
       {aiContent && (
         <Card className="bg-white rounded-xl shadow-md p-6">
           <CardHeader>
-            <CardTitle className="text-[#004d73] text-lg font-semibold">AI-Generated Study Material</CardTitle>
+            <CardTitle className="text-[#004d73] text-lg font-['Poppins'] font-semibold">AI-Generated Study Material</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-[#7c7f86] whitespace-pre-line">{aiContent}</p>

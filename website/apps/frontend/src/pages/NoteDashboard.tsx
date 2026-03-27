@@ -28,10 +28,10 @@ export const NoteDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#ebe9e8] w-full flex flex-col">
+    <div className="min-h-screen font-['Poppins'] bg-[#ebe9e8] w-full flex flex-col">
       {/* Top Bar */}
       <header className="w-full bg-[#004d73] text-white px-6 py-4 flex justify-between items-center shadow-md">
-        <h1 className="text-2xl font-semibold">SOS-Lang Notes Dashboard</h1>
+        <h1 className="text-2xl font-['Poppins'] font-semibold">SOS-Lang Notes Dashboard</h1>
       </header>
 
       {/* Main Workspace: Side-by-side */}
@@ -39,7 +39,7 @@ export const NoteDashboard: React.FC = () => {
 
         {/* LEFT: Note Creation */}
         <section className="md:w-1/2">
-          <h2 className="text-[#004d73] text-2xl mb-4">Create a New Note</h2>
+          <h2 className="text-[#004d73] font-['Poppins'] text-3xl mb-4">Create a New Note</h2>
           <Card className="bg-white rounded-xl shadow-md p-6 flex flex-col space-y-4">
             <CardContent className="flex flex-col space-y-4">
               <div className="flex flex-col">
@@ -77,18 +77,18 @@ export const NoteDashboard: React.FC = () => {
         </section>
 
         <div className="min-h-screen bg-[#ebe9e8] md:w-1/2 flex flex-col ">
-          <h1 className="text-2xl text-[#004d73] mb-6">Your Notes</h1>
+          <h1 className="text-3xl text-[#004d73] font-['Poppins'] mb-6">Your Notes</h1>
 
           {/* Notes Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {notes.map((note) => (
               <Card
                 key={note.id}
-                className="bg-white shadow-md rounded-lg p-4 flex flex-col cursor-pointer hover:shadow-lg transition-shadow"
+                className="bg-white shadow-md rounded-lg p-4 font-['Poppins'] flex flex-col cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={() => setSelectedNote(note)}
               >
                 <CardHeader>
-                  <CardTitle className="text-[#004d73] text-lg font-semibold">{note.title}</CardTitle>
+                  <CardTitle className="text-[#004d73] text-xl font-semibold">{note.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-[#7c7f86] text-sm line-clamp-3">{note.content}</p>

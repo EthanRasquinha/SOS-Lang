@@ -16,13 +16,13 @@ export const HomePage = () => {
     <div className="min-h-screen w-full bg-[#ebe9e8] text-[#7c7f86] flex flex-col">
 
       {/* HERO */}
-      <section className="w-full bg-white border-b border-[#c1c4c7]">
+      <section className="w-full bg-white border-b font-['Poppins'] border-[#c1c4c7]">
         <div className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-10 items-center animate-fade-in">
 
           {/* TEXT */}
           <div className="space-y-6">
-            <h1 className="text-4xl font-bold text-[#004d73]">
-              Learn Languages Smarter
+            <h1 className="text-4xl font-bold font-['Poppins'] text-[#004d73]">
+              SOS-LANG: <br/>Language Learning Application
             </h1>
 
             <p className="text-lg">
@@ -56,11 +56,11 @@ export const HomePage = () => {
       </section>
 
       {/* MAIN */}
-      <main className="flex-1 max-w-5xl mx-auto px-6 py-16 space-y-20">
+      <main className="flex-1 max-w-5xl mx-auto px-6 py-16 font-['Poppins'] space-y-20">
 
         {/* MISSION */}
         <section className="text-center space-y-4 animate-fade-in-up">
-          <h2 className="text-2xl font-semibold text-[#004d73]">
+          <h2 className="text-2xl font-semibold font-['Poppins'] text-[#004d73]">
             A Better Way to Study
           </h2>
 
@@ -73,7 +73,7 @@ export const HomePage = () => {
 
         {/* FEATURES (UPGRADED) */}
         <section className="space-y-10 animate-fade-in-up">
-          <h2 className="text-2xl font-semibold text-[#004d73] text-center">
+          <h2 className="text-2xl font-semibold text-[#004d73] font-['Poppins'] text-center">
             Features
           </h2>
 
@@ -123,7 +123,7 @@ export const HomePage = () => {
 
         {/* FEEDBACK SYSTEM */}
         <section className="text-center space-y-6 animate-fade-in-up">
-          <h2 className="text-2xl font-semibold text-[#004d73]">
+          <h2 className="text-2xl font-semibold font-['Poppins'] text-[#004d73]">
             Learn Through Feedback
           </h2>
 
