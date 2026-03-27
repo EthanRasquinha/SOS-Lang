@@ -237,7 +237,6 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
         >
           Sign-Up
         </Button>
-        console.log("Form errors:", form.formState.errors);
       </CardContent>
       <CardFooter className="flex w-full">
 
