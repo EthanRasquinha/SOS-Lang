@@ -3,16 +3,22 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import bullImage from "../../assets/bull.jpg";
 import { RegistrationForm } from "./RegistrationForm";
+import { LoginForm } from "./LoginForm";
 
 export const NavBar = () => {
-  const [popupVisible, setPopupVisible] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [signupOpen, setSignupOpen] = useState(false);
   const [activeTabPos, setActiveTabPos] = useState({ left: 0, width: 0 });
   const { role, setRole } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const navRefs = useRef<(HTMLLIElement | null)[]>([]);
 
-  const togglePopup = () => setPopupVisible(!popupVisible);
+  const openLogin = () => setLoginOpen(true);
+  const openSignup = () => setSignupOpen(true);
+
+  const closeLogin = () => setLoginOpen(false);
+  const closeSignup = () => setSignupOpen(false);
 
   const handleSignOut = () => {
     setRole("guest");
@@ -103,13 +109,13 @@ export const NavBar = () => {
         ) : (
           <div className="flex">
             <button
-              onClick={togglePopup}
+              onClick={openLogin}
               className="bg-gray-100 mx-2 hover:bg-gray-300 text-black font-semibold font-['Poppins'] px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
             >
               Login
             </button>
             <button
-              onClick={togglePopup}
+              onClick={openSignup}
               className="bg-[#dc6505] mx-2 hover:bg-[#efb486] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
             >
               Sign Up
@@ -118,11 +124,20 @@ export const NavBar = () => {
         )}
 
         <RegistrationForm
-          open={popupVisible}
-          onClose={togglePopup}
+          open={signupOpen}
+          onClose={closeSignup}
           onSuccess={() => {
             setRole("user");
-            togglePopup();
+            closeSignup();
+          }}
+        />
+
+        <LoginForm
+          open={loginOpen}
+          onClose={closeLogin}
+          onSuccess={() => {
+            setRole("user");
+            closeLogin();
           }}
         />
 

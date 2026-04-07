@@ -96,25 +96,6 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
 
   onSuccess();
 }
-
-  // function onSubmit(data: z.infer<typeof formSchema>) {
-  //   toast("Login attempt:", {
-  //     description: (
-  //       <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-code p-4 text-code-foreground">
-  //         <code>{JSON.stringify(data, null, 2)}</code>
-  //       </pre>
-  //     ),
-  //     position: "bottom-right",
-  //     classNames: {
-  //       content: "flex flex-col gap-2",
-  //     },
-  //     style: {
-  //       "--border-radius": "calc(var(--radius)  + 4px)",
-  //     } as React.CSSProperties,
-  //   })
-  //   onSuccess()
-  // }
-
   
   return (
 <div
