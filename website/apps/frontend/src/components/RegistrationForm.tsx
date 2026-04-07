@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { supabase } from "@/lib/supabaseClient"
+import { da } from "zod/v4/locales"
 
 const formSchema = z.object({
   email: z
