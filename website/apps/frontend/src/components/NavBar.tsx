@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import bullImage from "../../assets/bull.jpg";
 import { RegistrationForm } from "./RegistrationForm";
+import { supabase } from "@/lib/supabaseClient";
 
 export const NavBar = () => {
   const [popupVisible, setPopupVisible] = useState(false);
@@ -15,8 +16,10 @@ export const NavBar = () => {
   const togglePopup = () => setPopupVisible(!popupVisible);
 
   const handleSignOut = () => {
+    supabase.auth.signOut();
     setRole("guest");
     navigate("/");
+    return;
   };
 
   const navItems = useMemo(() => [
@@ -24,7 +27,7 @@ export const NavBar = () => {
     { name: "About", path: "/about" },
     ...(role === "user"
       ? [
-          { name: "New Note", path: "/newnote" },
+          { name: "New Note", path: "/notes" },
           { name: "Study Material", path: "/studymaterial" },
         ]
       : []),
@@ -95,7 +98,7 @@ export const NavBar = () => {
         {/* Auth Buttons */}
         {role === "user" ? (
           <button
-            onClick={handleSignOut}
+            onClick={async () => await handleSignOut()}
             className="md:inline-block bg-[#dc6505] hover:bg-[#efb486] text-white font-['Poppins'] font-semibold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
           >
             Sign Out

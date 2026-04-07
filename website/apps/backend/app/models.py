@@ -4,8 +4,7 @@ from datetime import datetime, timezone
 
 
 class NoteModel(BaseModel):
-    user_id: str
-    title: str
+    note_title: str
     content: str
     
 

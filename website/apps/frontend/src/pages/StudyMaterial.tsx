@@ -1,84 +1,70 @@
 import * as React from "react";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 
 export const AIStudyMaterial: React.FC = () => {
-  const [prompt, setPrompt] = useState("");
-  const [aiContent, setAiContent] = useState<string | null>(null);
+  const [materials, setMaterials] = useState<Array<{ id: string; title: string; content: string; date: string }>>([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
-    if (!prompt.trim()) {
-      toast.error("Please enter a prompt!");
-      return;
-    }
-
+  const fetchStoredMaterials = async () => {
     setLoading(true);
-    setAiContent(null);
-
     try {
-      // Call your backend endpoint for Gemini API
-      const response = await fetch("/api/generate-study-material", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
-
-      if (!response.ok) throw new Error("AI request failed");
-
+      const response = await fetch("/api/study-materials");
+      if (!response.ok) throw new Error("Failed to fetch");
+      
       const data = await response.json();
-      // Assume your backend returns { content: "AI-generated text" }
-      setAiContent(data.content);
+      setMaterials(data);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to generate AI study material");
+      toast.error("Failed to load study materials");
     } finally {
       setLoading(false);
     }
   };
 
+  const deleteMaterial = async (id: string) => {
+    try {
+      await fetch(`/api/study-materials/${id}`, { method: "DELETE" });
+      setMaterials(materials.filter(m => m.id !== id));
+      toast.success("Material deleted");
+    } catch (error) {
+      toast.error("Failed to delete material");
+    }
+  };
+
   return (
     <div className="min-h-screen font-['Poppins'] bg-[#ebe9e8] p-8 flex flex-col gap-6">
-      <h1 className="text-2xl font-bold font-['Poppins'] text-[#004d73]">AI Study Material Generator</h1>
+      <h1 className="text-2xl font-bold font-['Poppins'] text-[#004d73]">Study Material Storage</h1>
 
-      {/* Prompt input */}
-      <Card className="bg-white rounded-xl shadow-md p-6 flex flex-col space-y-4">
-        <CardHeader>
-          <CardTitle className="text-[#004d73] text-lg font-['Poppins'] font-semibold">Enter your study topic or question</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col space-y-4">
-          <Textarea
-            placeholder="Type a topic or question..."
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            rows={4}
-            className="bg-[#ebe9e8] focus:bg-white focus:ring-2 focus:ring-[#dc6505]"
-          />
-          <Button
-            onClick={handleSubmit}
-            className="bg-[#004d73] hover:bg-[#36718f] text-white px-6 py-3 rounded-md transition-all duration-300 hover:scale-105"
-            disabled={loading}
-          >
-            {loading ? "Generating..." : "Generate Study Material"}
-          </Button>
-        </CardContent>
-      </Card>
+      <Button
+        onClick={fetchStoredMaterials}
+        className="bg-[#004d73] hover:bg-[#36718f] text-white px-6 py-3 rounded-md"
+        disabled={loading}
+      >
+        {loading ? "Loading..." : "Load Materials"}
+      </Button>
 
-      {/* AI-generated content */}
-      {aiContent && (
-        <Card className="bg-white rounded-xl shadow-md p-6">
-          <CardHeader>
-            <CardTitle className="text-[#004d73] text-lg font-['Poppins'] font-semibold">AI-Generated Study Material</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-[#7c7f86] whitespace-pre-line">{aiContent}</p>
-          </CardContent>
-        </Card>
-      )}
+      <div className="flex flex-col gap-4">
+        {materials.map((material) => (
+          <Card key={material.id} className="bg-white rounded-xl shadow-md p-6">
+            <CardHeader>
+              <CardTitle className="text-[#004d73] text-lg font-['Poppins']">{material.title}</CardTitle>
+              <p className="text-sm text-[#7c7f86]">{material.date}</p>
+            </CardHeader>
+            <CardContent className="flex flex-col space-y-4">
+              <p className="text-[#7c7f86] whitespace-pre-line">{material.content}</p>
+              <Button
+                onClick={() => deleteMaterial(material.id)}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md w-fit"
+              >
+                Delete
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };

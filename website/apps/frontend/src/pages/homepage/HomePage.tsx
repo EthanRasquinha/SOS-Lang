@@ -156,7 +156,6 @@ export const HomePage = () => {
 
       {/* FOOTER */}
       <footer className="bg-white border-t border-[#c1c4c7] text-center py-4 text-sm">
-        <p>&copy; 2024 SOS-Lang</p>
       </footer>
 
     </div>

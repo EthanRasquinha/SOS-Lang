@@ -204,14 +204,14 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel className="text-sm">
-                    Language you are learning
+                    Language you are learning:
                   </FieldLabel>
 
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <SelectTrigger className="w-full h-12 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505]">
+                    <SelectTrigger className="w-full mb-5 h-10 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505]">
                       <SelectValue placeholder="Select a language" />
                     </SelectTrigger>
 
@@ -233,7 +233,7 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
         <Button
           type="submit"
           form="login-form"
-          className="w-full px-6 py-6 text-base bg-[#004d73] hover:bg-[#36718f]"
+          className="w-full px-6 py-3 text-base bg-[#004d73] hover:bg-[#36718f]"
         >
           Sign-Up
         </Button>
