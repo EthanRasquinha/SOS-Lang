@@ -11,6 +11,8 @@ export const NoteDashboard: React.FC = () => {
   const [note, setNote] = useState({ title: "", content: "" });
   const [notes, setNotes] = useState<Array<{ id: string; title: string; content: string; showModal: boolean }>>([]); // start empty
   const [selectedNote, setSelectedNote] = useState<null | { id: string; title: string; content: string; showModal: boolean }>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setNote((prev) => ({ ...prev, [name]: value }));
@@ -80,6 +82,65 @@ export const NoteDashboard: React.FC = () => {
   React.useEffect(() => {
     fetchNotes();
   }, []);
+
+const generateFlashcards = async (note_id: string) => {
+  try {
+    setIsGenerating(true);
+
+    const session = await supabase.auth.getSession();
+
+    const response = await fetch(
+      `http://localhost:8000/ai/flashcards/${note_id}/generate`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+      }
+    );
+
+    const data = await response.json(); // ALWAYS parse
+
+    if (response.ok) {
+      toast.success("Flashcards generated successfully!");
+      setSelectedNote(null);
+      return data.flashcard_set;
+    } else {
+      console.error("Backend error:", data); // 🔥 KEY LINE
+      toast.error(data.detail || "Failed to generate flashcards");
+    }
+  } catch (error) {
+    console.error("Error generating flashcards:", error);
+    toast.error("Network / server error");
+  } finally {
+    setIsGenerating(false);
+  }
+};
+
+  const generateSummary = async (note_id: string, noteContent: string) => {
+    try {
+      const response = await fetch(`http://localhost:8000/ai/${note_id}/summarize/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: noteContent
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast.success("Summary generated successfully!");
+        return data.summary;
+      } else {
+        toast.error("Failed to generate summary");
+      }
+    } catch (error) {
+      console.error("Error generating summary:", error);
+      toast.error("Error generating summary");
+    }
+  };
 
   return (
     <div className="min-h-screen font-['Poppins'] bg-[#ebe9e8] w-full flex flex-col">
@@ -169,9 +230,9 @@ export const NoteDashboard: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-center">
+                <div className="flex justify-center gap-3">
                     <button
-                    className="bg-red-600 hover:bg-red-700 m-5 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
+                    className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
                     onClick={() => {
                       if (window.confirm("Are you sure you want to delete this note?")) {
                       deleteNote(selectedNote.id);
@@ -181,17 +242,17 @@ export const NoteDashboard: React.FC = () => {
                     Delete Note
                     </button>
                     <button
-                    className="bg-[#004d73] hover:bg-[#003a5f] m-5 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
-                    onClick={() => setSelectedNote({ ...selectedNote, showModal: true })}
+                    className="bg-[#004d73] hover:bg-[#003a5f] text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
+                    onClick={() => {setSelectedNote({ ...selectedNote, showModal: true })}}
                     >
-                    Convert to Study Material
+                    Generate Flashcards
                     </button>
                     
                     {selectedNote.showModal && (
                       <div className="fixed inset-0 z-60 bg-black bg-opacity-50 flex justify-center items-center p-4">
                       <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm">
-                        <h3 className="text-lg font-bold text-[#004d73] mb-4">Summarize Note?</h3>
-                        <p className="text-[#7c7f86] mb-6">Would you like to convert this note to study material?</p>
+                        <h3 className="text-lg font-bold text-[#004d73] mb-4">Generate Flashcards?</h3>
+                        <p className="text-[#7c7f86] mb-6">This will create a set of flashcards from your note that you can use to quiz yourself.</p>
                         <div className="flex gap-3 justify-center">
                         <button
                           onClick={() => setSelectedNote({ ...selectedNote, showModal: false })}
@@ -200,13 +261,15 @@ export const NoteDashboard: React.FC = () => {
                           Cancel
                         </button>
                         <button
-                          onClick={() => {
-                          toast.success("Summarizing note...");
+                          onClick={async () => {
+                          toast.success("Generating flashcards...");
+                          await generateFlashcards(selectedNote.id);
                           setSelectedNote({ ...selectedNote, showModal: false });
                           }}
-                          className="px-4 py-2 rounded-lg bg-[#004d73] hover:bg-[#003a5f] text-white font-semibold"
+                          disabled={isGenerating}
+                          className="px-4 py-2 rounded-lg bg-[#004d73] hover:bg-[#003a5f] text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Summarize
+                          {isGenerating ? "Generating..." : "Generate"}
                         </button>
                         </div>
                       </div>
