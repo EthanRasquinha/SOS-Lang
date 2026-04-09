@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  color-scheme: light;
+  font-family: 'Poppins', system-ui, sans-serif;
+  --page-bg: #ebe9e8;
+  --surface: #ffffff;
+  --surface-soft: #c1c4c7;
+  --surface-strong: #7c7f86;
+  --text-primary: #004d73;
+  --text-muted: #7c7f86;
+  --border: rgba(0,77,115,0.12);
+  --accent: #dc6505;
+  --accent-soft: #efb486;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, rgba(220,101,5,0.16), transparent 25%),
+              radial-gradient(circle at top right, rgba(0,77,115,0.14), transparent 18%),
+              linear-gradient(180deg, #f6f7f8 0%, #e4e8ec 100%);
+  color: var(--text-primary);
+  font-family: 'Poppins', system-ui, sans-serif;
+}
+
+.surface-card {
+  background: var(--surface);
+  border: 1px solid rgba(0,77,115,0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
+}
+
+.surface-panel {
+  background: var(--surface-soft);
+  border: 1px solid rgba(0,77,115,0.08);
+}
+
+.glow-panel {
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(0,77,115,0.14);
+  box-shadow: 0 12px 35px rgba(0,77,115,0.12);
+}
+
+::selection {
+  background: rgba(220, 101, 5, 0.26);
+  color: #fff;
+}
