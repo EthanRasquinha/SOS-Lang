@@ -8,9 +8,10 @@ import { NavBar } from './src/components/NavBar'
 import { About } from './src/pages/About';
 import { NoteDashboard } from './src/pages/NoteDashboard'
 import { AIStudyMaterial } from './src/pages/StudyMaterial'
+import { ProtectedRoute } from './ProtectedRoute'
 
 function App() {
-  const [role, setRole] = useState<"guest" | "user">("guest");
+  //const [role, setRole] = useState<"guest" | "user">("guest");
   
   return (
     <AuthProvider>
@@ -21,6 +22,20 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/notes" element={<NoteDashboard />} />
           <Route path="/studymaterial" element={<AIStudyMaterial />} />
+          <Route path="/notes"
+            element={
+              <ProtectedRoute>
+                <NoteDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/studymaterial"
+            element={
+              <ProtectedRoute>
+                <AIStudyMaterial />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </AuthProvider>
