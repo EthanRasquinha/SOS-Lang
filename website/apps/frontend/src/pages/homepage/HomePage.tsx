@@ -17,7 +17,7 @@ export const HomePage = () => {
 
       {/* HERO */}
       <section className="w-full bg-[radial-gradient(circle_at_top_left,_rgba(220,101,5,0.18),transparent_25%),linear-gradient(180deg,#07121d_0%,#0b1d2e_100%)] border-b border-white/10 font-['Poppins']">
-        <div className="w-full px-6 py-24 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center">
+        <div className="max-w-6xl mx-auto px-2 py-24 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center">
 
           <div className="space-y-8">
             <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.35em] text-slate-300">
