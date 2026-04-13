@@ -7,20 +7,35 @@ import { NavBar } from './src/components/NavBar'
 import { About } from './src/pages/About';
 import { NoteDashboard } from './src/pages/NoteDashboard'
 import { AIStudyMaterial } from './src/pages/StudyMaterial'
+import { ProtectedRoute } from './ProtectedRoute'
 
 function App() {
+  //const [role, setRole] = useState<"guest" | "user">("guest");
+  
   return (
     <AuthProvider>
       <div className="min-h-screen w-screen bg-[var(--page-bg)] text-white">
         <NavBar />
-        <main className="max-w-7xl mx-auto px-4 py-8">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/notes" element={<NoteDashboard />} />
-            <Route path="/studymaterial" element={<AIStudyMaterial />} />
-          </Routes>
-        </main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/notes" element={<NoteDashboard />} />
+          <Route path="/studymaterial" element={<AIStudyMaterial />} />
+          <Route path="/notes"
+            element={
+              <ProtectedRoute>
+                <NoteDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/studymaterial"
+            element={
+              <ProtectedRoute>
+                <AIStudyMaterial />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
       </div>
     </AuthProvider>
   );
