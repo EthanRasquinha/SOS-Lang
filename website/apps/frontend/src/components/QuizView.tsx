@@ -114,11 +114,11 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
 
   if (quizComplete) {
     const percentage = Math.round((score / totalCards) * 100);
-    const performanceColor = percentage >= 80 ? "text-green-600" : percentage >= 60 ? "text-yellow-600" : "text-red-600";
+    const performanceColor = percentage >= 80 ? "text-green-400" : percentage >= 60 ? "text-yellow-300" : "text-red-400";
 
     return (
-      <div className="min-h-screen font-['Poppins'] bg-[#ebe9e8] p-8 flex flex-col items-center justify-center gap-6">
-        <Card className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center flex flex-col space-y-6">
+      <div className="min-h-screen font-['Poppins'] bg-[var(--page-bg)] p-8 flex flex-col items-center justify-center gap-6 text-[var(--text-primary)]">
+        <Card className="surface-card rounded-3xl p-8 max-w-md w-full text-center flex flex-col space-y-6 border border-[#7c7f86]">
           <h1 className="text-3xl font-bold text-[#004d73]">Quiz Complete! 🎉</h1>
           
           <div className="space-y-3">
@@ -126,26 +126,26 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
               {score}/{totalCards}
             </p>
             <p className="text-lg text-[#7c7f86]">
-              You scored <span className="font-semibold">{percentage}%</span>
+              You scored <span className="font-semibold text-[#004d73]">{percentage}%</span>
             </p>
           </div>
 
-          <div className="bg-[#ebe9e8] rounded-lg p-4 space-y-2 text-left">
+          <div className="bg-[var(--surface-soft)] rounded-3xl p-4 space-y-2 text-left">
             <p className="text-sm text-[#7c7f86]">
-              <span className="font-semibold">Correct Answers:</span> {score}
+              <span className="font-semibold text-[#004d73]">Correct Answers:</span> {score}
             </p>
             <p className="text-sm text-[#7c7f86]">
-              <span className="font-semibold">Total Questions:</span> {totalCards}
+              <span className="font-semibold text-[#004d73]">Total Questions:</span> {totalCards}
             </p>
             <p className="text-sm text-[#7c7f86]">
-              <span className="font-semibold">Accuracy:</span> {percentage}%
+              <span className="font-semibold text-[#004d73]">Accuracy:</span> {percentage}%
             </p>
           </div>
 
           <div className="flex gap-3 pt-4">
             <Button
               onClick={restartQuiz}
-              className="flex-1 bg-[#004d73] hover:bg-[#36718f] text-white rounded-md py-2"
+              className="flex-1 rounded-full bg-[var(--surface-soft)] hover:bg-[#36718f] text-white py-2"
             >
               Retake Quiz
             </Button>
@@ -153,7 +153,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
               onClick={() => {
                 onComplete();
               }}
-              className="flex-1 bg-[#dc6505] hover:bg-[#efb486] text-white rounded-md py-2"
+              className="flex-1 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white py-2"
             >
               Back to Sets
             </Button>
@@ -164,27 +164,27 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
   }
 
   return (
-    <div className="min-h-screen font-['Poppins'] bg-[#ebe9e8] p-8 flex flex-col gap-6">
+    <div className="min-h-screen font-['Poppins'] bg-[var(--page-bg)] text-[var(--text-primary)] p-8 flex flex-col gap-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-[#004d73]">{flashcardSet.title}</h1>
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <h1 className="text-3xl font-bold text-[#004d73]">{flashcardSet.title}</h1>
         <Button
           onClick={onBack}
-          className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md"
+          className="rounded-full bg-[var(--surface-soft)] hover:bg-[#36718f] text-white px-4 py-2"
         >
           Back
         </Button>
       </div>
 
       {/* Progress Bar */}
-      <div className="bg-white rounded-lg p-4 shadow-md">
+      <div className="bg-[var(--surface)] rounded-3xl p-4 shadow-lg border border-[#7c7f86]">
         <div className="flex justify-between mb-2 text-sm text-[#7c7f86] font-semibold">
           <span>Card {currentCardIndex + 1} of {totalCards}</span>
           <span>{Math.round(progress)}%</span>
         </div>
-        <div className="w-full bg-[#ebe9e8] rounded-full h-3">
+        <div className="w-full bg-[var(--surface-soft)] rounded-full h-3 overflow-hidden">
           <div
-            className="bg-[#004d73] h-3 rounded-full transition-all duration-300"
+            className="bg-[var(--accent)] h-3 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -193,7 +193,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
       {/* Main Card */}
       <div className="flex justify-center">
         <Card
-          className="w-full max-w-2xl bg-white rounded-xl shadow-lg cursor-pointer hover:shadow-2xl transition-all"
+          className="w-full max-w-2xl surface-card rounded-[32px] cursor-pointer hover:shadow-2xl transition-all"
           onClick={() => setIsFlipped(!isFlipped)}
         >
           <CardContent className="p-12 flex items-center justify-center min-h-80">
@@ -204,7 +204,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
               <p className="text-3xl font-bold text-[#004d73] leading-relaxed">
                 {isFlipped ? currentCard.back : currentCard.front}
               </p>
-              <p className="text-sm text-[#dc6505] pt-4">Click to {isFlipped ? "show question" : "reveal answer"}</p>
+              <p className="text-sm text-[var(--accent)] pt-4">Click to {isFlipped ? "show question" : "reveal answer"}</p>
             </div>
           </CardContent>
         </Card>
@@ -220,7 +220,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
               placeholder="Type your answer..."
-              className="w-full bg-white border-2 border-[#004d73] focus:ring-2 focus:ring-[#dc6505]"
+              className="w-full bg-[#ebe9e8] border border-[#7c7f86] text-[#004d73] focus:ring-2 focus:ring-[var(--accent)]"
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   setShowAnswer(true);
@@ -233,13 +233,13 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
             <Button
               onClick={() => setShowAnswer(true)}
               disabled={userAnswer.trim() === ""}
-              className="flex-1 bg-[#004d73] hover:bg-[#36718f] text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Submit Answer
             </Button>
             <Button
               onClick={handleSkip}
-              className="flex-1 bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md"
+              className="flex-1 rounded-full bg-[var(--surface-soft)] hover:bg-[#36718f] text-white px-4 py-2"
             >
               Skip Card
             </Button>
@@ -250,7 +250,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
       {/* Answer Feedback */}
       {showAnswer && (
         <div className="max-w-2xl mx-auto w-full space-y-4">
-          <Card className="bg-[#ebe9e8] rounded-xl p-6 border-2 border-[#004d73]">
+          <Card className="bg-[var(--surface-soft)] rounded-3xl p-6 border-2 border-[var(--accent)]">
             <p className="text-sm text-[#7c7f86] font-medium uppercase mb-2">Correct Answer:</p>
             <p className="text-lg font-semibold text-[#004d73]">{currentCard.back}</p>
           </Card>
@@ -258,13 +258,13 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
           <div className="flex gap-3">
             <Button
               onClick={() => submitAnswer(userAnswer.toLowerCase().trim() === currentCard.back.toLowerCase().trim())}
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md"
+              className="flex-1 rounded-full bg-[#36718f] hover:bg-[#004d73] text-white px-4 py-2"
             >
               Mark as Correct
             </Button>
             <Button
               onClick={() => submitAnswer(false)}
-              className="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md"
+              className="flex-1 rounded-full bg-[#dc6505] hover:bg-[#efb486] text-white px-4 py-2"
             >
               Mark as Incorrect
             </Button>

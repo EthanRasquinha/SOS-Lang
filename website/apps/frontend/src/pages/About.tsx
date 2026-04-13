@@ -19,7 +19,7 @@ export const About: React.FC = () => {
     setFormData({ name: '', email: '', message: '' });
   };
   return (
-    <div className=" bg-[#ebe9e8] text-[#7c7f86]  flex flex-col px-6 py-16">
+    <div className="min-h-screen bg-[var(--page-bg)] text-[var(--text-primary)] flex flex-col px-6 py-16">
       
       <div className="max-w-4xl mx-auto font-['Poppins'] space-y-12">
 
@@ -29,7 +29,7 @@ export const About: React.FC = () => {
         </h1>
 
         {/* Mission Section */}
-        <section className="bg-white border border-[#c1c4c7] rounded-xl p-8 shadow-sm animate-fade-in-up">
+        <section className="surface-card rounded-3xl p-8 shadow-2xl animate-fade-in-up border border-[#7c7f86]">
           <h2 className="text-2xl font-semibold font-['Poppins'] text-[#004d73] mb-4">
             Our Mission
           </h2>
@@ -40,7 +40,7 @@ export const About: React.FC = () => {
         </section>
 
         {/* Who We Are */}
-        <section className="bg-white border border-[#c1c4c7] rounded-xl p-8 shadow-sm animate-fade-in-up">
+        <section className="surface-card rounded-3xl p-8 shadow-2xl animate-fade-in-up border border-[#7c7f86]">
           <h2 className="text-2xl font-semibold font-['Poppins'] text-[#004d73] mb-4">
             Who We Are
           </h2>
@@ -51,11 +51,11 @@ export const About: React.FC = () => {
         </section>
 
         {/* Get In Touch */}
-        <section className="bg-white border border-[#c1c4c7] font-['Poppins'] rounded-xl p-2 shadow-sm animate-fade-in-up">
+        <section className="surface-card font-['Poppins'] rounded-3xl p-2 shadow-2xl animate-fade-in-up border border-[#7c7f86]">
               <div className=" px-6 py-10 flex flex-col items-center">
       <h1 className="text-4xl font-bold text-[#004d73] font-['Poppins'] mb-8 animate-fade-in">Contact Us</h1>
 
-      <Card className="w-full max-w-2xl border-[#c1c4c7] shadow-sm animate-fade-in-up">
+      <Card className="w-full max-w-2xl surface-card shadow-2xl animate-fade-in-up border border-[#7c7f86]">
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col space-y-1">
@@ -70,7 +70,7 @@ export const About: React.FC = () => {
               <label htmlFor="message" className="font-medium text-[#7c7f86]">Message</label>
               <Textarea id="message" name="message" rows={5} value={formData.message} onChange={handleChange} required />
             </div>
-            <Button type="submit" className="bg-[#dc6505] hover:bg-[#efb486] text-white w-full">Send Message</Button>
+            <Button type="submit" className="bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white w-full">Send Message</Button>
           </form>
         </CardContent>
       </Card>

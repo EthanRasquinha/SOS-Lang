@@ -55,38 +55,35 @@ export const NavBar = () => {
 }, [location.pathname, navItems]);
 
   return (
-    <nav className="bg-white border-b border-[#c1c4c7] sticky top-0 z-50 shadow-sm">
-      <div className="max-w-6xl mx-auto px-3 py-4 flex items-center justify-between relative">
+    <nav className="bg-[var(--surface)] border-b border-[#7c7f86] sticky top-0 z-50 shadow-2xl">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between relative">
         {/* LOGO */}
-        <Link to="/" className="flex items-center text-[#dc6505] font-bold font-['Poppins'] text-3xl">
-          <img src={bullImage} className="w-11 h-12 mx-2" />
+        <Link to="/" className="flex items-center text-[#004d73] font-bold font-['Poppins'] text-3xl">
           <div>
             <p>SOS-LANG</p>
           </div>
         </Link>
 
         {/* Bubble Slider Navigation */}
-        <div className="hidden md:flex relative p-1">
+        <div className="hidden md:flex relative p-1.5 bg-[var(--surface-soft)] rounded-full shadow-inner">
           {/* Large background pill */}
-          <div className="absolute inset-0 rounded-full bg-[#f2f4f6] shadow-inner"></div>
+          <div className="absolute inset-0 rounded-full bg-[var(--surface)] opacity-90"></div>
 
           {/* Small sliding pill */}
           <div
-            className="absolute top-0 h-full bg-[#dc6505] rounded-full transition-all duration-300 shadow-md"
+            className="absolute top-1/2 -translate-y-1/2 h-11 bg-[#dc6505] rounded-full transition-all duration-300 shadow-2xl"
             style={{
               left: activeTabPos.left + activeTabPos.width * 0.1,
-              width: activeTabPos.width *.85,
-              top: "10%",
-              height: "80%",
+              width: activeTabPos.width * 0.9,
             }}
           ></div>
 
-          <ul className="flex space-x-7 relative z-10">
+          <ul className="flex space-x-5 relative z-10 px-3">
             {navItems.map((item, index) => (
               <li key={index} ref={(el) => (navRefs.current[index] = el)} className="relative px-3 text-l">
                 <Link
                   to={item.path}
-                  className={`px-3 py-2 rounded-full font-medium font-['Poppins'] text-center w-full block transition-all duration-300 ${
+                  className={`px-4 py-2 rounded-full font-medium font-['Poppins'] text-center w-full block transition-all duration-300 ${
                     location.pathname === item.path
                       ? "text-white"
                       : "text-[#7c7f86] hover:text-[#004d73]"
@@ -103,21 +100,21 @@ export const NavBar = () => {
         {user ? (
           <button
             onClick={async () => await handleSignOut()}
-            className="md:inline-block bg-[#dc6505] hover:bg-[#efb486] text-white font-['Poppins'] font-semibold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
+            className="md:inline-block bg-[#dc6505] hover:bg-[#efb486] text-white font-['Poppins'] font-semibold px-5 py-2 rounded-full transition-all duration-300 hover:scale-105"
           >
             Sign Out
           </button>
         ) : (
-          <div className="flex">
+          <div className="flex gap-2">
             <button
               onClick={openLogin}
-              className="bg-gray-100 mx-2 hover:bg-gray-300 text-black font-semibold font-['Poppins'] px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
+              className="bg-[#004d73] mx-0 hover:bg-[#36718f] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
             >
               Login
             </button>
             <button
               onClick={openSignup}
-              className="bg-[#dc6505] mx-2 hover:bg-[#efb486] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
+              className="bg-[#dc6505] mx-0 hover:bg-[#efb486] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
             >
               Sign Up
             </button>

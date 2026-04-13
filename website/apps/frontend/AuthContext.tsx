@@ -35,6 +35,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [])
 
+  React.useEffect(() => {
+    let mounted = true;
+
+    const updateRole = (session: any) => {
+      if (!mounted) return;
+      setRole(session?.user ? "user" : "guest");
+    };
+
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      updateRole(session);
+    };
+
+    checkSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      updateRole(session);
+    });
+
+    return () => {
+      mounted = false;
+      authListener?.subscription?.unsubscribe();
+    };
+  }, []);
+
   return (
     <AuthContext.Provider value={{ user, session, loading }}>
       {children}

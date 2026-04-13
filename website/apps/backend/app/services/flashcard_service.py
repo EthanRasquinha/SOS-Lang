@@ -41,13 +41,15 @@ def create_flashcard_set(user_id: str, note_id: str, title: str, flashcards: lis
 
 
 def get_flashcard_sets(user_id: str):
-    """Get all flashcard sets for a user"""
-    response = supabase.table("flashcard_sets") \
-        .select("*") \
-        .eq("user_id", user_id) \
-        .order("created_at", desc=True) \
+    """Get all flashcard sets for a user with their flashcards"""
+    response = (
+        supabase.table("flashcard_sets")
+        .select("*, flashcards(*)")
+        .eq("user_id", user_id)
+        .order("created_at", desc=True)
         .execute()
-    
+    )
+
     return response.data
 
 

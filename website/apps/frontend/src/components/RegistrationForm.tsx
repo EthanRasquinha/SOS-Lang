@@ -104,19 +104,17 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
     open ? "bg-black/20 opacity-100" : "opacity-0 pointer-events-none"
   }`}
 >      
-    <Card className={`bg-white rounded-lg shadow p-7 transition-all max-w-xl ${ open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}>
-        <Button className="absolute top-2 right-2 py-1 px-2 text-gray-600 border border-neutral-200 rounded-md text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-600" onClick={onClose}>
+    <Card className={`bg-[var(--surface)] rounded-3xl shadow-2xl p-7 transition-all max-w-xl border border-[#7c7f86] ${ open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}>
+        <Button className="absolute top-2 right-2 py-1 px-2 text-white rounded-full bg-[#004d73] border border-[#7c7f86] hover:bg-[#36718f]" onClick={onClose}>
         X
         </Button>
         {children}
       <CardHeader>
         <div className=" flex items-center justify-center space-x-8">
-        <div className="bg-[#004d73] w-12 h-12 rounded-full flex items-center justify-center"><img src={bullImage} className="w-9 h-10 "/></div>
+        <div className="bg-[var(--accent)] w-12 h-12 rounded-full flex items-center justify-center"><img src={bullImage} className="w-9 h-10 "/></div>
         </div>
         <CardTitle className="text-2xl mb-5 text-[#004d73]">SOS-Lang</CardTitle>
-
-        <CardTitle>Sign-Up</CardTitle>
-        <CardDescription>
+        <CardDescription className="text-[#7c7f86]">
           Enter your credentials to create your account.
         </CardDescription>
       </CardHeader>
@@ -138,7 +136,7 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
                     aria-invalid={fieldState.invalid}
                     placeholder="your@email.com"
                     autoComplete="email"
-                    className="w-full px-4 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505] h-12 bg-white border-[#c1c4c7]"
+                    className="w-full px-4 border border-[#7c7f86] focus:ring-2 focus:ring-[var(--accent)] h-12 bg-[#ebe9e8] text-[#004d73]"
 
                   />
                   {fieldState.invalid && (
@@ -168,7 +166,7 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
                     aria-invalid={fieldState.invalid}
                     placeholder="Enter your password"
                     autoComplete="current-password"
-                    className="w-full px-4 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505] h-12"
+                    className="w-full px-4 border border-[#7c7f86] focus:ring-2 focus:ring-[var(--accent)] h-12 bg-[#ebe9e8] text-[#004d73]"
                   />
 
                   {fieldState.invalid && (
@@ -193,7 +191,7 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <SelectTrigger className="w-full mb-5 h-10 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505]">
+                    <SelectTrigger className="w-full mb-5 h-10 border border-[#7c7f86] focus:ring-2 focus:ring-[var(--accent)] bg-[#ebe9e8] text-[#004d73]">
                       <SelectValue placeholder="Select a language" />
                     </SelectTrigger>
 
@@ -215,7 +213,7 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
         <Button
           type="submit"
           form="login-form"
-          className="w-full px-6 py-3 text-base bg-[#004d73] hover:bg-[#36718f]"
+          className="w-full px-6 py-3 text-base bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white"
         >
           Sign-Up
         </Button>

@@ -19,10 +19,10 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#ebe9e8] px-6 py-16 flex flex-col items-center">
+    <div className="min-h-screen bg-[var(--page-bg)] text-[var(--text-primary)] px-6 py-16 flex flex-col items-center">
       <h1 className="text-4xl font-bold text-[#004d73] mb-8 animate-fade-in">Contact Us</h1>
 
-      <Card className="w-full max-w-2xl border-[#c1c4c7] shadow-sm animate-fade-in-up">
+      <Card className="w-full max-w-2xl surface-card shadow-2xl animate-fade-in-up border border-[#7c7f86]">
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col space-y-1">
@@ -37,7 +37,7 @@ export const Contact: React.FC = () => {
               <label htmlFor="message" className="font-medium text-[#7c7f86]">Message</label>
               <Textarea id="message" name="message" rows={5} value={formData.message} onChange={handleChange} required />
             </div>
-            <Button type="submit" className="bg-[#dc6505] hover:bg-[#efb486] text-white w-full">Send Message</Button>
+            <Button type="submit" className="bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white w-full">Send Message</Button>
           </form>
         </CardContent>
       </Card>

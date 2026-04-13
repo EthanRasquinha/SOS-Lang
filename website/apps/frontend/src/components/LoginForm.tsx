@@ -84,10 +84,10 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
         open ? "bg-black/20 opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
-      <Card className={`bg-white rounded-lg shadow p-7 transition-all max-w-xl ${ open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}>
+      <Card className={`bg-[var(--surface)] rounded-3xl shadow-2xl p-7 transition-all max-w-xl border border-[#7c7f86] ${ open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}>
         
         <Button
-          className="absolute top-2 right-2 py-1 px-2 text-gray-600 border border-neutral-200 rounded-md text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-600"
+          className="absolute top-2 right-2 py-1 px-2 text-white rounded-full bg-[#004d73] border border-[#7c7f86] hover:bg-[#36718f]"
           onClick={onClose}
           disabled={loading}
         >
@@ -107,8 +107,8 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
             SOS-Lang
           </CardTitle>
 
-          <CardTitle>Login</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-[#004d73]">Login</CardTitle>
+          <CardDescription className="text-[#7c7f86]">
             Enter your credentials to access your account.
           </CardDescription>
         </CardHeader>
@@ -128,7 +128,7 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
                       type="email"
                       placeholder="your@email.com"
                       autoComplete="email"
-                      className="w-full px-4 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505] h-12"
+                      className="w-full px-4 border border-[#7c7f86] focus:ring-2 focus:ring-[var(--accent)] h-12 bg-[#ebe9e8] text-[#004d73]"
                       disabled={loading}
                     />
                     {fieldState.invalid && (
@@ -149,7 +149,7 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
                       type="password"
                       placeholder="Enter your password"
                       autoComplete="current-password"
-                      className="w-full px-4 border border-[#c1c4c7] focus:ring-2 focus:ring-[#dc6505] h-12"
+                      className="w-full px-4 border border-[#7c7f86] focus:ring-2 focus:ring-[var(--accent)] h-12 bg-[#ebe9e8] text-[#004d73]"
                       disabled={loading}
                     />
                     {fieldState.invalid && (
@@ -165,7 +165,7 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
           <Button
             type="submit"
             form="login-form"
-            className="w-full px-6 py-6 text-base bg-[#004d73] hover:bg-[#36718f] mt-4"
+            className="w-full px-6 py-6 text-base bg-[var(--accent)] hover:bg-[var(--accent-soft)] mt-4 text-white"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}

@@ -39,7 +39,7 @@ def generate_flashcards(note_content: str) -> dict:
         }}
 
         Create 5-10 flashcards that cover the key concepts and important details.
-        Make questions clear and answers concise but complete.
+        Make questions clear and answers concise, one word, but complete.
 
         Note content:
         {note_content}

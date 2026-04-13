@@ -150,20 +150,20 @@ export const FlashcardDashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen font-['Poppins'] bg-[#ebe9e8] p-8 flex flex-col gap-6">
+    <div className="min-h-screen font-['Poppins'] bg-[var(--page-bg)] text-[var(--text-primary)] p-8 flex flex-col gap-6">
       <h1 className="text-3xl font-bold font-['Poppins'] text-[#004d73]">Flashcard Sets</h1>
 
       <Button
         onClick={fetchFlashcardSets}
-        className="bg-[#004d73] hover:bg-[#36718f] text-white px-6 py-3 rounded-md w-fit"
+        className="bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white px-6 py-3 rounded-full w-fit"
         disabled={loading}
       >
         {loading ? "Loading..." : "Refresh Sets"}
       </Button>
 
       {flashcardSets.length === 0 ? (
-        <Card className="bg-white rounded-xl shadow-md p-8 text-center">
-          <p className="text-[#7c7f86] text-lg">No flashcard sets yet.</p>
+        <Card className="surface-card rounded-3xl p-8 text-center">
+          <p className="text-[#004d73] text-lg">No flashcard sets yet.</p>
           <p className="text-[#7c7f86] text-sm mt-2">Create a note and convert it to flashcards to get started!</p>
         </Card>
       ) : (
@@ -173,7 +173,7 @@ export const FlashcardDashboard: React.FC = () => {
             const lastResult = results.length > 0 ? results[0] : null;
             
             return (
-              <Card key={set.id} className="bg-white rounded-xl shadow-md p-6 flex flex-col space-y-4 hover:shadow-lg transition-shadow">
+              <Card key={set.id} className="surface-card rounded-3xl p-6 flex flex-col space-y-4 hover:shadow-2xl transition-shadow">
                 <CardHeader className="pb-0">
                   <CardTitle className="text-[#004d73] text-lg font-['Poppins']">{set.title}</CardTitle>
                   <p className="text-sm text-[#7c7f86] mt-1">
@@ -185,7 +185,7 @@ export const FlashcardDashboard: React.FC = () => {
                     {set.flashcards?.length || 0} cards
                   </p>
                   {lastResult && (
-                    <p className="text-sm text-[#004d73] font-semibold mt-2">
+                    <p className="text-sm text-[var(--accent)] font-semibold mt-2">
                       Last Score: {lastResult.score}/{lastResult.total}
                     </p>
                   )}
@@ -193,13 +193,13 @@ export const FlashcardDashboard: React.FC = () => {
                 <CardFooter className="flex gap-2 pt-4">
                   <Button
                     onClick={() => loadFlashcardSet(set)}
-                    className="flex-1 bg-[#004d73] hover:bg-[#36718f] text-white rounded-md py-2"
+                    className="flex-1 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white py-2"
                   >
                     Start Quiz
                   </Button>
                   <Button
                     onClick={() => deleteFlashcardSet(set.id)}
-                    className="flex-1 bg-red-500 hover:bg-red-600 text-white rounded-md py-2"
+                    className="flex-1 bg-[#dc6505] hover:bg-[#efb486] text-white rounded-md py-2"
                   >
                     Delete
                   </Button>
