@@ -13,27 +13,38 @@ export const HomePage = () => {
     } 
 
   return (
-    <div className="min-h-screen w-full bg-[var(--page-bg)] text-[var(--text-primary)] flex flex-col">
+    <div className="min-h-screen w-full bg-[#07121d] text-white flex flex-col">
 
       {/* HERO */}
-      <section className="w-full bg-[var(--surface)] border-b border-[#7c7f86] font-['Poppins']">
-        <div className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-10 items-center animate-fade-in">
+      <section className="w-full bg-[radial-gradient(circle_at_top_left,_rgba(220,101,5,0.18),transparent_25%),linear-gradient(180deg,#07121d_0%,#0b1d2e_100%)] border-b border-white/10 font-['Poppins']">
+        <div className="w-full px-6 py-24 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center">
 
-          {/* TEXT */}
-          <div className="space-y-6">
-            <p className="text-sm uppercase tracking-[0.4em] text-[#36718f]">Study smarter with AI</p>
-            <h1 className="text-5xl md:text-6xl font-bold font-['Poppins'] text-[#004d73] leading-tight">
-              SOS-LANG
-              <span className="block text-[#dc6505] mt-3">Smarter language review, organized.</span>
-            </h1>
+          <div className="space-y-8">
+            <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.35em] text-slate-300">
+              <span className="h-2 w-2 rounded-full bg-[#dc6505]" />
+              AI-powered review
+            </div>
 
-            <p className="text-lg text-[#7c7f86] max-w-2xl">
-              Turn your notes into a powerful study system. Create flashcards, quiz yourself, and stay on track with vivid progress feedback.
-            </p>
+            <div className="space-y-5 max-w-2xl">
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-white">
+                Modern study, built for momentum.
+              </h1>
+              <p className="text-lg leading-8 text-slate-300">
+                SOS-Lang helps you organize notes, create flashcards, and focus on what matters most with intelligent review signals.
+              </p>
+            </div>
 
-            <Button onClick={togglePopup} className="bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white px-6 py-3 rounded-full shadow-xl transition-all duration-300 hover:-translate-y-0.5">
-              Get Started
-            </Button>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <Button
+                onClick={togglePopup}
+                className="rounded-full bg-[#dc6505] px-7 py-3 text-sm font-semibold text-white shadow-[0_20px_50px_rgba(220,101,5,0.24)] transition hover:bg-[#e37b2f]"
+              >
+                Get Started
+              </Button>
+              <span className="text-sm text-slate-400 max-w-sm">
+                No credit card needed — start building smarter review habits now.
+              </span>
+            </div>
 
             <RegistrationForm
               open={popupVisible}
@@ -42,119 +53,112 @@ export const HomePage = () => {
             />
           </div>
 
-          {/* IMAGE */}
-          <div className="overflow-hidden rounded-[32px] border border-[#7c7f86] shadow-[0_30px_90px_-55px_rgba(0,0,0,0.8)]">
+          <div className=" overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1b2b] shadow-[0_40px_80px_rgba(0,0,0,0.35)]">
             <img
               src={heroImage}
               alt="Language learning"
-              className="rounded-[32px]"
+              className="h-full w-full object-cover"
             />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#07121d] to-transparent" />
           </div>
-
         </div>
       </section>
 
-      {/* MAIN */}
-      <main className="flex-1 max-w-5xl mx-auto px-6 py-16 font-['Poppins'] space-y-20">
-
-        {/* MISSION */}
-        <section className="text-center space-y-4 animate-fade-in-up">
-          <h2 className="text-2xl font-semibold font-['Poppins'] text-[#004d73]">
-            A Better Way to Study
-          </h2>
-
-          <p className="max-w-2xl mx-auto text-[#7c7f86]">
-            SOS-Lang helps students actively review their own material instead of passively forgetting it. Built to help language learners master vocabulary and grammar using AI-guided flashcards.
-          </p>
+      <main className="flex-1 max-w-6xl mx-auto px-6 py-20 space-y-20">
+        <section className="rounded-[32px] border border-white/10 bg-white/5 px-8 py-12 shadow-[0_30px_70px_rgba(0,0,0,0.24)] backdrop-blur-xl">
+          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <div className="space-y-5">
+              <p className="text-sm uppercase tracking-[0.35em] text-[#dc6505]/90">Why SOS-Lang</p>
+              <h2 className="text-3xl font-semibold text-white">
+                A cleaner way to keep your language study on track.
+              </h2>
+              <p className="max-w-2xl text-slate-300">
+                Keep everything in one place and let the app surface which flashcards need reviews, which concepts are mastered, and which ones deserve your attention next.
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-3xl border border-white/10 bg-[#0f1f2d] p-6">
+                <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Organize</p>
+                <p className="mt-4 text-xl font-semibold text-white">Notes to flashcards</p>
+              </div>
+              <div className="rounded-3xl border border-white/10 bg-[#0f1f2d] p-6">
+                <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Review</p>
+                <p className="mt-4 text-xl font-semibold text-white">Smart quiz pacing</p>
+              </div>
+            </div>
+          </div>
         </section>
 
-        {/* FEATURES (UPGRADED) */}
-        <section className="space-y-10 animate-fade-in-up">
-          <h2 className="text-2xl font-semibold text-white font-['Poppins'] text-center">
-            Features
-          </h2>
+        <section className="space-y-10">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-center">
+            <div className="space-y-3">
+              <p className="text-sm uppercase tracking-[0.35em] text-[#dc6505]/80">Features</p>
+              <h2 className="text-3xl font-semibold text-white">Fast, modern workflows for studying.</h2>
+            </div>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-
-            <Card className="surface-card transition-transform duration-300 hover:-translate-y-1">
+          <div className="grid gap-6 lg:grid-cols-3">
+            <Card className="rounded-[28px] border border-white/10 bg-[#0f1f2f] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.2)] transition-transform duration-300 hover:-translate-y-1">
               <CardHeader>
-                <CardTitle className="text-[#004d73] text-lg">
-                  Personalized Notes
-                </CardTitle>
+                <CardTitle className="text-xl font-semibold text-white">Personalized notes</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-[#7c7f86]">
-                  Add your own vocabulary and concepts — no fixed curriculum.
-                </p>
+                <p className="text-slate-300">Add vocabulary, grammar, and examples your way with a minimal, distraction-free layout.</p>
               </CardContent>
             </Card>
 
-            <Card className="surface-card transition-transform duration-300 hover:-translate-y-1">
+            <Card className="rounded-[28px] border border-white/10 bg-[#0f1f2f] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.2)] transition-transform duration-300 hover:-translate-y-1">
               <CardHeader>
-                <CardTitle className="text-[#004d73] text-lg">
-                  Smart Repetition
-                </CardTitle>
+                <CardTitle className="text-xl font-semibold text-white">Smart repetition</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-[#7c7f86]">
-                  The app intelligently revisits content based on your performance.
-                </p>
+                <p className="text-slate-300">The app highlights what needs practice and helps you review efficiently.</p>
               </CardContent>
             </Card>
 
-            <Card className="surface-card transition-transform duration-300 hover:-translate-y-1">
+            <Card className="rounded-[28px] border border-white/10 bg-[#0f1f2f] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.2)] transition-transform duration-300 hover:-translate-y-1">
               <CardHeader>
-                <CardTitle className="text-[#004d73] text-lg">
-                  Visual Feedback
-                </CardTitle>
+                <CardTitle className="text-xl font-semibold text-white">Visual progress</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-[#7c7f86]">
-                  Color-coded progress shows what you’ve mastered instantly.
-                </p>
+                <p className="text-slate-300">Get instant visual cues on mastery, review priority, and performance trends.</p>
               </CardContent>
             </Card>
           </div>
         </section>
 
-        {/* FEEDBACK SYSTEM */}
-        <section className="text-center space-y-6 animate-fade-in-up">
-          <h2 className="text-2xl font-semibold font-['Poppins'] text-[#004d73]">
-            Learn Through Feedback
-          </h2>
+        <section className="rounded-[32px] border border-white/10 bg-white/5 p-8 shadow-[0_30px_70px_rgba(0,0,0,0.24)] backdrop-blur-xl">
+          <div className="text-center space-y-6">
+            <h2 className="text-3xl font-semibold text-white">Feedback at a glance</h2>
+            <p className="mx-auto max-w-2xl text-slate-300">
+              Know exactly which cards are new, mastered, due for review, or still difficult — all in one clean dashboard.
+            </p>
+          </div>
 
-          <div className="flex justify-center gap-10 text-sm">
-
-            <div className="transition-transform hover:scale-110">
-              <div className="w-6 h-6 bg-[#7c7f86] mx-auto rounded mb-1"></div>
-              <p>New</p>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-3xl border border-white/10 bg-[#0f1f2f] p-6 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#7c7f86] text-white">N</div>
+              <p className="text-sm uppercase tracking-[0.3em] text-slate-400">New</p>
             </div>
-
-            <div className="transition-transform hover:scale-110">
-              <div className="w-6 h-6 bg-[#36718f] mx-auto rounded mb-1"></div>
-              <p>Mastered</p>
+            <div className="rounded-3xl border border-white/10 bg-[#0f1f2f] p-6 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-900 text-white">M</div>
+              <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Mastered</p>
             </div>
-
-            <div className="transition-transform hover:scale-110">
-              <div className="w-6 h-6 bg-[#dc6505] mx-auto rounded mb-1"></div>
-              <p>Review</p>
+            <div className="rounded-3xl border border-white/10 bg-[#0f1f2f] p-6 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500 text-white">R</div>
+              <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Review</p>
             </div>
-
-            <div className="transition-transform hover:scale-110">
-              <div className="w-6 h-6 bg-[#efb486] mx-auto rounded mb-1"></div>
-              <p>Difficult</p>
+            <div className="rounded-3xl border border-white/10 bg-[#0f1f2f] p-6 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-red-900 text-white">D</div>
+              <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Difficult</p>
             </div>
-
           </div>
         </section>
-
       </main>
 
-      {/* FOOTER */}
-      <footer className="bg-[var(--surface-soft)] border-t border-[#7c7f86] text-center py-6 text-sm text-[#004d73]">
+      <footer className="bg-[#06131f] border-t border-white/10 text-center py-6 text-sm text-slate-400">
         Built for fast review and meaningful retention.
       </footer>
-
     </div>
   );
 };

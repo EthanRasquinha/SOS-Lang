@@ -57,23 +57,24 @@ export const NavBar = () => {
 }, [location.pathname, navItems]);
 
   return (
-    <nav className="bg-[var(--surface)] border-b border-[#7c7f86] sticky top-0 z-50 shadow-2xl">
+    <>
+    <nav className="bg-[#07121d] border-b border-white/10 sticky top-0 z-50 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between relative">
         {/* LOGO */}
-        <Link to="/" className="flex items-center text-[#004d73] font-bold font-['Poppins'] text-3xl">
+        <Link to="/" className="flex items-center text-white font-bold font-['Poppins'] text-3xl tracking-tight">
           <div>
             <p>SOS-LANG</p>
           </div>
         </Link>
 
         {/* Bubble Slider Navigation */}
-        <div className="hidden md:flex relative p-1.5 bg-[var(--surface-soft)] rounded-full shadow-inner">
+        <div className="hidden md:flex relative p-1.5 bg-white/5 rounded-full shadow-inner border border-white/10">
           {/* Large background pill */}
-          <div className="absolute inset-0 rounded-full bg-[var(--surface)] opacity-90"></div>
+          <div className="absolute inset-0 rounded-full bg-[#0b1b2b] opacity-95"></div>
 
           {/* Small sliding pill */}
           <div
-            className="absolute top-1/2 -translate-y-1/2 h-11 bg-[#dc6505] rounded-full transition-all duration-300 shadow-2xl"
+            className="absolute top-1/2 -translate-y-1/2 h-11 bg-[#dc6505] rounded-full transition-all duration-300 shadow-[0_20px_40px_rgba(220,101,5,0.35)]"
             style={{
               left: activeTabPos.left + activeTabPos.width * 0.1,
               width: activeTabPos.width * 0.9,
@@ -88,7 +89,7 @@ export const NavBar = () => {
                   className={`px-4 py-2 rounded-full font-medium font-['Poppins'] text-center w-full block transition-all duration-300 ${
                     location.pathname === item.path
                       ? "text-white"
-                      : "text-[#7c7f86] hover:text-[#004d73]"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
                   {item.name}
@@ -102,7 +103,7 @@ export const NavBar = () => {
         {role === "user" ? (
           <button
             onClick={async () => await handleSignOut()}
-            className="md:inline-block bg-[#dc6505] hover:bg-[#efb486] text-white font-['Poppins'] font-semibold px-5 py-2 rounded-full transition-all duration-300 hover:scale-105"
+            className="md:inline-block bg-[#dc6505] hover:bg-[#e37b2f] text-white font-['Poppins'] font-semibold px-5 py-2 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_18px_40px_rgba(220,101,5,0.28)]"
           >
             Sign Out
           </button>
@@ -110,20 +111,28 @@ export const NavBar = () => {
           <div className="flex gap-2">
             <button
               onClick={openLogin}
-              className="bg-[#004d73] mx-0 hover:bg-[#36718f] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
+              className="bg-[#0f2a44] hover:bg-[#11335a] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 border border-white/10"
             >
               Login
             </button>
             <button
               onClick={openSignup}
-              className="bg-[#dc6505] mx-0 hover:bg-[#efb486] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
+              className="bg-[#dc6505] mx-0 hover:bg-[#e37b2f] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_18px_40px_rgba(220,101,5,0.28)]"
             >
               Sign Up
             </button>
           </div>
         )}
 
-        <RegistrationForm
+        
+
+        {/* MOBILE MENU ICON */}
+        <div className="md:hidden">
+          <button className="text-white font-bold text-2xl">☰</button>
+        </div>
+      </div>
+    </nav>
+    <RegistrationForm
           open={signupOpen}
           onClose={closeSignup}
           onSuccess={() => {
@@ -140,13 +149,7 @@ export const NavBar = () => {
             closeLogin();
           }}
         />
-
-        {/* MOBILE MENU ICON */}
-        <div className="md:hidden">
-          <button className="text-[#004d73] font-bold text-2xl">☰</button>
-        </div>
-      </div>
-    </nav>
+        </>
   );
 };
 

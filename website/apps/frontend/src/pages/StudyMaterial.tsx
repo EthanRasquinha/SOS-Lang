@@ -28,7 +28,7 @@ interface MaterialCard {
   content: string;
   date: string;
   createdAt: string;
-  borderClass: string;
+  cardClass: string;
   status: FilterOption;
 }
 
@@ -47,45 +47,80 @@ export const AIStudyMaterial: React.FC = () => {
   const [filter, setFilter] = useState<FilterOption>("all");
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
-  const getMaterialStatus = (results: QuizResult[] | null): { borderClass: string; status: FilterOption } => {
+  const getMaterialStatus = (
+    results: QuizResult[] | null
+  ): { cardClass: string; status: FilterOption } => {
+    // ⚪ NEVER REVIEWED
     if (!results || results.length === 0) {
-      return { borderClass: "border-l-4 border-black bg-gray-50", status: "not-attempted" };
+      return {
+        cardClass:
+          "border-l-4 border-gray-500 bg-gray-900/40 hover:bg-gray-800/50 shadow-gray-500/10 hover:shadow-gray-500/20",
+        status: "not-attempted",
+      };
     }
 
     const now = Date.now();
+
     const lastAttempt = results.reduce((latest, current) => {
-      return new Date(current.completed_at).getTime() > new Date(latest.completed_at).getTime() ? current : latest;
+      return new Date(current.completed_at).getTime() >
+        new Date(latest.completed_at).getTime()
+        ? current
+        : latest;
     }, results[0]);
 
-    const daysSinceReview = (now - new Date(lastAttempt.completed_at).getTime()) / (1000 * 60 * 60 * 24);
+    const daysSinceReview =
+      (now - new Date(lastAttempt.completed_at).getTime()) /
+      (1000 * 60 * 60 * 24);
+
+    // 🟠 STALE
     if (daysSinceReview > 3) {
-      return { borderClass: "border-l-4 border-orange-500 bg-orange-50", status: "stale" };
+      return {
+        cardClass:
+          "border-l-4 border-orange-500 bg-orange-900/30 hover:bg-orange-800/40 shadow-orange-500/10 hover:shadow-orange-500/20",
+        status: "stale",
+      };
     }
 
     const averagePercent =
-      results.reduce((sum, result) => sum + (result.total > 0 ? (result.score / result.total) * 100 : 0), 0) /
-      results.length;
+      results.reduce(
+        (sum, result) =>
+          sum + (result.total > 0 ? (result.score / result.total) * 100 : 0),
+        0
+      ) / results.length;
 
+    // 🟢 PASSED
     if (averagePercent >= 80) {
-      return { borderClass: "border-l-4 border-green-500 bg-green-50", status: "passed" };
+      return {
+        cardClass:
+          "border-l-4 border-green-500 bg-green-900/30 hover:bg-green-800/40 shadow-green-500/10 hover:shadow-green-500/20",
+        status: "passed",
+      };
     }
 
-    return { borderClass: "border-l-4 border-red-500 bg-red-50", status: "failed" };
+    // 🔴 FAILED
+    return {
+      cardClass:
+        "border-l-4 border-red-500 bg-red-900/30 hover:bg-red-800/40 shadow-red-500/10 hover:shadow-red-500/20",
+      status: "failed",
+    };
   };
 
-  const fetchQuizResultsForSet = async (setId: string): Promise<QuizResult[] | null> => {
+  const fetchQuizResultsForSet = async (
+    setId: string
+  ): Promise<QuizResult[] | null> => {
     try {
       const session = await supabase.auth.getSession();
-      const response = await fetch(`http://localhost:8000/ai/quiz-results/${setId}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${session.data.session?.access_token}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:8000/ai/quiz-results/${setId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${session.data.session?.access_token}`,
+          },
+        }
+      );
 
-      if (!response.ok) {
-        return null;
-      }
+      if (!response.ok) return null;
 
       const data = await response.json();
       return data.quiz_results || null;
@@ -98,6 +133,7 @@ export const AIStudyMaterial: React.FC = () => {
   const fetchStoredMaterials = async () => {
     setLoading(true);
     const session = await supabase.auth.getSession();
+
     try {
       const response = await fetch(
         "http://localhost:8000/ai/flashcard-sets",
@@ -108,24 +144,28 @@ export const AIStudyMaterial: React.FC = () => {
           },
         }
       );
+
       if (!response.ok) throw new Error("Failed to fetch");
-      
+
       const data = await response.json();
+
       const enrichedMaterials = await Promise.all(
         (data.flashcard_sets || []).map(async (set: any) => {
           const results = await fetchQuizResultsForSet(set.id);
           const statusData = getMaterialStatus(results);
+
           return {
             id: set.id,
             title: set.title,
             content: `${set.flashcards?.length || 0} flashcards`,
             date: new Date(set.created_at).toLocaleDateString(),
             createdAt: set.created_at,
-            borderClass: statusData.borderClass,
+            cardClass: statusData.cardClass,
             status: statusData.status,
           };
         })
       );
+
       setMaterials(enrichedMaterials);
     } catch (error) {
       console.error(error);
@@ -138,23 +178,27 @@ export const AIStudyMaterial: React.FC = () => {
   const deleteMaterial = async (id: string) => {
     try {
       const session = await supabase.auth.getSession();
+
       await fetch(`http://localhost:8000/ai/flashcard-sets/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${session.data.session?.access_token}`,
         },
       });
-      setMaterials(materials.filter(m => m.id !== id));
+
+      setMaterials(materials.filter((m) => m.id !== id));
       toast.success("Material deleted");
-    } catch (error) {
+    } catch {
       toast.error("Failed to delete material");
     }
   };
 
   const loadFlashcardSet = async (id: string) => {
     setLoadingSet(true);
+
     try {
       const session = await supabase.auth.getSession();
+
       const response = await fetch(
         `http://localhost:8000/ai/flashcard-sets/${id}`,
         {
@@ -164,20 +208,16 @@ export const AIStudyMaterial: React.FC = () => {
           },
         }
       );
-      if (!response.ok) throw new Error("Failed to fetch flashcard set");
-      
+
+      if (!response.ok) throw new Error();
+
       const data = await response.json();
       setSelectedSet(data.flashcard_set);
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error("Failed to load flashcard set");
     } finally {
       setLoadingSet(false);
     }
-  };
-
-  const handleStartQuiz = (setId: string) => {
-    loadFlashcardSet(setId);
   };
 
   const handleQuizComplete = () => {
@@ -191,94 +231,87 @@ export const AIStudyMaterial: React.FC = () => {
 
   const filteredMaterials = materials
     .filter((material) => filter === "all" || material.status === filter)
-    .sort((a, b) => {
-      return sortOrder === "newest"
-        ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-    });
+    .sort((a, b) =>
+      sortOrder === "newest"
+        ? new Date(b.createdAt).getTime() -
+          new Date(a.createdAt).getTime()
+        : new Date(a.createdAt).getTime() -
+          new Date(b.createdAt).getTime()
+    );
 
-  return (
-    <>
-      {selectedSet ? (
-        <QuizView
-          flashcardSet={selectedSet}
-          onComplete={handleQuizComplete}
-          onBack={() => setSelectedSet(null)}
-        />
-      ) : (
-        <div className="min-h-screen font-['Poppins'] bg-[var(--page-bg)] text-[var(--text-primary)] p-8 flex flex-col gap-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold font-['Poppins'] text-[#004d73]">Study Material Storage</h1>
-              <p className="text-sm text-[#7c7f86] mt-1">
-                Filter by quiz status or sort by latest material.
-              </p>
-            </div>
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-              <select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value as FilterOption)}
-                className="rounded-2xl border border-[#7c7f86] bg-[#ebe9e8] px-4 py-2 text-sm text-[#004d73]"
-              >
-                <option value="all">All Materials</option>
-                <option value="not-attempted">Not Attempted</option>
-                <option value="passed">Average ≥ 80%</option>
-                <option value="failed">Average &lt; 80%</option>
-                <option value="stale">Not Reviewed in 3 Days</option>
-              </select>
-              <button
-                type="button"
-                onClick={() => setSortOrder((prev) => (prev === "newest" ? "oldest" : "newest"))}
-                className="rounded-full bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--accent-soft)]"
-              >
-                Sort: {sortOrder === "newest" ? "Newest" : "Oldest"}
-              </button>
-            </div>
-          </div>
+  return selectedSet ? (
+    <QuizView
+      flashcardSet={selectedSet}
+      onComplete={handleQuizComplete}
+      onBack={() => setSelectedSet(null)}
+    />
+  ) : (
+    <div className="min-h-screen bg-[var(--page-bg)] text-white p-8 flex flex-col gap-6">
+      <div className="flex justify-between">
+        <h1 className="text-3xl font-bold">Study Material Storage</h1>
+      
+       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+    <select
+      value={filter}
+      onChange={(e) => setFilter(e.target.value as FilterOption)}
+      className="rounded-2xl border border-[#1f3248] bg-[#122437] px-4 py-2 text-sm text-white"
+    >
+      <option value="all">All Materials</option>
+      <option value="not-attempted">Not Attempted</option>
+      <option value="passed">Average ≥ 80%</option>
+      <option value="failed">Average &lt; 80%</option>
+      <option value="stale">Not Reviewed in 3 Days</option>
+    </select>
 
-          {materials.length === 0 && !loading ? (
-            <Card className="surface-card rounded-3xl p-8 text-center">
-              <p className="text-[#004d73] text-lg">No flashcard sets yet.</p>
-              <p className="text-[#7c7f86] text-sm mt-2">Create a note and convert it to flashcards to get started!</p>
-            </Card>
-          ) : filteredMaterials.length === 0 && !loading ? (
-            <Card className="surface-card rounded-3xl p-8 text-center">
-              <p className="text-[#004d73] text-lg">No materials match this filter.</p>
-              <p className="text-[#7c7f86] text-sm mt-2">Try another filter or refresh your materials.</p>
-            </Card>
-          ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredMaterials.map((material) => (
-                <Card key={material.id} className={`rounded-3xl shadow-2xl transition-shadow border-0 ${material.borderClass}`}>
-                  <CardHeader>
-                    <CardTitle className="text-[#004d73] text-lg font-['Poppins']">{material.title}</CardTitle>
-                    <p className="text-sm text-[#7c7f86]">{material.date}</p>
-                  </CardHeader>
-                  <CardContent className="flex flex-col space-y-4">
-                    <p className="text-[#004d73]">{material.content}</p>
-                    <div className="flex flex-wrap gap-2">
-                      <Button
-                        onClick={() => handleStartQuiz(material.id)}
-                        disabled={loadingSet}
-                        className="flex-1 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white px-4 py-2"
-                      >
-                        {loadingSet ? "Loading..." : "Start Quiz"}
-                      </Button>
-                      <Button
-                        onClick={() => deleteMaterial(material.id)}
-                        className="flex-1 rounded-full bg-[#dc6505] hover:bg-[#efb486] text-white px-4 py-2"
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-    </>
+    <button
+      type="button"
+      onClick={() =>
+        setSortOrder((prev) =>
+          prev === "newest" ? "oldest" : "newest"
+        )
+      }
+      className="rounded-full bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--accent-soft)]"
+    >
+      Sort: {sortOrder === "newest" ? "Newest" : "Oldest"}
+    </button>
+  </div>
+  </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {filteredMaterials.map((material) => (
+          <Card
+            key={material.id}
+            className={`rounded-3xl transition-all duration-300 shadow-2xl ${material.cardClass}`}
+          >
+            <CardHeader>
+              <CardTitle>{material.title}</CardTitle>
+              <p className="text-sm text-slate-400">{material.date}</p>
+            </CardHeader>
+
+            <CardContent className="flex flex-col gap-4">
+              <p>{material.content}</p>
+
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => loadFlashcardSet(material.id)}
+                  disabled={loadingSet}
+                  className="flex-1 rounded-full bg-[var(--accent)]"
+                >
+                  Start Quiz
+                </Button>
+
+                <Button
+                  onClick={() => deleteMaterial(material.id)}
+                  className="flex-1 rounded-full bg-red-600"
+                >
+                  Delete
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
   );
 };
 
