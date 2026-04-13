@@ -10,7 +10,7 @@ export const NavBar = () => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
   const [activeTabPos, setActiveTabPos] = useState({ left: 0, width: 0 });
-  const { role, setRole } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const navRefs = useRef<(HTMLLIElement | null)[]>([]);
@@ -21,23 +21,21 @@ export const NavBar = () => {
   const closeLogin = () => setLoginOpen(false);
   const closeSignup = () => setSignupOpen(false);
 
-  const handleSignOut = () => {
-    supabase.auth.signOut();
-    setRole("guest");
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
     navigate("/");
-    return;
   };
 
   const navItems = useMemo(() => [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    ...(role === "user"
+    ...(user
       ? [
           { name: "New Note", path: "/notes" },
           { name: "Study Material", path: "/studymaterial" },
         ]
       : []),
-  ], [role]);
+  ], [user]);
 
   useEffect(() => {
   const updateActiveTabPos = () => {
@@ -102,7 +100,7 @@ export const NavBar = () => {
         </div>
 
         {/* Auth Buttons */}
-        {role === "user" ? (
+        {user ? (
           <button
             onClick={async () => await handleSignOut()}
             className="md:inline-block bg-[#dc6505] hover:bg-[#efb486] text-white font-['Poppins'] font-semibold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
@@ -130,7 +128,6 @@ export const NavBar = () => {
           open={signupOpen}
           onClose={closeSignup}
           onSuccess={() => {
-            setRole("user");
             closeSignup();
           }}
         />
@@ -139,7 +136,6 @@ export const NavBar = () => {
           open={loginOpen}
           onClose={closeLogin}
           onSuccess={() => {
-            setRole("user");
             closeLogin();
           }}
         />
