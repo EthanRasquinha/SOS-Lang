@@ -3,15 +3,33 @@ import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
+import MCQQuizView from "../components/MCQQuizView";
+
+interface MCQQuestion {
+  question: string;
+  options: string[];
+  correct_answer: string;
+  explanation: string;
+}
+
+interface MCQSet {
+  title: string;
+  questions: MCQQuestion[];
+}
 
 export const NoteDashboard: React.FC = () => {
   const [note, setNote] = useState({ title: "", content: "" });
-  const [notes, setNotes] = useState<Array<{ id: string; title: string; content: string; showModal: boolean }>>([]); // start empty
+  const [notes, setNotes] = useState<Array<{ id: string; title: string; content: string; showModal: boolean }>>([]);
   const [selectedNote, setSelectedNote] = useState<null | { id: string; title: string; content: string; showModal: boolean }>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [summary, setSummary] = useState<string | null>(null);
+  const [showSummaryModal, setShowSummaryModal] = useState(false);
+
+  // ✅ Added missing state for MCQ quiz
+  const [loadingSet, setLoadingSet] = useState(false);
+  const [mcqSet, setMcqSet] = useState<MCQSet | null>(null);
 
   const noteAccentBorders = [
     "border-l-4 border-[#dc6505]",
@@ -34,13 +52,10 @@ export const NoteDashboard: React.FC = () => {
       },
     });
     const data = await response.json();
-
-    // Ensure each note has an 'id' field for React and delete function
     const formattedNotes = data.map((n: any) => ({
       ...n,
-      id: n.note_id, // adjust depending on your backend field
+      id: n.note_id,
     }));
-
     setNotes(formattedNotes);
   };
 
@@ -53,14 +68,14 @@ export const NoteDashboard: React.FC = () => {
         Authorization: `Bearer ${session.data.session?.access_token}`,
       },
       body: JSON.stringify({
-        note_title: note.title,      // match backend field names
+        note_title: note.title,
         content: note.content,
       }),
     });
 
     if (response.ok) {
       setNote({ title: "", content: "" });
-      fetchNotes(); // refresh the notes list
+      fetchNotes();
     } else {
       const data = await response.json();
       console.error(data);
@@ -77,7 +92,6 @@ export const NoteDashboard: React.FC = () => {
     });
 
     if (response.ok) {
-      // Remove deleted note from state to refresh UI
       setNotes(prevNotes => prevNotes.filter(n => n.id !== noteId));
       setSelectedNote(null);
     } else {
@@ -90,69 +104,107 @@ export const NoteDashboard: React.FC = () => {
     fetchNotes();
   }, []);
 
-const generateFlashcards = async (note_id: string) => {
-  try {
-    setIsGenerating(true);
-
-    const session = await supabase.auth.getSession();
-
-    const response = await fetch(
-      `http://localhost:8000/ai/flashcards/${note_id}/generate`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${session.data.session?.access_token}`,
-        },
-      }
-    );
-
-    const data = await response.json(); // ALWAYS parse
-
-    if (response.ok) {
-      toast.success("Flashcards generated successfully!");
-      setSelectedNote(null);
-      return data.flashcard_set;
-    } else {
-      console.error("Backend error:", data); // 🔥 KEY LINE
-      toast.error(data.detail || "Failed to generate flashcards");
-    }
-  } catch (error) {
-    console.error("Error generating flashcards:", error);
-    toast.error("Network / server error");
-  } finally {
-    setIsGenerating(false);
-  }
-};
-
-  const generateSummary = async (note_id: string, noteContent: string) => {
+  const generateFlashcards = async (note_id: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/ai/${note_id}/summarize/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: noteContent
-        }),
-      });
+      setIsGenerating(true);
+      const session = await supabase.auth.getSession();
+
+      const response = await fetch(
+        `http://localhost:8000/ai/flashcards/${note_id}/generate`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${session.data.session?.access_token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
 
       if (response.ok) {
-        const data = await response.json();
-        toast.success("Summary generated successfully!");
-        return data.summary;
+        toast.success("Flashcards generated successfully!");
+        setSelectedNote(null);
+        return data.flashcard_set;
       } else {
-        toast.error("Failed to generate summary");
+        console.error("Backend error:", data);
+        toast.error(data.detail || "Failed to generate flashcards");
       }
     } catch (error) {
-      console.error("Error generating summary:", error);
+      console.error("Error generating flashcards:", error);
+      toast.error("Network / server error");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const generateSummary = async (note_id: string) => {
+    try {
+      setIsGenerating(true);
+      const session = await supabase.auth.getSession();
+
+      const response = await fetch(
+        `http://localhost:8000/ai/${note_id}/summarize`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${session.data.session?.access_token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSummary(data.summary);
+        setShowSummaryModal(true);
+        toast.success("Summary generated!");
+      } else {
+        toast.error(data.detail || "Failed to generate summary");
+      }
+    } catch (error) {
+      console.error(error);
       toast.error("Error generating summary");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  // ✅ Fixed: now sets mcqSet and quizMode so the quiz renders
+  const generateMCQSet = async (noteId: string) => {
+    setLoadingSet(true);
+
+    try {
+      const session = await supabase.auth.getSession();
+
+      const response = await fetch(
+        `http://localhost:8000/ai/mcqs/${noteId}/generate`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${session.data.session?.access_token}`,
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error();
+
+      const data = await response.json();
+
+      setMcqSet(data.mcq_set);
+      setSelectedNote(null); // close the note modal
+
+      toast.success("MCQ Quiz generated!");
+    } catch (err) {
+      toast.error("Failed to generate MCQ quiz");
+    } finally {
+      setLoadingSet(false);
     }
   };
 
   return (
     <div className="min-h-screen font-['Poppins'] bg-[var(--page-bg)] text-white w-full flex flex-col">
       {/* Top Bar */}
-      <header className="w-full bg-[#0c1a2d] text-white rounded-2xl px-6 py-4 flex justify-between items-center shadow-[0_20px_80px_-50px_rgba(0,0,0,0.6)] border border-white/10">
+      <header className="w-full bg-[#0c1a2d] text-white px-6 py-4 flex justify-between items-center shadow-[0_20px_80px_-50px_rgba(0,0,0,0.6)] border border-white/10">
         <h1 className="text-2xl font-['Poppins'] font-semibold">SOS-Lang Notes Dashboard</h1>
       </header>
 
@@ -199,7 +251,7 @@ const generateFlashcards = async (note_id: string) => {
         </section>
 
         {/* RIGHT: Notes List */}
-        <div className="min-h-screen bg-transparent md:w-1/2 flex flex-col ">
+        <div className="min-h-screen bg-transparent md:w-1/2 flex flex-col">
           <h1 className="text-3xl text-white font-['Poppins'] mb-6">Your Notes</h1>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -226,65 +278,123 @@ const generateFlashcards = async (note_id: string) => {
           {selectedNote && (
             <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex justify-center items-center p-4">
               <div className="bg-[var(--surface)] w-full max-w-3xl h-full md:h-auto rounded-3xl shadow-2xl relative flex flex-col border border-[var(--border)]">
-                <button
-                  className="absolute top-4 right-4 text-[var(--accent)] text-2xl font-bold"
-                  onClick={() => setSelectedNote(null)}
-                >
-                  ×
-                </button>
 
-                <div className="p-6 overflow-y-auto flex-grow">
-                  <h2 className="text-2xl font-bold text-white mb-4">{selectedNote.title}</h2>
+                <div className="p-6 overflow-y-auto flex-grow relative">
+
+                  {/* Close button */}
+                  <button
+                    className="absolute top-5 right-5 w-10 h-10 mt-1 px-2 flex items-center justify-center rounded-full text-[var(--accent)] text-2xl font-bold transition-all duration-200 hover:bg-white/10 hover:scale-110"
+                    onClick={() => setSelectedNote(null)}
+                  >
+                    ×
+                  </button>
+
+                  {/* Header row */}
+                  <div className="flex justify-between items-center mb-4 pr-12">
+                    <h2 className="text-2xl font-bold font-[Poppins] text-white">
+                      {selectedNote.title}
+                    </h2>
+
+                    <button
+                      className="bg-red-600 hover:bg-red-500 text-white font-semibold px-5 py-2 rounded-full transition-all duration-300 hover:scale-105"
+                      onClick={() => {
+                        if (window.confirm("Are you sure you want to delete this note?")) {
+                          deleteNote(selectedNote.id);
+                        }
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+
+                  {/* Content */}
                   <div className="bg-[var(--surface-soft)] rounded-3xl p-5 max-h-96 overflow-y-auto">
-                    <p className="text-slate-200 text-base text-left whitespace-pre-wrap">{selectedNote.content}</p>
+                    <p className="text-slate-200 text-base whitespace-pre-wrap">
+                      {selectedNote.content}
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex justify-center gap-3 p-6 border-t border-[var(--border)]">
-                    <button
-                    className="bg-[#dc6505] hover:bg-[#efb486] text-white font-semibold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
-                    onClick={() => {
-                      if (window.confirm("Are you sure you want to delete this note?")) {
-                      deleteNote(selectedNote.id);
-                      }
-                    }}
-                    >
-                    Delete Note
-                    </button>
-                    <button
+
+                  <button
+                    className="bg-blue-500 hover:bg-blue-400 text-white font-semibold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
+                    onClick={() => generateSummary(selectedNote.id)}
+                    disabled={isGenerating}
+                  >
+                    {isGenerating ? "Generating..." : "Summarize"}
+                  </button>
+
+                  <button
                     className="bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white font-semibold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
-                    onClick={() => {setSelectedNote({ ...selectedNote, showModal: true })}}
-                    >
+                    onClick={() => setSelectedNote({ ...selectedNote, showModal: true })}
+                  >
                     Generate Flashcards
-                    </button>
-                    
-                    {selectedNote.showModal && (
-                      <div className="fixed inset-0 z-60 bg-black bg-opacity-50 flex justify-center items-center p-4">
+                  </button>
+
+                  {/* ✅ Fixed: uses loadMCQSet with proper loading state */}
+                  <button
+                    className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => generateMCQSet(selectedNote.id)}
+                    disabled={loadingSet || isGenerating}
+                  >
+                    {loadingSet ? "Generating..." : "Generate MCQ Quiz"}
+                  </button>
+
+                  {/* Flashcard confirm modal */}
+                  {selectedNote.showModal && (
+                    <div className="fixed inset-0 z-60 bg-black bg-opacity-50 flex justify-center items-center p-4">
                       <div className="bg-[var(--surface)] rounded-3xl shadow-2xl p-6 max-w-sm border border-[var(--border)]">
                         <h3 className="text-lg font-bold text-white mb-4">Generate Flashcards?</h3>
                         <p className="text-slate-400 mb-6">This will create a set of flashcards from your note that you can use to quiz yourself.</p>
                         <div className="flex gap-3 justify-center">
-                        <button
-                          onClick={() => setSelectedNote({ ...selectedNote, showModal: false })}
-                          className="px-4 py-2 rounded-full bg-[#004d73] hover:bg-[#36718f] text-white font-semibold"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          onClick={async () => {
-                          toast.success("Generating flashcards...");
-                          await generateFlashcards(selectedNote.id);
-                          setSelectedNote({ ...selectedNote, showModal: false });
-                          }}
-                          disabled={isGenerating}
-                          className="px-4 py-2 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {isGenerating ? "Generating..." : "Generate"}
-                        </button>
+                          <button
+                            onClick={() => setSelectedNote({ ...selectedNote, showModal: false })}
+                            className="px-4 py-2 rounded-full bg-[#004d73] hover:bg-[#36718f] text-white font-semibold"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={async () => {
+                              toast.success("Generating flashcards...");
+                              await generateFlashcards(selectedNote.id);
+                              setSelectedNote({ ...selectedNote, showModal: false });
+                            }}
+                            disabled={isGenerating}
+                            className="px-4 py-2 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {isGenerating ? "Generating..." : "Generate"}
+                          </button>
                         </div>
                       </div>
+                    </div>
+                  )}
+
+                  {/* Summary modal */}
+                  {showSummaryModal && (
+                    <div className="fixed inset-0 z-[70] bg-black/60 flex items-center justify-center p-4">
+                      <div className="bg-[var(--surface)] max-w-lg w-full rounded-3xl shadow-2xl border border-[var(--border)] p-6 relative">
+                        <button
+                          className="absolute top-4 right-4 text-xl text-[var(--accent)]"
+                          onClick={() => setShowSummaryModal(false)}
+                        >
+                          ×
+                        </button>
+                        <h3 className="text-xl font-bold text-white mb-4">AI Summary</h3>
+                        <div className="bg-[var(--surface-soft)] rounded-2xl p-4 max-h-64 overflow-y-auto">
+                          <p className="text-slate-200 whitespace-pre-wrap">{summary}</p>
+                        </div>
+                        <div className="mt-6 flex justify-end">
+                          <button
+                            onClick={() => setShowSummaryModal(false)}
+                            className="px-4 py-2 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-soft)] text-white font-semibold"
+                          >
+                            Close
+                          </button>
+                        </div>
                       </div>
-                    )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

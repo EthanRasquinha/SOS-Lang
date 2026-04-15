@@ -14,7 +14,7 @@ def generate_summary(note_content: str) -> str:
     response = client.models.generate_content(
         model="gemini-2.5-flash-lite",
         contents=f"""
-        Summarize this note into clear study bullet points:
+        Summarize this note into clear study bullet points in plain text:
 
         {note_content}
         """
@@ -60,7 +60,194 @@ def generate_flashcards(note_content: str) -> dict:
             raise ValueError("No JSON found in response")
     except json.JSONDecodeError as e:
         raise HTTPException(status_code=500, detail=f"Failed to parse flashcard response: {str(e)}")
+    
+def generate_mcqs(note_content: str) -> dict:
+    """Generate multiple choice questions from note content using Gemini API"""
+    
+    response = client.models.generate_content(
+        model="gemini-2.5-flash-lite",
+        contents=f"""
+        Create multiple choice quiz questions from this note content.
 
+        Return ONLY valid JSON in this exact format:
+        Format:
+{{
+  "title": string,
+  "questions": [
+    {{
+      "question": string,
+      "options": [string, string, string, string],
+      "correct_answer": string
+      "explanation": "Short explanation of why the answer is correct"
+    }}
+  ]
+}}
+
+        Rules:
+        - Generate 5–10 questions
+        - Each question must have EXACTLY 4 options
+        - Only ONE correct answer
+        - Make distractors realistic (not obvious)
+        - Keep answers concise
+        - Ensure correctness based on the note
+        - make sure options are in the target language the notes are about
+
+        Note content:
+        {note_content}
+        """
+    )
+
+    try:
+        response_text = response.text
+
+        # Extract JSON safely
+        start_idx = response_text.find('{')
+        end_idx = response_text.rfind('}') + 1
+
+        if start_idx != -1 and end_idx > start_idx:
+            json_str = response_text[start_idx:end_idx]
+            mcq_data = json.loads(json_str)
+            return mcq_data
+        else:
+            raise ValueError("No JSON found in response")
+
+    except json.JSONDecodeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to parse MCQ response: {str(e)}"
+        )
+    
+
+@router.post("/mcqs/{note_id}/generate")
+async def generate_mcqs_endpoint(note_id: str, request: Request):
+    # 🔐 Auth
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        raise HTTPException(status_code=401, detail="Missing auth")
+
+    token = auth_header.split(" ")[1]
+    user = supabase.auth.get_user(token)
+
+    if not user or not user.user:
+        raise HTTPException(status_code=401, detail="Invalid user")
+
+    user_id = user.user.id
+
+    # 📥 Get note
+    note_response = (
+        supabase.table("notes")
+        .select("*")
+        .eq("note_id", note_id)
+        .eq("user_id", user_id)
+        .single()
+        .execute()
+    )
+
+    if not note_response.data:
+        raise HTTPException(status_code=404, detail="Note not found")
+
+    note_content = note_response.data["content"]
+
+    # 🤖 Generate MCQs
+    try:
+        mcq_data = generate_mcqs(note_content)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"AI error: {str(e)}")
+
+    # 💾 Save MCQ set (optional but recommended)
+    mcq_set = (
+        supabase.table("mcq_sets")
+        .insert({
+            "user_id": user_id,
+            "note_id": note_id,
+            "title": mcq_data["title"]
+        })
+        .execute()
+    )
+
+    mcq_set_id = mcq_set.data[0]["id"]
+
+    # Save questions
+    for q in mcq_data["questions"]:
+        supabase.table("mcq_questions").insert({
+            "mcq_set_id": mcq_set_id,
+            "question": q["question"],
+            "options": q["options"],
+            "correct_answer": q["correct_answer"],
+            "explanation": q.get("explanation", "")
+        }).execute()
+
+    return {
+        "mcq_set_id": mcq_set_id,
+        "mcq_data": mcq_data
+    }
+
+@router.get("/mcq-sets")
+async def get_mcq_sets(request: Request):
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        raise HTTPException(status_code=401, detail="Missing auth")
+
+    token = auth_header.split(" ")[1]
+    user = supabase.auth.get_user(token)
+
+    if not user or not user.user:
+        raise HTTPException(status_code=401, detail="Invalid user")
+
+    user_id = user.user.id
+
+    response = (
+        supabase.table("mcq_sets")
+        .select("*, mcq_questions(*)")  # 🔥 join questions table
+        .eq("user_id", user_id)
+        .order("created_at", desc=True)
+        .execute()
+    )
+
+    return {"mcq_sets": response.data}
+
+@router.get("/mcq-sets/{set_id}")
+async def get_mcq_set(set_id: str, request: Request):
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        raise HTTPException(status_code=401, detail="Missing auth")
+
+    token = auth_header.split(" ")[1]
+    user = supabase.auth.get_user(token)
+
+    if not user or not user.user:
+        raise HTTPException(status_code=401, detail="Invalid user")
+
+    user_id = user.user.id
+
+    # 1. get set
+    set_response = (
+        supabase.table("mcq_sets")
+        .select("*")
+        .eq("id", set_id)
+        .eq("user_id", user_id)
+        .single()
+        .execute()
+    )
+
+    if not set_response.data:
+        raise HTTPException(status_code=404, detail="MCQ set not found")
+
+    mcq_set = set_response.data
+
+    # 2. get questions
+    questions_response = (
+        supabase.table("mcq_questions")
+        .select("*")
+        .eq("mcq_set_id", set_id)
+        .execute()
+    )
+
+    mcq_set["questions"] = questions_response.data or []
+
+    print(mcq_set)
+
+    return {"mcq_set": mcq_set}
 
 @router.post("/{note_id}/summarize")
 async def summarize_note(note_id: str, request: Request):
@@ -81,7 +268,7 @@ async def summarize_note(note_id: str, request: Request):
     note_response = (
         supabase.table("notes")
         .select("*")
-        .eq("id", note_id)
+        .eq("note_id", note_id)
         .eq("user_id", user_id)
         .single()
         .execute()
@@ -97,9 +284,6 @@ async def summarize_note(note_id: str, request: Request):
         summary = generate_summary(note_content)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"AI error: {str(e)}")
-
-    # 💾 Save summary
-    create_summary(user_id, note_id, summary)
 
     return {
         "summary": summary
@@ -243,7 +427,8 @@ async def delete_flashcards(flashcard_set_id: str, request: Request):
 
 @router.post("/quiz-results")
 async def submit_quiz_result(result_data: dict, request: Request):
-    """Submit quiz results"""
+    """Submit quiz results for flashcards OR MCQ"""
+    
     # 🔐 Auth
     auth_header = request.headers.get("Authorization")
     if not auth_header:
@@ -259,20 +444,42 @@ async def submit_quiz_result(result_data: dict, request: Request):
 
     try:
         flashcard_set_id = result_data.get("flashcard_set_id")
+        mcq_set_id = result_data.get("mcq_set_id")
         score = result_data.get("score")
         total = result_data.get("total")
-        
-        quiz_result = save_quiz_result(user_id, flashcard_set_id, score, total)
+
+        # ✅ Validation: must have exactly ONE set id
+        if not flashcard_set_id and not mcq_set_id:
+            raise HTTPException(status_code=400, detail="Missing set ID")
+
+        if flashcard_set_id and mcq_set_id:
+            raise HTTPException(status_code=400, detail="Provide only one set ID")
+
+        # ✅ Insert into DB
+        response = (
+            supabase.table("quiz_results")
+            .insert({
+                "user_id": user_id,
+                "flashcard_set_id": flashcard_set_id,
+                "mcq_set_id": mcq_set_id,
+                "score": score,
+                "total": total
+            })
+            .execute()
+        )
+
         return {
-            "quiz_result": quiz_result
+            "quiz_result": response.data[0] if response.data else None
         }
+
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to save quiz result: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to save quiz result: {str(e)}"
+        )
 
-
-@router.get("/quiz-results/{flashcard_set_id}")
-async def get_flashcard_quiz_results(flashcard_set_id: str, request: Request):
-    """Get quiz results for a specific flashcard set"""
+@router.get("/quiz-results/{set_id}")
+async def get_quiz_results_endpoint(set_id: str, request: Request):
     # 🔐 Auth
     auth_header = request.headers.get("Authorization")
     if not auth_header:
@@ -287,14 +494,25 @@ async def get_flashcard_quiz_results(flashcard_set_id: str, request: Request):
     user_id = user.user.id
 
     try:
-        quiz_results = get_quiz_results(user_id, flashcard_set_id)
+        # 🔥 Query BOTH types
+        response = (
+            supabase.table("quiz_results")
+            .select("*")
+            .eq("user_id", user_id)
+            .or_(f"flashcard_set_id.eq.{set_id},mcq_set_id.eq.{set_id}")
+            .order("completed_at", desc=True)
+            .execute()
+        )
+
         return {
-            "quiz_results": quiz_results
+            "quiz_results": response.data
         }
+
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to fetch quiz results: {str(e)}")
-
-
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch quiz results: {str(e)}"
+        )
 @router.get("/{note_id}/summary")
 async def get_note_summary(note_id: str, request: Request):
     # 🔐 Auth

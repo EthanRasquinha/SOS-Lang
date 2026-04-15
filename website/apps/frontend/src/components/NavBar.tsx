@@ -33,6 +33,7 @@ export const NavBar = () => {
       ? [
           { name: "New Note", path: "/notes" },
           { name: "Study Material", path: "/studymaterial" },
+          { name: "User Dashboard", path: "/userdashboard" },
         ]
       : []),
   ], [user]);
