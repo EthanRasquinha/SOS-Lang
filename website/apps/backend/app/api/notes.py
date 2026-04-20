@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
-from db.client import supabase
-from models import NoteModel
+from app.db.client import supabase
+from app.models import NoteModel
 from services.note_service import create_note
 from services.note_service import get_notes
 from services.note_service import delete_note

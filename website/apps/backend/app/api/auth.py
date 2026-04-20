@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models import UserModel
+from app.models import UserModel
 from services.auth_service import create_new_user
 
 router = APIRouter()

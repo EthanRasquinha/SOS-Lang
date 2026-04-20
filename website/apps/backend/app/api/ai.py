@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request, HTTPException
-from db.client import supabase
+from app.db.client import supabase
 import google.genai as genai
 import os
 import json
