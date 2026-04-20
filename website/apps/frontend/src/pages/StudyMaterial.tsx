@@ -22,6 +22,8 @@ interface FlashcardSet {
 }
 
 interface MCQQuestion {
+  id: string;
+  created_at: string;
   question: string;
   options: string[];
   correct_answer: string;
@@ -33,7 +35,7 @@ interface MCQSet {
   title: string;
   note_id: string;
   created_at: string;
-  mcq_questions: MCQQuestion[];
+  questions: MCQQuestion[];
 }
 
 type FilterOption = "all" | "not-attempted" | "passed" | "failed" | "stale";
@@ -90,7 +92,7 @@ export const AIStudyMaterial: React.FC = () => {
     const daysSinceReview =
       (now - new Date(lastAttempt.completed_at).getTime()) / (1000 * 60 * 60 * 24);
 
-    if (daysSinceReview > 3) {
+    if (daysSinceReview > 6) {
       return {
         cardClass:
           "border-l-4 border-orange-500 bg-orange-900/30 hover:bg-orange-800/40 shadow-orange-500/10 hover:shadow-orange-500/20",
@@ -258,6 +260,7 @@ export const AIStudyMaterial: React.FC = () => {
       });
       if (!response.ok) throw new Error();
       const data = await response.json();
+      console.log("Loaded MCQ Set:", data);
       setSelectedMCQSet(data.mcq_set);
     } catch {
       toast.error("Failed to load MCQ set");

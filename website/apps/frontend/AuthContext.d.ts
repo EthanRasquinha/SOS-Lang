@@ -1,8 +1,9 @@
 import * as React from "react";
-type Role = "guest" | "user" | "admin";
+import { Session, User } from "@supabase/supabase-js";
 type AuthContextType = {
-    role: Role;
-    setRole: React.Dispatch<React.SetStateAction<Role>>;
+    user: User | null;
+    session: Session | null;
+    loading: boolean;
 };
 export declare const AuthProvider: React.FC<{
     children: React.ReactNode;

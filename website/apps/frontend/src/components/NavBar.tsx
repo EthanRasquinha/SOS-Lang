@@ -1,10 +1,10 @@
 import { useAuth } from "../../AuthContext";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import bullImage from "../../assets/bull.jpg";
 import { RegistrationForm } from "./RegistrationForm";
 import { supabase } from "@/lib/supabaseClient";
 import { LoginForm } from "./LoginForm";
+import logo from "../../assets/betterlogo.png";
 
 export const NavBar = () => {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -58,13 +58,20 @@ export const NavBar = () => {
   return (
     <>
     <nav className="bg-[#07121d] border-b border-white/10 sticky top-0 z-50 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between relative">
+      <div className="max-w-6xl mx-auto px-1 py-2 flex items-center justify-between relative">
         {/* LOGO */}
-        <Link to="/" className="flex items-center text-white font-bold font-['Poppins'] text-3xl tracking-tight">
-          <div>
-            <p>SOS-LANG</p>
-          </div>
-        </Link>
+        <img
+    src={logo}
+    alt="SOS-Lang Logo"
+    className="h-14 w-15 flex-shrink-0 p-1"
+  />
+        <Link
+  to="/"
+  className="flex items-center gap-8 text-white font-bold font-['Poppins'] text-2xl tracking-tight"
+>
+  
+  <p className="mr-2">SOS-LANG</p>
+</Link>
 
         {/* Bubble Slider Navigation */}
         <div className="hidden md:flex relative p-1.5 bg-white/5 rounded-full shadow-inner border border-white/10">

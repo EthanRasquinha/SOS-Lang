@@ -5,16 +5,20 @@ import { supabase } from "@/lib/supabaseClient";
 
 
 interface MCQQuestion {
-    question: string;
-    options: string[];
-    correct_answer: string;
-    explanation: string;
+  id: string;
+  created_at: string;
+  question: string;
+  options: string[];
+  correct_answer: string;
+  explanation: string;
 }
 
 interface MCQSet {
-    id: string;
-    title: string;
-    questions: MCQQuestion[];
+  id: string;
+  title: string;
+  note_id: string;
+  created_at: string;
+  questions: MCQQuestion[];
 }
 
 interface MCQQuizViewProps {

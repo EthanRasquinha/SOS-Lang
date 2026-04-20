@@ -49,6 +49,12 @@ interface QuizResult {
     completed_at: string;
 }
 
+type StatCardProps = {
+  title: string;
+  value: number | string;
+  icon: React.ReactNode;
+};
+
 /* COMPONENT */
 export const UserDashboard = () => {
     const navigate = useNavigate();
@@ -84,21 +90,24 @@ export const UserDashboard = () => {
         navigate(`/studymaterial/${setId}?autostart=true`);
     };
 
-    /* PIE DISTRIBUTION */
-    const distribution = useMemo(() => {
-        return materials.reduce(
-            (acc, item) => {
+   type DistributionKeys = Exclude<FilterOption, "all">;
+
+const distribution = useMemo(() => {
+    return materials.reduce<Record<DistributionKeys, number>>(
+        (acc, item) => {
+            if (item.status !== "all") {
                 acc[item.status]++;
-                return acc;
-            },
-            {
-                passed: 0,
-                failed: 0,
-                stale: 0,
-                "not-attempted": 0,
             }
-        );
-    }, [materials]);
+            return acc;
+        },
+        {
+            passed: 0,
+            failed: 0,
+            stale: 0,
+            "not-attempted": 0,
+        }
+    );
+}, [materials]);
     const filteredRecent = recent.filter((item) => {
         const percent =
             item.total > 0 ? (item.score / item.total) * 100 : 0;
@@ -151,7 +160,7 @@ export const UserDashboard = () => {
             (now - new Date(last.completed_at).getTime()) /
             (1000 * 60 * 60 * 24);
 
-        if (days > 3) {
+        if (days > 6) {
             return {
                 cardClass:
                     "border-l-4 border-orange-500 bg-orange-900/30",
@@ -521,29 +530,26 @@ export const UserDashboard = () => {
     );
 };
 
-/* STAT CARD */
-function StatCard({ title, value, icon }) {
-    return (
-        <div className="bg-[#0b1b2b] p-5 rounded-2xl border border-white/10 hover:border-white/20 transition">
+const StatCard: React.FC<StatCardProps> = ({ title, value, icon }) => {
+  return (
+    <div className="bg-[#0b1b2b] p-5 rounded-2xl border border-white/10 hover:border-white/20 transition">
+      {/* HEADER */}
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-slate-400 text-sm">{title}</p>
 
-            {/* HEADER */}
-            <div className="flex items-center justify-between mb-3">
-                <p className="text-slate-400 text-sm">{title}</p>
-
-                <div className="p-2 rounded-lg bg-white/5 text-orange-400">
-                    {icon}
-                </div>
-            </div>
-
-            {/* VALUE CONTAINER */}
-            <div className="bg-white/5 rounded-xl px-4 py-3 flex items-center justify-center">
-                <h3 className="text-2xl font-semibold tracking-tight">
-                    {value}
-                </h3>
-            </div>
-
+        <div className="p-2 rounded-lg bg-white/5 text-orange-400">
+          {icon}
         </div>
-    );
-}
+      </div>
+
+      {/* VALUE CONTAINER */}
+      <div className="bg-white/5 rounded-xl px-4 py-3 flex items-center justify-center">
+        <h3 className="text-2xl font-semibold tracking-tight">
+          {value}
+        </h3>
+      </div>
+    </div>
+  );
+};
 
 export default UserDashboard;
