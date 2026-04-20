@@ -7,7 +7,7 @@ app = FastAPI()
 # Allow requests from your frontend origin
 origins = [
     "http://localhost:5173",  # React dev server
-    # "https://yourdomain.com", # production
+    "http://sos-lang.s3-website.eu-north-1.amazonaws.com/"
 ]
 
 app.add_middleware(
