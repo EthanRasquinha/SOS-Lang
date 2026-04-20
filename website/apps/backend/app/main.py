@@ -8,7 +8,9 @@ app = FastAPI()
 origins = [
     "http://localhost:5173",  # React dev server
     "http://sos-lang.s3-website.eu-north-1.amazonaws.com/",
+    "https://sos-lang.s3-website.eu-north-1.amazonaws.com/",
     "https://sos-lang.onrender.com",
+    "http://sos-lang.onrender.com",
     "http://localhost:3000"
 ]
 
