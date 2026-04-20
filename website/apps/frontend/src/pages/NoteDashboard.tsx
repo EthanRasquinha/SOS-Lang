@@ -45,7 +45,7 @@ export const NoteDashboard: React.FC = () => {
 
   const fetchNotes = async () => {
     const session = await supabase.auth.getSession();
-    const response = await fetch("http://localhost:8000/notes/", {
+    const response = await fetch("https://sos-lang.onrender.com/notes/", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${session.data.session?.access_token}`,
@@ -61,7 +61,7 @@ export const NoteDashboard: React.FC = () => {
 
   const handleSubmit = async () => {
     const session = await supabase.auth.getSession();
-    const response = await fetch("http://localhost:8000/notes/", {
+    const response = await fetch("https://sos-lang.onrender.com/notes/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export const NoteDashboard: React.FC = () => {
 
   const deleteNote = async (noteId: string) => {
     const session = await supabase.auth.getSession();
-    const response = await fetch(`http://localhost:8000/notes/${noteId}/`, {
+    const response = await fetch(`https://sos-lang.onrender.com/notes/${noteId}/`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${session.data.session?.access_token}`,
@@ -110,7 +110,7 @@ export const NoteDashboard: React.FC = () => {
       const session = await supabase.auth.getSession();
 
       const response = await fetch(
-        `http://localhost:8000/ai/flashcards/${note_id}/generate`,
+        `https://sos-lang.onrender.com/ai/flashcards/${note_id}/generate`,
         {
           method: "POST",
           headers: {
@@ -143,7 +143,7 @@ export const NoteDashboard: React.FC = () => {
       const session = await supabase.auth.getSession();
 
       const response = await fetch(
-        `http://localhost:8000/ai/${note_id}/summarize`,
+        `https://sos-lang.onrender.com/ai/${note_id}/summarize`,
         {
           method: "POST",
           headers: {
@@ -177,7 +177,7 @@ export const NoteDashboard: React.FC = () => {
       const session = await supabase.auth.getSession();
 
       const response = await fetch(
-        `http://localhost:8000/ai/mcqs/${noteId}/generate`,
+        `https://sos-lang.onrender.com/ai/mcqs/${noteId}/generate`,
         {
           method: "POST",
           headers: {

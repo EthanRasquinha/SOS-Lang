@@ -195,7 +195,7 @@ const distribution = useMemo(() => {
         const session = await supabase.auth.getSession();
 
         const res = await fetch(
-            `http://localhost:8000/ai/quiz-results/${setId}`,
+            `https://sos-lang.onrender.com/ai/quiz-results/${setId}`,
             {
                 headers: {
                     Authorization: `Bearer ${session.data.session?.access_token}`,
@@ -214,7 +214,7 @@ const distribution = useMemo(() => {
 
         try {
             const res = await fetch(
-                "http://localhost:8000/ai/flashcard-sets",
+                "https://sos-lang.onrender.com/ai/flashcard-sets",
                 {
                     headers: {
                         Authorization: `Bearer ${session.data.session?.access_token}`,
@@ -259,10 +259,10 @@ const distribution = useMemo(() => {
 
             const [statsRes, activityRes, recentRes, streakRes] =
                 await Promise.all([
-                    fetch("http://localhost:8000/stats", { headers }),
-                    fetch("http://localhost:8000/stats/activity", { headers }),
-                    fetch("http://localhost:8000/stats/recent", { headers }),
-                    fetch("http://localhost:8000/stats/streak", { headers }),
+                    fetch("https://sos-lang.onrender.com/stats", { headers }),
+                    fetch("https://sos-lang.onrender.com/stats/activity", { headers }),
+                    fetch("https://sos-lang.onrender.com/stats/recent", { headers }),
+                    fetch("https://sos-lang.onrender.com/stats/streak", { headers }),
                 ]);
 
             setStats(await statsRes.json());

@@ -93,7 +93,7 @@ export const FlashcardDashboard: React.FC = () => {
         throw new Error("No active session found. Please log in again.");
       }
 
-      const response = await fetch("http://localhost:8000/ai/flashcard-sets", {
+      const response = await fetch("https://sos-lang.onrender.com/ai/flashcard-sets", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -120,7 +120,7 @@ export const FlashcardDashboard: React.FC = () => {
   const fetchQuizResults = async (setId: string) => {
     try {
       const session = await supabase.auth.getSession();
-      const response = await fetch(`http://localhost:8000/ai/quiz-results/${setId}`, {
+      const response = await fetch(`https://sos-lang.onrender.com/ai/quiz-results/${setId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${session.data.session?.access_token}`,
@@ -142,7 +142,7 @@ export const FlashcardDashboard: React.FC = () => {
   const loadFlashcardSet = async (set: FlashcardSet) => {
     try {
       const session = await supabase.auth.getSession();
-      const response = await fetch(`http://localhost:8000/ai/flashcard-sets/${set.id}`, {
+      const response = await fetch(`https://sos-lang.onrender.com/ai/flashcard-sets/${set.id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${session.data.session?.access_token}`,
@@ -169,7 +169,7 @@ export const FlashcardDashboard: React.FC = () => {
 
     try {
       const session = await supabase.auth.getSession();
-      const response = await fetch(`http://localhost:8000/ai/flashcard-sets/${setId}`, {
+      const response = await fetch(`https://sos-lang.onrender.com/ai/flashcard-sets/${setId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${session.data.session?.access_token}`,
