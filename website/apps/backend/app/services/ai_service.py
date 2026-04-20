@@ -1,4 +1,4 @@
-from db.client import supabase
+from app.db.client import supabase
 
 def create_summary(user_id: str, note_id: str, content: str):
 

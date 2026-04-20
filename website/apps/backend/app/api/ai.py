@@ -3,8 +3,8 @@ from app.db.client import supabase
 import google.genai as genai
 import os
 import json
-from services.ai_service import create_summary
-from services.flashcard_service import create_flashcard_set, get_flashcard_sets, get_flashcard_set_by_id, delete_flashcard_set, save_quiz_result, get_quiz_results
+from app.services.ai_service import create_summary
+from app.services.flashcard_service import create_flashcard_set, get_flashcard_sets, get_flashcard_set_by_id, delete_flashcard_set, save_quiz_result, get_quiz_results
 
 router = APIRouter()
 
