@@ -92,7 +92,7 @@ export const AIStudyMaterial: React.FC = () => {
     const daysSinceReview =
       (now - new Date(lastAttempt.completed_at).getTime()) / (1000 * 60 * 60 * 24);
 
-    if (daysSinceReview > 6) {
+    if (daysSinceReview > 3) {
       return {
         cardClass:
           "border-l-4 border-orange-500 bg-orange-900/30 hover:bg-orange-800/40 shadow-orange-500/10 hover:shadow-orange-500/20",

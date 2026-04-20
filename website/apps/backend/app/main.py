@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from api import notes, ai, auth, root, stats
+from app.api import notes, ai, auth, root, stats
 from fastapi.middleware.cors import CORSMiddleware
 
 

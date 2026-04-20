@@ -160,7 +160,7 @@ const distribution = useMemo(() => {
             (now - new Date(last.completed_at).getTime()) /
             (1000 * 60 * 60 * 24);
 
-        if (days > 6) {
+        if (days > 3) {
             return {
                 cardClass:
                     "border-l-4 border-orange-500 bg-orange-900/30",
