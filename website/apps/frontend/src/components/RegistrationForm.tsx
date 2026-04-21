@@ -91,8 +91,9 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
   }
 
   toast("Signup successful!", {
-    description: "Check your email to confirm your account.",
+    description: "Check your email to verify your account. You must verify your email before logging in.",
     position: "bottom-right",
+    duration: 5000,
   });
 
   onSuccess();
@@ -100,7 +101,7 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
   
   return (
 <div
-  className={`fixed inset-0 flex items-center justify-center transition-all duration-300 ${
+  className={`fixed inset-0 z-[15] flex items-center justify-center transition-all duration-300 ${
     open ? "bg-black/20 opacity-100" : "opacity-0 pointer-events-none"
   }`}
 >      
