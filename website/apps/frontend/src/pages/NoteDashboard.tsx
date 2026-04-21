@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
 import MCQQuizView from "../components/MCQQuizView";
+import ReactMarkdown from "react-markdown";
 
 interface MCQQuestion {
   question: string;
@@ -19,6 +20,8 @@ interface MCQSet {
   questions: MCQQuestion[];
 }
 
+const Markdown = ReactMarkdown as unknown as React.FC<{ children: string }>;
+
 export const NoteDashboard: React.FC = () => {
   const [note, setNote] = useState({ title: "", content: "" });
   const [notes, setNotes] = useState<Array<{ id: string; title: string; content: string; showModal: boolean }>>([]);
@@ -27,7 +30,7 @@ export const NoteDashboard: React.FC = () => {
   const [summary, setSummary] = useState<string | null>(null);
   const [showSummaryModal, setShowSummaryModal] = useState(false);
 
-  // ✅ Added missing state for MCQ quiz
+  // Added missing state for MCQ quiz
   const [loadingSet, setLoadingSet] = useState(false);
   const [mcqSet, setMcqSet] = useState<MCQSet | null>(null);
 
@@ -169,7 +172,7 @@ export const NoteDashboard: React.FC = () => {
     }
   };
 
-  // ✅ Fixed: now sets mcqSet and quizMode so the quiz renders
+  // Fixed: now sets mcqSet and quizMode so the quiz renders
   const generateMCQSet = async (noteId: string) => {
     setLoadingSet(true);
 
@@ -267,7 +270,9 @@ export const NoteDashboard: React.FC = () => {
                     <CardTitle className="text-[#dc6505] text-xl font-semibold">{note.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-slate-300 text-sm line-clamp-3">{note.content}</p>
+                    <div className="prose prose-invert max-w-none text-left">
+                      <Markdown>{note.content}</Markdown>
+                    </div>               
                   </CardContent>
                 </Card>
               );
@@ -309,9 +314,9 @@ export const NoteDashboard: React.FC = () => {
 
                   {/* Content */}
                   <div className="bg-[var(--surface-soft)] rounded-3xl p-5 max-h-96 overflow-y-auto">
-                    <p className="text-slate-200 text-base whitespace-pre-wrap">
-                      {selectedNote.content}
-                    </p>
+                    <div className="markdown">
+                      <Markdown>{selectedNote.content}</Markdown>
+                    </div>
                   </div>
                 </div>
 
@@ -332,7 +337,7 @@ export const NoteDashboard: React.FC = () => {
                     Generate Flashcards
                   </button>
 
-                  {/* ✅ Fixed: uses loadMCQSet with proper loading state */}
+                  {/* Fixed: uses loadMCQSet with proper loading state */}
                   <button
                     className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={() => generateMCQSet(selectedNote.id)}
@@ -382,7 +387,7 @@ export const NoteDashboard: React.FC = () => {
                         </button>
                         <h3 className="text-xl font-bold text-white mb-4">AI Summary</h3>
                         <div className="bg-[var(--surface-soft)] rounded-2xl p-4 max-h-64 overflow-y-auto">
-                          <p className="text-slate-200 whitespace-pre-wrap">{summary}</p>
+                          <p className="text-slate-200">{summary}</p>
                         </div>
                         <div className="mt-6 flex justify-end">
                           <button

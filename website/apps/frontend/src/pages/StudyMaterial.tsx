@@ -38,7 +38,7 @@ interface MCQSet {
 
 type FilterOption = "all" | "not-attempted" | "passed" | "failed" | "stale";
 
-// ✅ Added `type` field to distinguish flashcard sets from MCQ sets
+// Added `type` field to distinguish flashcard sets from MCQ sets
 interface MaterialCard {
   id: string;
   title: string;
@@ -145,7 +145,7 @@ export const AIStudyMaterial: React.FC = () => {
     const session = await supabase.auth.getSession();
 
     try {
-      // ✅ Fetch both flashcard sets and MCQ sets in parallel
+      // Fetch both flashcard sets and MCQ sets in parallel
       const [flashcardRes, mcqRes] = await Promise.all([
         fetch("http://localhost:8000/ai/flashcard-sets", {
           headers: { Authorization: `Bearer ${session.data.session?.access_token}` },
@@ -187,7 +187,7 @@ export const AIStudyMaterial: React.FC = () => {
           return {
             id: set.id,
             title: set.title,
-            content: `${set.mcq_questions?.length || 0} MCQ questions`, // ✅ FIXED HERE
+            content: `${set.mcq_questions?.length || 0} MCQ questions`, // FIXED HERE
             date: new Date(set.created_at).toLocaleDateString(),
             createdAt: set.created_at,
             cardClass: statusData.cardClass,
@@ -228,7 +228,7 @@ export const AIStudyMaterial: React.FC = () => {
     }
   };
 
-  // ✅ Load flashcard set for quiz
+  // Load flashcard set for quiz
   const loadFlashcardSet = async (id: string) => {
     setLoadingSet(true);
     try {
@@ -247,7 +247,7 @@ export const AIStudyMaterial: React.FC = () => {
     }
   };
 
-  // ✅ Load MCQ set for quiz
+  // Load MCQ set for quiz
   const loadMCQSet = async (id: string) => {
     setLoadingSet(true);
     try {
@@ -292,7 +292,7 @@ export const AIStudyMaterial: React.FC = () => {
         : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     );
 
-  // ✅ Fixed: clean conditional rendering, no syntax error
+  // Fixed: clean conditional rendering, no syntax error
   if (selectedFlashcardSet) {
     return (
       <QuizView
@@ -354,7 +354,7 @@ export const AIStudyMaterial: React.FC = () => {
             <CardHeader>
               <div className="flex items-start justify-between gap-2">
                 <CardTitle className="text-base leading-snug">{material.title}</CardTitle>
-                {/* ✅ Badge showing type */}
+                {/* Badge showing type */}
                 <span className={`text-xs font-semibold px-2 py-1 rounded-full shrink-0 ${material.type === "mcq"
                   ? "bg-blue-600/30 text-blue-300 border border-blue-500/30"
                   : "bg-orange-600/30 text-orange-300 border border-orange-500/30"

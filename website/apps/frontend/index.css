@@ -171,3 +171,29 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+
+.markdown {
+  text-align: left;
+  max-width: none;
+}
+
+.markdown ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+}
+
+.markdown ol {
+  list-style: decimal;
+  margin-left: 1.5rem;
+}
+
+.markdown p {
+  margin-bottom: 1rem;
+}
+
+.markdown blockquote {
+  border-left: 4px solid #555;
+  padding-left: 1rem;
+  font-style: italic;
+}

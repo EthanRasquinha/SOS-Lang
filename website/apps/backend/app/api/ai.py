@@ -448,14 +448,14 @@ async def submit_quiz_result(result_data: dict, request: Request):
         score = result_data.get("score")
         total = result_data.get("total")
 
-        # ✅ Validation: must have exactly ONE set id
+        # Validation: must have exactly ONE set id
         if not flashcard_set_id and not mcq_set_id:
             raise HTTPException(status_code=400, detail="Missing set ID")
 
         if flashcard_set_id and mcq_set_id:
             raise HTTPException(status_code=400, detail="Provide only one set ID")
 
-        # ✅ Insert into DB
+        # Insert into DB
         response = (
             supabase.table("quiz_results")
             .insert({
