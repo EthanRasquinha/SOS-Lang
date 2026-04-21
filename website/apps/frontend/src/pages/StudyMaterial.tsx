@@ -46,6 +46,7 @@ interface MaterialCard {
   createdAt: string;
   status: FilterOption;
   type: "flashcard" | "mcq";
+  avg: number; // average score percentage across all attempts
 }
 
 interface QuizResult {
@@ -62,19 +63,19 @@ const STATUS_CONFIG = {
     bar: "bg-slate-600",
     text: "text-slate-400",
   },
-  passed: {
+  "passed": {
     label: "Passed",
     dot: "bg-emerald-400",
     bar: "bg-emerald-500",
     text: "text-emerald-400",
   },
-  failed: {
+  "failed": {
     label: "Needs review",
     dot: "bg-red-400",
     bar: "bg-red-500",
     text: "text-red-400",
   },
-  stale: {
+  "stale": {
     label: "Due for review",
     dot: "bg-amber-400",
     bar: "bg-amber-500",
@@ -82,16 +83,31 @@ const STATUS_CONFIG = {
   },
 };
 
-const getMaterialStatus = (results: QuizResult[] | null): FilterOption => {
-  if (!results || results.length === 0) return "not-attempted";
+const getMaterialStatus = (
+  results: QuizResult[] | null
+): { status: FilterOption; avg: number } => {
+  if (!results || results.length === 0) {
+    return { status: "not-attempted", avg: 0 };
+  }
+
   const now = Date.now();
+
   const last = results.reduce((a, b) =>
     new Date(b.completed_at) > new Date(a.completed_at) ? b : a
   );
-  const daysSince = (now - new Date(last.completed_at).getTime()) / 86400000;
-  if (daysSince > 3) return "stale";
-  const avg = results.reduce((s, r) => s + (r.total > 0 ? (r.score / r.total) * 100 : 0), 0) / results.length;
-  return avg >= 80 ? "passed" : "failed";
+
+  const daysSince =
+    (now - new Date(last.completed_at).getTime()) / 86400000;
+
+  const avg =
+    results.reduce(
+      (s, r) => s + (r.total > 0 ? (r.score / r.total) * 100 : 0),
+      0
+    ) / results.length;
+
+  if (daysSince > 3) return { status: "stale", avg: avg };
+  if (avg >= 80) return { status: "passed", avg: avg };
+  return { status: "failed", avg: avg };
 };
 
 // ── Icons ──────────────────────────────────────────────
@@ -132,12 +148,12 @@ interface RowProps {
 }
 
 const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingSet, accent }) => {
-  const status = STATUS_CONFIG[material.status];
+  const statusInfo = STATUS_CONFIG[material.status] ?? STATUS_CONFIG["not-attempted"];
   return (
     <div className="relative flex items-center gap-4 pl-4 pr-5 py-4 rounded-2xl border border-white/[0.06] bg-[#0d1f35] hover:bg-[#112540] transition-all">
       {/* Status dot */}
       <div className="shrink-0 flex flex-col items-center gap-1.5">
-        <span className={`w-2 h-10 rounded-full ${status.dot}`} />
+        <span className={`w-2 h-10 rounded-full ${statusInfo.dot}`} />
       </div>
 
       {/* Title + meta */}
@@ -150,8 +166,12 @@ const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingS
           <span className="text-[11px] text-slate-600">·</span>
           <span className="text-[11px] text-slate-500">{material.date}</span>
           <span className="text-[11px] text-slate-600">·</span>
-          <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${status.text} bg-white/5`}>
-  {status.label}
+          <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${statusInfo.text} bg-white/5`}>
+          
+  {statusInfo.label}
+</span>
+<span className="text-[11px] font-semibold text-slate-300">
+  Avg: {material.avg.toFixed(1)}%
 </span>
         </div>
       </div>
@@ -279,8 +299,9 @@ export const AIStudyMaterial: React.FC = () => {
             count: set.flashcards?.length || 0,
             date: new Date(set.created_at).toLocaleDateString(),
             createdAt: set.created_at,
-            status: getMaterialStatus(results),
+            status: getMaterialStatus(results).status,
             type: "flashcard" as const,
+            avg: getMaterialStatus(results).avg,
           };
         })
       );
@@ -294,8 +315,9 @@ export const AIStudyMaterial: React.FC = () => {
             count: set.mcq_questions?.length || 0,
             date: new Date(set.created_at).toLocaleDateString(),
             createdAt: set.created_at,
-            status: getMaterialStatus(results),
+            status: getMaterialStatus(results).status,
             type: "mcq" as const,
+            avg: getMaterialStatus(results).avg,
           };
         })
       );

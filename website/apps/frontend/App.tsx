@@ -1,38 +1,66 @@
-import './App.css'
+import "./App.css";
 import { AuthProvider } from "./AuthContext";
-import { HomePage } from './src/pages/homepage/HomePage'
 import * as React from "react";
-import { Routes, Route } from "react-router-dom";
-import { NavBar } from './src/components/NavBar'
-import { About } from './src/pages/About';
-import { NoteDashboard } from './src/pages/NoteDashboard'
-import { AIStudyMaterial } from './src/pages/StudyMaterial'
-import { ProtectedRoute } from './ProtectedRoute'
-import { UserDashboard } from './src/pages/UserDashboard'
+import { Routes, Route, Navigate } from "react-router-dom";
+
+import { NavBar } from "./src/components/NavBar";
+import { HomePage } from "./src/pages/homepage/HomePage";
+import { About } from "./src/pages/About";
+import { NoteDashboard } from "./src/pages/NoteDashboard";
+import { AIStudyMaterial } from "./src/pages/StudyMaterial";
+import { UserDashboard } from "./src/pages/UserDashboard";
+import { ProtectedRoute } from "./ProtectedRoute";
+import { supabase } from "./src/lib/supabaseClient";
+
+
+
+/* 🔁 Smart redirect home */
+const HomeRoute = () => {
+  const [loading, setLoading] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
+  React.useEffect(() => {
+    const check = async () => {
+      const { data } = await supabase.auth.getSession();
+      setLoggedIn(!!data.session);
+      setLoading(false);
+    };
+    check();
+  }, []);
+
+  if (loading) return null;
+
+  return loggedIn ? <Navigate to="/userdashboard" replace /> : <HomePage />;
+};
 
 function App() {
-  //const [role, setRole] = useState<"guest" | "user">("guest");
-
   return (
     <AuthProvider>
       <div className="min-h-screen w-screen bg-[var(--page-bg)] text-white">
         <NavBar />
+
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {/* ✅ HOME NOW SMART */}
+          <Route path="/" element={<HomeRoute />} />
 
           <Route path="/about" element={<About />} />
-          <Route path="/notes"
+
+          <Route
+            path="/notes"
             element={
               <ProtectedRoute>
                 <NoteDashboard />
               </ProtectedRoute>
             }
           />
+
           <Route path="/studymaterial">
             <Route index element={<AIStudyMaterial />} />
             <Route path=":setId" element={<AIStudyMaterial />} />
           </Route>
-          <Route path="/userdashboard"
+
+          <Route
+            path="/userdashboard"
             element={
               <ProtectedRoute>
                 <UserDashboard />
@@ -45,4 +73,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
