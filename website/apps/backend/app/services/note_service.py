@@ -21,7 +21,7 @@ def edit_note(note_id: str, user_id: str, title: str, content: str, tag: str):
             "content": content,
             "tag": tag
         }) \
-        .eq("id", note_id) \
+        .eq("note_id", note_id) \
         .eq("user_id", user_id) \
         .execute()
 
