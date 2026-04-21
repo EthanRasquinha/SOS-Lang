@@ -67,7 +67,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ flashcardSet, onComplete, on
   const submitQuizResults = async (finalScore: number) => {
     try {
       const session = await supabase.auth.getSession();
-      const response = await fetch("http://localhost:8000/ai/quiz-results", {
+      const response = await fetch("https://sos-lang.onrender.com/ai/quiz-results", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

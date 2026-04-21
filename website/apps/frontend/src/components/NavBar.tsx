@@ -56,65 +56,75 @@ export const NavBar = () => {
 }, [location.pathname, navItems]);
 
   return (
-    <>
-    <nav className="bg-[#07121d] border-b border-white/10 sticky top-0 z-50 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-      <div className="max-w-6xl mx-auto px-1 py-2 flex items-center justify-between relative">
-        {/* LOGO */}
-        <img
-    src={logo}
-    alt="SOS-Lang Logo"
-    className="h-14 w-15 flex-shrink-0 p-1"
-  />
-        <Link
-  to="/"
-  className="flex items-center gap-8 text-white font-bold font-['Poppins'] text-2xl tracking-tight"
->
-  
-  <p className="mr-2">SOS-LANG</p>
-</Link>
+<>
+  <nav className="bg-[#07121d] border-b border-white/10 sticky top-0 z-50 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+    <div className="max-w-6xl mx-auto px-1 py-2 flex items-center">
 
-        {/* Bubble Slider Navigation */}
+      {/* LEFT: Logo */}
+      <div className="flex-1 flex items-center gap-2">
+        <img
+          src={logo}
+          alt="SOS-Lang Logo"
+          className="h-12 w-12 object-contain"
+        />
+        <Link
+          to="/"
+          className="text-white font-bold font-['Poppins'] text-2xl tracking-tight"
+        >
+          SOS-LANG
+        </Link>
+      </div>
+
+      {/* CENTER: Nav */}
+      <div className="flex-1 flex justify-center">
         <div className="hidden md:flex relative p-1.5 bg-white/5 rounded-full shadow-inner border border-white/10">
-          {/* Large background pill */}
+          
+          {/* Background pill */}
           <div className="absolute inset-0 rounded-full bg-[#0b1b2b] opacity-95"></div>
 
-          {/* Small sliding pill */}
+          {/* Sliding pill */}
           <div
             className="absolute top-1/2 -translate-y-1/2 h-11 bg-[#dc6505] rounded-full transition-all duration-300 shadow-[0_20px_40px_rgba(220,101,5,0.35)]"
             style={{
               left: activeTabPos.left + activeTabPos.width * 0.1,
               width: activeTabPos.width * 0.9,
             }}
-          ></div>
+          />
 
-          <ul className="flex space-x-5 relative z-10 px-3">
+          <ul className="flex space-x-10 relative z-10 px-3">
             {navItems.map((item, index) => (
-              <li key={index} ref={(el) => (navRefs.current[index] = el)} className="relative px-3 text-l">
-                <Link
-                  to={item.path}
-                  className={`px-4 py-2 rounded-full font-medium font-['Poppins'] text-center w-full block transition-all duration-300 ${
-                    location.pathname === item.path
-                      ? "text-white"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
+  <li
+    key={index}
+    ref={(el) => (navRefs.current[index] = el)}
+    className="relative p-3 rounded-full cursor-pointer transition-all "
+  >
+    <Link
+      to={item.path}
+      className={`px-1 py-2 whitespace-nowrap min-w-[90px] text-sm text-center rounded-full font-medium font-['Poppins'] transition-all duration-300 ${
+  location.pathname === item.path
+    ? "text-white"
+    : "text-slate-400 hover:text-white"
+}`}
+    >
+      {item.name}
+    </Link>
+  </li>
+))}
           </ul>
         </div>
+      </div>
 
-        {/* Auth Buttons */}
+      {/* RIGHT: Auth */}
+      <div className="flex-1 flex justify-end items-center gap-2">
         {user ? (
           <button
             onClick={async () => await handleSignOut()}
-            className="md:inline-block bg-[#dc6505] hover:bg-[#e37b2f] text-white font-['Poppins'] font-semibold px-5 py-2 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_18px_40px_rgba(220,101,5,0.28)]"
+            className="bg-[#dc6505] hover:bg-[#e37b2f] text-white font-['Poppins'] font-semibold px-5 py-2 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_18px_40px_rgba(220,101,5,0.28)]"
           >
             Sign Out
           </button>
         ) : (
-          <div className="flex gap-2">
+          <>
             <button
               onClick={openLogin}
               className="bg-[#0f2a44] hover:bg-[#11335a] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 border border-white/10"
@@ -123,37 +133,34 @@ export const NavBar = () => {
             </button>
             <button
               onClick={openSignup}
-              className="bg-[#dc6505] mx-0 hover:bg-[#e37b2f] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_18px_40px_rgba(220,101,5,0.28)]"
+              className="bg-[#dc6505] hover:bg-[#e37b2f] text-white font-semibold font-['Poppins'] px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_18px_40px_rgba(220,101,5,0.28)]"
             >
               Sign Up
             </button>
-          </div>
+          </>
         )}
 
-        
-
-        {/* MOBILE MENU ICON */}
-        <div className="md:hidden">
+        {/* Mobile Menu */}
+        <div className="md:hidden ml-2">
           <button className="text-white font-bold text-2xl">☰</button>
         </div>
       </div>
-    </nav>
-    <RegistrationForm
-          open={signupOpen}
-          onClose={closeSignup}
-          onSuccess={() => {
-            closeSignup();
-          }}
-        />
+    </div>
+  </nav>
 
-        <LoginForm
-          open={loginOpen}
-          onClose={closeLogin}
-          onSuccess={() => {
-            closeLogin();
-          }}
-        />
-        </>
+  {/* Modals */}
+  <RegistrationForm
+    open={signupOpen}
+    onClose={closeSignup}
+    onSuccess={closeSignup}
+  />
+
+  <LoginForm
+    open={loginOpen}
+    onClose={closeLogin}
+    onSuccess={closeLogin}
+  />
+</>
   );
 };
 

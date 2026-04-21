@@ -1,7 +1,5 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
 import QuizView from "../components/QuizView";
@@ -40,14 +38,12 @@ interface MCQSet {
 
 type FilterOption = "all" | "not-attempted" | "passed" | "failed" | "stale";
 
-// ✅ Added `type` field to distinguish flashcard sets from MCQ sets
 interface MaterialCard {
   id: string;
   title: string;
-  content: string;
+  count: number;
   date: string;
   createdAt: string;
-  cardClass: string;
   status: FilterOption;
   type: "flashcard" | "mcq";
 }
@@ -59,6 +55,184 @@ interface QuizResult {
   completed_at: string;
 }
 
+const STATUS_CONFIG = {
+  "not-attempted": {
+    label: "Not started",
+    dot: "bg-slate-500",
+    bar: "bg-slate-600",
+    text: "text-slate-400",
+  },
+  passed: {
+    label: "Passed",
+    dot: "bg-emerald-400",
+    bar: "bg-emerald-500",
+    text: "text-emerald-400",
+  },
+  failed: {
+    label: "Needs review",
+    dot: "bg-red-400",
+    bar: "bg-red-500",
+    text: "text-red-400",
+  },
+  stale: {
+    label: "Due for review",
+    dot: "bg-amber-400",
+    bar: "bg-amber-500",
+    text: "text-amber-400",
+  },
+};
+
+const getMaterialStatus = (results: QuizResult[] | null): FilterOption => {
+  if (!results || results.length === 0) return "not-attempted";
+  const now = Date.now();
+  const last = results.reduce((a, b) =>
+    new Date(b.completed_at) > new Date(a.completed_at) ? b : a
+  );
+  const daysSince = (now - new Date(last.completed_at).getTime()) / 86400000;
+  if (daysSince > 3) return "stale";
+  const avg = results.reduce((s, r) => s + (r.total > 0 ? (r.score / r.total) * 100 : 0), 0) / results.length;
+  return avg >= 80 ? "passed" : "failed";
+};
+
+// ── Icons ──────────────────────────────────────────────
+const IconCards = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+    <rect x="2" y="5" width="20" height="14" rx="2"/>
+    <path d="M2 10h20"/>
+  </svg>
+);
+const IconMCQ = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+    <circle cx="12" cy="12" r="10"/>
+    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+    <line x1="12" y1="17" x2="12.01" y2="17" strokeLinecap="round" strokeWidth="2.5"/>
+  </svg>
+);
+const IconPlay = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <polygon points="5 3 19 12 5 21 5 3"/>
+  </svg>
+);
+const IconTrash = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="3 6 5 6 21 6"/>
+    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+    <path d="M10 11v6M14 11v6"/>
+    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+  </svg>
+);
+
+// ── Single material row ────────────────────────────────
+interface RowProps {
+  material: MaterialCard;
+  onStart: () => void;
+  onDelete: () => void;
+  loadingSet: boolean;
+  accent: string; // tailwind color key for tint
+}
+
+const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingSet, accent }) => {
+  const status = STATUS_CONFIG[material.status];
+  return (
+    <div className="relative flex items-center gap-4 pl-4 pr-5 py-4 rounded-2xl border border-white/[0.06] bg-[#0d1f35] hover:bg-[#112540] transition-all">
+      {/* Status dot */}
+      <div className="shrink-0 flex flex-col items-center gap-1.5">
+        <span className={`w-2 h-10 rounded-full ${status.dot}`} />
+      </div>
+
+      {/* Title + meta */}
+      <div className="flex-1 min-w-0">
+        <p className="text-md font-semibold text-left text-slate-100 truncate">{material.title}</p>
+        <div className="flex items-center gap-3 mt-0.5">
+          <span className="text-[11px] text-slate-500">
+            {material.count} {material.type === "flashcard" ? "cards" : "questions"}
+          </span>
+          <span className="text-[11px] text-slate-600">·</span>
+          <span className="text-[11px] text-slate-500">{material.date}</span>
+          <span className="text-[11px] text-slate-600">·</span>
+          <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${status.text} bg-white/5`}>
+  {status.label}
+</span>
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex items-center gap-2 shrink-0">
+        <button
+          onClick={onStart}
+          disabled={loadingSet}
+          className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-all disabled:opacity-40
+            ${accent === "orange"
+              ? "bg-[#dc6505] hover:bg-[#b85204] text-white"
+              : "bg-[#185FA5] hover:bg-[#0C447C] text-white"
+            }`}
+        >
+          <IconPlay />
+          {loadingSet ? "Loading..." : "Start"}
+        </button>
+        <button
+          onClick={onDelete}
+          className="flex items-center justify-center w-8 h-8 rounded-full border border-white/[0.06] text-slate-600 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all"
+        >
+          <IconTrash />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ── Section block ──────────────────────────────────────
+interface SectionProps {
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+  accent: string;
+  accentBg: string;
+  children: React.ReactNode;
+  count: number;
+}
+
+const Section: React.FC<SectionProps> = ({ title, subtitle, icon, accentBg, children, count }) => (
+  <div className="flex flex-col gap-4 bg-[#0b1b2b] border border-white/10 rounded-2xl p-5">
+    {/* Section header */}
+    <div className="flex items-center gap-3 mb-1">
+      <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${accentBg}`}>
+        {icon}
+      </div>
+      <div>
+        <div className="flex items-center gap-2">
+          <h2 className="text-base font-semibold text-white">{title}</h2>
+          <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-white/[0.07] text-slate-400">
+            {count}
+          </span>
+        </div>
+        <p className="text-[11px] text-slate-500">{subtitle}</p>
+      </div>
+    </div>
+    {children}
+  </div>
+);
+
+// ── Filter pill ────────────────────────────────────────
+interface PillProps {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}
+const FilterPill: React.FC<PillProps> = ({ active, onClick, children }) => (
+  <button
+    onClick={onClick}
+    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all border
+      ${active
+        ? "bg-[#0d1f35] border-white/20 text-white"
+        : "border-white/[0.06] text-slate-500 hover:text-slate-300 hover:border-white/[0.12]"
+      }`}
+  >
+    {children}
+  </button>
+);
+
+// ── Main component ─────────────────────────────────────
 export const AIStudyMaterial: React.FC = () => {
   const [materials, setMaterials] = useState<MaterialCard[]>([]);
   const [loading, setLoading] = useState(false);
@@ -68,86 +242,22 @@ export const AIStudyMaterial: React.FC = () => {
   const [filter, setFilter] = useState<FilterOption>("all");
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
-  const getMaterialStatus = (
-    results: QuizResult[] | null
-  ): { cardClass: string; status: FilterOption } => {
-    if (!results || results.length === 0) {
-      return {
-        cardClass:
-          "border-l-4 border-gray-500 bg-gray-900/40 hover:bg-gray-800/50 shadow-gray-500/10 hover:shadow-gray-500/20",
-        status: "not-attempted",
-      };
-    }
-
-
-
-    const now = Date.now();
-    const lastAttempt = results.reduce((latest, current) =>
-      new Date(current.completed_at).getTime() > new Date(latest.completed_at).getTime()
-        ? current
-        : latest,
-      results[0]
-    );
-
-    const daysSinceReview =
-      (now - new Date(lastAttempt.completed_at).getTime()) / (1000 * 60 * 60 * 24);
-
-    if (daysSinceReview > 3) {
-      return {
-        cardClass:
-          "border-l-4 border-orange-500 bg-orange-900/30 hover:bg-orange-800/40 shadow-orange-500/10 hover:shadow-orange-500/20",
-        status: "stale",
-      };
-    }
-
-    const averagePercent =
-      results.reduce(
-        (sum, result) =>
-          sum + (result.total > 0 ? (result.score / result.total) * 100 : 0),
-        0
-      ) / results.length;
-
-    if (averagePercent >= 80) {
-      return {
-        cardClass:
-          "border-l-4 border-green-500 bg-green-900/30 hover:bg-green-800/40 shadow-green-500/10 hover:shadow-green-500/20",
-        status: "passed",
-      };
-    }
-
-    return {
-      cardClass:
-        "border-l-4 border-red-500 bg-red-900/30 hover:bg-red-800/40 shadow-red-500/10 hover:shadow-red-500/20",
-      status: "failed",
-    };
-  };
-
-
-
   const fetchQuizResultsForSet = async (setId: string): Promise<QuizResult[] | null> => {
     try {
       const session = await supabase.auth.getSession();
       const response = await fetch(`https://sos-lang.onrender.com/ai/quiz-results/${setId}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${session.data.session?.access_token}`,
-        },
+        headers: { Authorization: `Bearer ${session.data.session?.access_token}` },
       });
-
       if (!response.ok) return null;
       const data = await response.json();
       return data.quiz_results || null;
-    } catch {
-      return null;
-    }
+    } catch { return null; }
   };
 
   const fetchStoredMaterials = async () => {
     setLoading(true);
     const session = await supabase.auth.getSession();
-
     try {
-      // ✅ Fetch both flashcard sets and MCQ sets in parallel
       const [flashcardRes, mcqRes] = await Promise.all([
         fetch("https://sos-lang.onrender.com/ai/flashcard-sets", {
           headers: { Authorization: `Bearer ${session.data.session?.access_token}` },
@@ -160,48 +270,38 @@ export const AIStudyMaterial: React.FC = () => {
       const flashcardData = flashcardRes.ok ? await flashcardRes.json() : { flashcard_sets: [] };
       const mcqData = mcqRes.ok ? await mcqRes.json() : { mcq_sets: [] };
 
-      // Enrich flashcard sets
       const flashcardMaterials: MaterialCard[] = await Promise.all(
         (flashcardData.flashcard_sets || []).map(async (set: any) => {
           const results = await fetchQuizResultsForSet(set.id);
-          const statusData = getMaterialStatus(results);
           return {
             id: set.id,
             title: set.title,
-            content: `${set.flashcards?.length || 0} flashcards`,
+            count: set.flashcards?.length || 0,
             date: new Date(set.created_at).toLocaleDateString(),
             createdAt: set.created_at,
-            cardClass: statusData.cardClass,
-            status: statusData.status,
+            status: getMaterialStatus(results),
             type: "flashcard" as const,
           };
         })
       );
 
-      // Enrich MCQ sets
       const mcqMaterials: MaterialCard[] = await Promise.all(
         (mcqData.mcq_sets || []).map(async (set: any) => {
-
-
           const results = await fetchQuizResultsForSet(set.id);
-          const statusData = getMaterialStatus(results);
-
           return {
             id: set.id,
             title: set.title,
-            content: `${set.mcq_questions?.length || 0} MCQ questions`, // ✅ FIXED HERE
+            count: set.mcq_questions?.length || 0,
             date: new Date(set.created_at).toLocaleDateString(),
             createdAt: set.created_at,
-            cardClass: statusData.cardClass,
-            status: statusData.status,
+            status: getMaterialStatus(results),
             type: "mcq" as const,
           };
         })
       );
 
       setMaterials([...flashcardMaterials, ...mcqMaterials]);
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error("Failed to load study materials");
     } finally {
       setLoading(false);
@@ -211,70 +311,41 @@ export const AIStudyMaterial: React.FC = () => {
   const deleteMaterial = async (id: string, type: "flashcard" | "mcq") => {
     try {
       const session = await supabase.auth.getSession();
-      const endpoint =
-        type === "flashcard"
-          ? `https://sos-lang.onrender.com/ai/flashcard-sets/${id}`
-          : `https://sos-lang.onrender.com/ai/mcq-sets/${id}`;
-
-      await fetch(endpoint, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${session.data.session?.access_token}`,
-        },
-      });
-
-      setMaterials(materials.filter((m) => m.id !== id));
-      toast.success("Material deleted");
-    } catch {
-      toast.error("Failed to delete material");
-    }
+      const endpoint = type === "flashcard"
+        ? `https://sos-lang.onrender.com/ai/flashcard-sets/${id}`
+        : `https://sos-lang.onrender.com/ai/mcq-sets/${id}`;
+      await fetch(endpoint, { method: "DELETE", headers: { Authorization: `Bearer ${session.data.session?.access_token}` } });
+      setMaterials((prev) => prev.filter((m) => m.id !== id));
+      toast.success("Deleted");
+    } catch { toast.error("Failed to delete"); }
   };
 
-  // ✅ Load flashcard set for quiz
   const loadFlashcardSet = async (id: string) => {
     setLoadingSet(true);
     try {
       const session = await supabase.auth.getSession();
-      const response = await fetch(`https://sos-lang.onrender.com/ai/flashcard-sets/${id}`, {
-        method: "GET",
+      const res = await fetch(`https://sos-lang.onrender.com/ai/flashcard-sets/${id}`, {
         headers: { Authorization: `Bearer ${session.data.session?.access_token}` },
       });
-      if (!response.ok) throw new Error();
-      const data = await response.json();
+      if (!res.ok) throw new Error();
+      const data = await res.json();
       setSelectedFlashcardSet(data.flashcard_set);
-    } catch {
-      toast.error("Failed to load flashcard set");
-    } finally {
-      setLoadingSet(false);
-    }
+    } catch { toast.error("Failed to load flashcard set"); }
+    finally { setLoadingSet(false); }
   };
 
-  // ✅ Load MCQ set for quiz
   const loadMCQSet = async (id: string) => {
     setLoadingSet(true);
     try {
       const session = await supabase.auth.getSession();
-      const response = await fetch(`https://sos-lang.onrender.com/ai/mcq-sets/${id}`, {
-        method: "GET",
+      const res = await fetch(`https://sos-lang.onrender.com/ai/mcq-sets/${id}`, {
         headers: { Authorization: `Bearer ${session.data.session?.access_token}` },
       });
-      if (!response.ok) throw new Error();
-      const data = await response.json();
-      console.log("Loaded MCQ Set:", data);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
       setSelectedMCQSet(data.mcq_set);
-    } catch {
-      toast.error("Failed to load MCQ set");
-    } finally {
-      setLoadingSet(false);
-    }
-  };
-
-  const handleStartQuiz = (material: MaterialCard) => {
-    if (material.type === "flashcard") {
-      loadFlashcardSet(material.id);
-    } else {
-      loadMCQSet(material.id);
-    }
+    } catch { toast.error("Failed to load MCQ set"); }
+    finally { setLoadingSet(false); }
   };
 
   const handleQuizComplete = () => {
@@ -283,118 +354,145 @@ export const AIStudyMaterial: React.FC = () => {
     fetchStoredMaterials();
   };
 
-  useEffect(() => {
-    fetchStoredMaterials();
-  }, []);
+  useEffect(() => { fetchStoredMaterials(); }, []);
 
-  const filteredMaterials = materials
-    .filter((material) => filter === "all" || material.status === filter)
-    .sort((a, b) =>
+  if (selectedFlashcardSet) {
+    return <QuizView flashcardSet={selectedFlashcardSet} onComplete={handleQuizComplete} onBack={() => setSelectedFlashcardSet(null)} />;
+  }
+  if (selectedMCQSet) {
+    return <MCQQuizView mcqSet={selectedMCQSet} onComplete={handleQuizComplete} onBack={() => setSelectedMCQSet(null)} />;
+  }
+
+  const sorted = (items: MaterialCard[]) =>
+    [...items].sort((a, b) =>
       sortOrder === "newest"
         ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     );
 
-  // ✅ Fixed: clean conditional rendering, no syntax error
-  if (selectedFlashcardSet) {
-    return (
-      <QuizView
-        flashcardSet={selectedFlashcardSet}
-        onComplete={handleQuizComplete}
-        onBack={() => setSelectedFlashcardSet(null)}
-      />
-    );
-  }
+  const filtered = (items: MaterialCard[]) =>
+    filter === "all" ? items : items.filter((m) => m.status === filter);
 
-  if (selectedMCQSet) {
-    return (
-      <MCQQuizView
-        mcqSet={selectedMCQSet}
-        onComplete={handleQuizComplete}
-        onBack={() => setSelectedMCQSet(null)}
-      />
-    );
-  }
+  const flashcards = sorted(filtered(materials.filter((m) => m.type === "flashcard")));
+  const mcqs = sorted(filtered(materials.filter((m) => m.type === "mcq")));
+
+  // Summary counts
+  const totalAll = materials.length;
+  const totalDue = materials.filter((m) => m.status === "stale" || m.status === "not-attempted").length;
+  const totalPassed = materials.filter((m) => m.status === "passed").length;
 
   return (
-    <div className="min-h-screen bg-[var(--page-bg)] text-white p-8 flex flex-col gap-6">
-      <div className="flex justify-between items-center flex-wrap gap-4">
-        <h1 className="text-3xl font-bold">Study Material Storage</h1>
+    <div
+      className="min-h-screen bg-[#080f1a] text-white flex flex-col"
+      style={{ fontFamily: "'Sora', 'Poppins', sans-serif" }}
+    >
+      {/* ── TOP BAR ── */}
+      <header className="shrink-0 px-8 py-4 bg-[#0a1628] border-b border-white/[0.07] flex items-center justify-between">
+        <h1 className="text-base font-semibold text-white tracking-wide">Study Materials</h1>
+        <button
+          onClick={() => setSortOrder((p) => (p === "newest" ? "oldest" : "newest"))}
+          className="text-xs font-semibold px-3 py-1.5 rounded-full border border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all"
+        >
+          {sortOrder === "newest" ? "↓ Newest first" : "↑ Oldest first"}
+        </button>
+      </header>
 
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value as FilterOption)}
-            className="rounded-2xl border border-[#1f3248] bg-[#122437] px-4 py-2 text-sm text-white"
-          >
-            <option value="all">All Materials</option>
-            <option value="not-attempted">Not Attempted</option>
-            <option value="passed">Average ≥ 80%</option>
-            <option value="failed">Average &lt; 80%</option>
-            <option value="stale">Not Reviewed in 3 Days</option>
-          </select>
+      <div className="flex-1 overflow-y-auto px-8 py-8 flex flex-col gap-10 max-w-6xl w-full mx-auto">
 
-          <button
-            type="button"
-            onClick={() => setSortOrder((prev) => (prev === "newest" ? "oldest" : "newest"))}
-            className="rounded-full bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--accent-soft)]"
-          >
-            Sort: {sortOrder === "newest" ? "Newest" : "Oldest"}
-          </button>
+        {/* ── STATS ROW ── */}
+        <div className="grid grid-cols-3 gap-4">
+          {[
+            { label: "Total sets", value: totalAll, sub: "flashcards + MCQs" },
+            { label: "Due for review", value: totalDue, sub: "not started or stale" },
+            { label: "Passed", value: totalPassed, sub: "avg score ≥ 80%" },
+          ].map((stat) => (
+            <div key={stat.label} className="rounded-2xl bg-[#0d1f35] border border-white/[0.06] px-5 py-4">
+              <p className="text-2xl font-semibold text-white">{stat.value}</p>
+              <p className="text-xs font-semibold text-slate-300 mt-0.5">{stat.label}</p>
+              <p className="text-[11px] text-slate-600 mt-0.5">{stat.sub}</p>
+            </div>
+          ))}
         </div>
-      </div>
 
-      {loading && (
-        <p className="text-slate-400 text-center mt-8">Loading study materials...</p>
-      )}
+        {/* ── FILTER PILLS ── */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {(["all", "not-attempted", "passed", "failed", "stale"] as FilterOption[]).map((f) => (
+            <FilterPill key={f} active={filter === f} onClick={() => setFilter(f)}>
+              {f === "all" ? "All"
+                : f === "not-attempted" ? "Not started"
+                : f === "passed" ? "Passed"
+                : f === "failed" ? "Needs review"
+                : "Due for review"}
+            </FilterPill>
+          ))}
+        </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredMaterials.map((material) => (
-          <Card
-            key={material.id}
-            className={`rounded-3xl transition-all duration-300 shadow-2xl ${material.cardClass}`}
-          >
-            <CardHeader>
-              <div className="flex items-start justify-between gap-2">
-                <CardTitle className="text-base leading-snug">{material.title}</CardTitle>
-                {/* ✅ Badge showing type */}
-                <span className={`text-xs font-semibold px-2 py-1 rounded-full shrink-0 ${material.type === "mcq"
-                  ? "bg-blue-600/30 text-blue-300 border border-blue-500/30"
-                  : "bg-orange-600/30 text-orange-300 border border-orange-500/30"
-                  }`}>
-                  {material.type === "mcq" ? "MCQ" : "Flashcards"}
-                </span>
-              </div>
-              <p className="text-sm text-slate-400">{material.date}</p>
-            </CardHeader>
+        {loading && (
+          <div className="flex items-center justify-center py-16">
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-6 h-6 border-2 border-[#dc6505] border-t-transparent rounded-full animate-spin" />
+              <p className="text-xs text-slate-500">Loading your materials...</p>
+            </div>
+          </div>
+        )}
 
-            <CardContent className="flex flex-col gap-4">
-              <p className="text-slate-300 text-sm">{material.content}</p>
+        {!loading && (
+          <div className="grid lg:grid-cols-2 gap-6">
+  {/* FLASHCARDS */}
+  <Section
+    title="Flashcard Sets"
+    subtitle="Flip-card style memorisation"
+    icon={<span className="text-[#dc6505]"><IconCards /></span>}
+    accent="orange"
+    accentBg="bg-[#dc6505]/10"
+    count={flashcards.length}
+  >
+    {flashcards.length === 0 ? (
+      <p>No flashcard sets available.</p>
 
-              <div className="flex gap-2">
-                <Button
-                  onClick={() => handleStartQuiz(material)}
-                  disabled={loadingSet}
-                  className="flex-1 rounded-full bg-[var(--accent)]"
-                >
-                  {loadingSet ? "Loading..." : "Start Quiz"}
-                </Button>
-
-                <Button
-                  onClick={() => deleteMaterial(material.id, material.type)}
-                  className="flex-1 rounded-full bg-red-600 hover:bg-red-500"
-                >
-                  Delete
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+    ) : (
+      <div className="flex flex-col gap-3">
+        {flashcards.map((m) => (
+          <MaterialRow
+            key={m.id}
+            material={m}
+            onStart={() => loadFlashcardSet(m.id)}
+            onDelete={() => deleteMaterial(m.id, "flashcard")}
+            loadingSet={loadingSet}
+            accent="orange"
+          />
         ))}
+      </div>
+    )}
+  </Section>
 
-        {!loading && filteredMaterials.length === 0 && (
-          <p className="text-slate-500 col-span-full text-center mt-8">
-            No study materials found. Generate some from your notes!
-          </p>
+  {/* MCQ */}
+  <Section
+    title="MCQ Quizzes"
+    subtitle="Multiple choice question sets"
+    icon={<span className="text-[#185FA5]"><IconMCQ /></span>}
+    accent="blue"
+    accentBg="bg-[#185FA5]/10"
+    count={mcqs.length}
+  >
+    {mcqs.length === 0 ? (
+      <p>No MCQ sets available.</p>
+    ) : (
+      <div className="flex flex-col gap-3">
+        {mcqs.map((m) => (
+          <MaterialRow
+            key={m.id}
+            material={m}
+            onStart={() => loadMCQSet(m.id)}
+            onDelete={() => deleteMaterial(m.id, "mcq")}
+            loadingSet={loadingSet}
+            accent="blue"
+          />
+        ))}
+      </div>
+    )}
+  </Section>
+</div>
         )}
       </div>
     </div>
