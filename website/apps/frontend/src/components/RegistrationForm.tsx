@@ -100,10 +100,10 @@ async function onSubmit(data: z.infer<typeof formSchema>) {
   
   return (
 <div
-  className={`fixed inset-0 flex items-center justify-center transition-all duration-300 ${
+  className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-300 ${
     open ? "bg-black/20 opacity-100" : "opacity-0 pointer-events-none"
   }`}
->      
+>    
     <Card className={`bg-[var(--surface)] rounded-3xl shadow-2xl p-7 transition-all max-w-xl border border-[var(--border)] ${ open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}>
         <Button className="absolute top-2 right-2 py-1 px-2 text-white rounded-full bg-[#0f2a44] border border-[var(--border)] hover:bg-[#11335a]" onClick={onClose}>
         X

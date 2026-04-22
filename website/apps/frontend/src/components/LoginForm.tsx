@@ -80,10 +80,10 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center transition-all duration-300 ${
-        open ? "bg-black/20 opacity-100" : "opacity-0 pointer-events-none"
-      }`}
-    >
+  className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-300 ${
+    open ? "bg-black/20 opacity-100" : "opacity-0 pointer-events-none"
+  }`}
+>
       <Card className={`bg-[var(--surface)] rounded-3xl shadow-2xl p-7 transition-all max-w-xl border border-[var(--border)] ${ open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}>
         
         <Button
@@ -128,7 +128,7 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
                       type="email"
                       placeholder="your@email.com"
                       autoComplete="email"
-                      className="w-full px-4 border border-[#1f3248] focus:ring-2 focus:ring-[var(--accent)] h-12 bg-[#122437] text-white"
+                      className="w-full px-4 border border-[#1f3248] focus:ring-2 focus:ring-[var(--accent)] h-12 bg-[#122437] text-black"
                       disabled={loading}
                     />
                     {fieldState.invalid && (

@@ -28,6 +28,7 @@ ChartJS.register(
     Legend,
     ArcElement
 );
+import sosLogo from '../../assets/sos-logo.png';
 
 /* TYPES */
 type FilterOption = "all" | "not-attempted" | "passed" | "failed" | "stale";
@@ -190,6 +191,40 @@ const distribution = useMemo(() => {
         };
     };
 
+    const fetchMCQSets = async () => {
+    const session = await supabase.auth.getSession();
+
+    const res = await fetch(
+        "https://sos-lang.onrender.com/ai/mcq-sets",
+        {
+            headers: {
+                Authorization: `Bearer ${session.data.session?.access_token}`,
+            },
+        }
+    );
+
+    const data = await res.json();
+    return data.mcq_sets || [];
+};
+
+const fetchMCQResultsForSet = async (setId: string) => {
+    const session = await supabase.auth.getSession();
+
+    const res = await fetch(
+        `https://sos-lang.onrender.com/ai/quiz-results/${setId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${session.data.session?.access_token}`,
+            },
+        }
+    );
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    return data.quiz_results || null;
+};
+
     /* FETCH HELPERS */
     const fetchQuizResultsForSet = async (setId: string) => {
         const session = await supabase.auth.getSession();
@@ -210,42 +245,67 @@ const distribution = useMemo(() => {
     };
 
     const fetchStoredMaterials = async () => {
-        const session = await supabase.auth.getSession();
+    try {
+        const [flashcardSets, mcqSets] = await Promise.all([
+            (async () => {
+                const session = await supabase.auth.getSession();
+                const res = await fetch(
+                    "https://sos-lang.onrender.com/ai/flashcard-sets",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session.data.session?.access_token}`,
+                        },
+                    }
+                );
+                const data = await res.json();
+                return data.flashcard_sets || [];
+            })(),
+            fetchMCQSets(),
+        ]);
 
-        try {
-            const res = await fetch(
-                "https://sos-lang.onrender.com/ai/flashcard-sets",
-                {
-                    headers: {
-                        Authorization: `Bearer ${session.data.session?.access_token}`,
-                    },
-                }
-            );
+        /* FLASHCARDS */
+        const flashcardsEnriched = await Promise.all(
+            flashcardSets.map(async (set: any) => {
+                const results = await fetchQuizResultsForSet(set.id);
+                const status = getMaterialStatus(results);
 
-            const data = await res.json();
+                return {
+                    id: set.id,
+                    title: set.title,
+                    content: `${set.flashcards?.length || 0} flashcards`,
+                    date: new Date(set.created_at).toLocaleDateString(),
+                    createdAt: set.created_at,
+                    cardClass: status.cardClass,
+                    status: status.status,
+                };
+            })
+        );
 
-            const enriched = await Promise.all(
-                (data.flashcard_sets || []).map(async (set: any) => {
-                    const results = await fetchQuizResultsForSet(set.id);
-                    const status = getMaterialStatus(results);
+        /* MCQs */
+        const mcqEnriched = await Promise.all(
+            mcqSets.map(async (set: any) => {
+                const results = await fetchMCQResultsForSet(set.id);
+                const status = getMaterialStatus(results);
 
-                    return {
-                        id: set.id,
-                        title: set.title,
-                        content: `${set.flashcards?.length || 0} flashcards`,
-                        date: new Date(set.created_at).toLocaleDateString(),
-                        createdAt: set.created_at,
-                        cardClass: status.cardClass,
-                        status: status.status,
-                    };
-                })
-            );
+                return {
+                    id: set.id,
+                    title: set.title,
+                    content: `${set.questions?.length || 0} questions`,
+                    date: new Date(set.created_at).toLocaleDateString(),
+                    createdAt: set.created_at,
+                    cardClass: status.cardClass,
+                    status: status.status,
+                };
+            })
+        );
 
-            setMaterials(enriched);
-        } catch {
-            toast.error("Failed to load materials");
-        }
-    };
+        /* 🔥 COMBINE */
+        setMaterials([...flashcardsEnriched, ...mcqEnriched]);
+
+    } catch {
+        toast.error("Failed to load materials");
+    }
+};
 
     /* MAIN DATA LOAD */
     useEffect(() => {
@@ -314,39 +374,44 @@ const distribution = useMemo(() => {
     /* UI */
     return (
         <div className="min-h-screen bg-[#07121d] text-white">
-            <main className="max-w-6xl mx-auto p-6 space-y-8">
+            <header className="relative w-full flex items-center justify-between px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07] overflow-hidden">
+  {/* Background Logo */}
+  <img
+    src={sosLogo}
+    alt="SOS-Lang Logo"
+    className="absolute right-4 top-1/2 -translate-y-1/2 h-20 opacity-10 pointer-events-none select-none"
+  />
+
+  {/* LEFT: Icon + Title */}
+  <div className="relative z-10 flex items-center gap-3">
+    <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400">
+      <TrendingUp size={20} />
+    </div>
+
+    <div className="flex flex-col leading-tight">
+      <span className="text-[18px] font-[Poppins] font-semibold text-white tracking-wide">
+        Personal Learning Dashboard
+      </span>
+      <span className="text-xs text-slate-400">
+        Track your progress and learning insights
+      </span>
+    </div>
+  </div>
+
+  {/* RIGHT: Actions */}
+  <div className="relative z-10 flex items-center gap-3">
+
+    <button className="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#0f2a44] text-white hover:bg-[#11335a] transition-all border border-white/10">
+      Start Review
+    </button>
+
+  </div>
+
+</header>
+            <main className=" mx-w-8xl mx-auto p-9 space-y-8">
 
                 {/* HEADER */}
-                <div className="flex items-center justify-between mb-6">
 
-                    {/* LEFT SIDE */}
-                    <div className="flex items-center gap-4">
-
-                        {/* ICON BADGE */}
-                        <div className="p-3 rounded-2xl bg-orange-500/10 text-orange-400 border border-orange-500/20">
-                            <TrendingUp size={20} />
-                        </div>
-
-                        {/* TEXT */}
-                        <div className="text-left">
-                            <h1 className="text-3xl font-semibold font-[Poppins] tracking-tight">
-                                Personal Learning Dashboard
-                            </h1>
-                            <p className="text-slate-400 text-sm mt-1">
-                                Track your progress and learning insights
-                            </p>
-                        </div>
-
-                    </div>
-
-                    {/* RIGHT SIDE (optional actions) */}
-                    <div className="hidden sm:flex items-center gap-3">
-                        <button className="px-4 py-2 rounded-full bg-orange-500/20 text-orange-300 hover:bg-orange-500/30 text-sm transition">
-                            Start Review
-                        </button>
-                    </div>
-
-                </div>
 
                 {/* STATS */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">

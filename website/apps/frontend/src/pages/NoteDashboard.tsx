@@ -3,6 +3,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
 import MCQQuizView from "../components/MCQQuizView";
+import sosLogo from '../../assets/sos-logo.png';
+import { FileText } from "lucide-react";
+
 
 interface MCQQuestion {
   question: string;
@@ -205,12 +208,31 @@ const updateNote = async () => {
   return (
     <div
       className="h-screen w-full flex flex-col overflow-hidden bg-[#080f1a]"
-      style={{ fontFamily: "'Sora', 'Poppins', sans-serif" }}
+      style={{ fontFamily: "'Poppins'" }}
     >
       {/* TOP BAR */}
-      <header className="shrink-0 flex items-center px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07]">
-        <h1 className="text-base font-semibold text-white tracking-wide">SOS-Lang Notes</h1>
-      </header>
+
+<header className="relative shrink-0 flex items-center px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07] overflow-hidden">
+
+  {/* Background Logo */}
+  <img
+    src={sosLogo}
+    alt="SOS-Lang Logo"
+    className="absolute right-4 top-1/2 -translate-y-1/2 h-20 opacity-10 pointer-events-none select-none"
+  />
+
+  {/* LEFT: Icon + Title */}
+  <div className="relative z-10 flex items-center gap-3">
+    <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400">
+      <FileText size={20} />
+    </div>
+
+    <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">
+      SOS-Lang Notes
+    </h1>
+  </div>
+
+</header>
 
       <div className="flex flex-1 overflow-hidden">
 

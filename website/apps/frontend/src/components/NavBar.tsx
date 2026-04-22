@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { RegistrationForm } from "./RegistrationForm";
 import { supabase } from "@/lib/supabaseClient";
 import { LoginForm } from "./LoginForm";
-import logo from "../../assets/betterlogo.png";
+import logo from "../../assets/sos-logo.png";
 
 export const NavBar = () => {
   const [loginOpen, setLoginOpen] = useState(false);
