@@ -11,16 +11,18 @@ import { ProtectedRoute } from './ProtectedRoute'
 import { UserDashboard } from './src/pages/UserDashboard'
 
 function App() {
-  //const [role, setRole] = useState<"guest" | "user">("guest");
 
   return (
     <AuthProvider>
       <div className="min-h-screen w-screen bg-[var(--page-bg)] text-white">
         <NavBar />
         <Routes>
+          {/* Public routes are accessible to all users, regardless of their authentication status */}
           <Route path="/" element={<HomePage />} />
 
           <Route path="/about" element={<About />} />
+
+          {/* Protected routes are used to ensure that only authenticated users can access the pages */}
           <Route path="/notes"
             element={
               <ProtectedRoute>
@@ -28,10 +30,15 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/studymaterial">
-            <Route index element={<AIStudyMaterial />} />
-            <Route path=":setId" element={<AIStudyMaterial />} />
-          </Route>
+
+          <Route path="/studymaterial"
+             element={
+              <ProtectedRoute>
+                <AIStudyMaterial />
+              </ProtectedRoute>
+            }
+          />
+          
           <Route path="/userdashboard"
             element={
               <ProtectedRoute>
