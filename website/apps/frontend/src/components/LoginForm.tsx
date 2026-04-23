@@ -111,7 +111,7 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
             >
               <img src={bullImage} className="w-9 h-10" alt="SOS-Lang" />
             </div>
-            <h1 className="text-white font-semibold text-2xl tracking-wide">SOS-Lang</h1>
+            <h1 className="text-white font-semibold text-2xl tracking-wide">SOS-LANG</h1>
             <p className="text-slate-500 text-xs mt-1 tracking-widest uppercase font-medium">Welcome back</p>
           </div>
 

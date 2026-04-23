@@ -80,13 +80,21 @@ export const About: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  
+  const res = await fetch('https://formspree.io/f/mwvaaeqo', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(formData),
+  });
+
+  if (res.ok) {
     setFormData({ name: '', email: '', message: '' });
     setSent(true);
     setTimeout(() => setSent(false), 3000);
-  };
+  }
+};
 
   return (
     <div
@@ -106,7 +114,7 @@ export const About: React.FC = () => {
 
           <div className="inline-flex items-center gap-2.5 rounded-full border border-[#dc6505]/30 bg-[#dc6505]/10 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-[#dc6505]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#dc6505] shadow-[0_0_6px_rgba(220,101,5,1)]" />
-            The team behind SOS-Lang
+            The team behind SOS-LANG
           </div>
 
           <h1 className="relative text-5xl font-bold tracking-tight text-white">
@@ -348,7 +356,7 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
       <footer className="w-full border-t border-white/[0.07] bg-[#06101a] px-8 py-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-[#dc6505] shadow-[0_0_6px_rgba(220,101,5,0.8)]" />
-          <span className="text-xs font-semibold text-slate-500">SOS-Lang</span>
+          <span className="text-xs font-semibold text-slate-500">SOS-LANG</span>
         </div>
         <p className="text-xs text-slate-600">Built for fast review and meaningful retention.</p>
       </footer>

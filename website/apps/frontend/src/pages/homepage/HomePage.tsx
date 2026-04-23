@@ -229,7 +229,7 @@ export const HomePage = () => {
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-white max-w-3xl leading-[1.1] mb-6">
-            SOS-Lang: Study smarter.<br />
+            SOS-LANG: Study smarter.<br />
             <span
               className="bg-clip-text text-transparent"
               style={{
@@ -243,7 +243,7 @@ export const HomePage = () => {
           </h1>
 
           <p className="text-base text-slate-400 max-w-xl leading-relaxed mb-10">
-            SOS-Lang turns your notes into flashcards and quizzes, then tells you exactly what to review next — so nothing slips through the cracks.
+            SOS-LANG\ turns your notes into flashcards and quizzes, then tells you exactly what to review next — so nothing slips through the cracks.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -287,7 +287,7 @@ export const HomePage = () => {
   An international initiative at the University of Cádiz focused on fostering academic, scientific, and cultural collaboration between Spain, Eastern Europe, and Central Asia through projects, exchanges, and educational programs.
 </p>
               <p className="text-[13px] text-slate-500 leading-relaxed max-w-md">
-                Through events, sponsorships, and applied projects, CUNEAC bridges the gap between classroom knowledge and practical experience — backing student-led tools like SOS-Lang.
+                Through events, sponsorships, and applied projects, CUNEAC bridges the gap between classroom knowledge and practical experience — backing student-led tools like SOS-LANG.
               </p>
               <div className="h-px w-16 bg-[#185FA5]/40" />
               <div className="flex items-center gap-6">
@@ -384,7 +384,7 @@ export const HomePage = () => {
           </div>
           <h2 className="relative text-3xl font-semibold text-white">Ready to build better study habits?</h2>
           <p className="relative text-[13px] text-slate-400 max-w-md leading-relaxed">
-            Join SOS-Lang and start turning your notes into a system that actually helps you retain your target language.
+            Join SOS-LANG and start turning your notes into a system that actually helps you retain your target language.
           </p>
           <button
             onClick={() => setPopupVisible(true)}
@@ -399,8 +399,8 @@ export const HomePage = () => {
       {/* FOOTER */}
       <footer className="border-t border-white/[0.07] bg-[#06101a] px-8 py-6 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <img src={sosLogo} alt="SOS-Lang" className="w-5 h-5 object-contain opacity-70" />
-          <span className="text-xs font-semibold text-slate-500">SOS-Lang</span>
+          <img src={sosLogo} alt="SOS-LANG" className="w-5 h-5 object-contain opacity-70" />
+          <span className="text-xs font-semibold text-slate-500">SOS-LANG</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-[11px] text-slate-600">Supported by</span>

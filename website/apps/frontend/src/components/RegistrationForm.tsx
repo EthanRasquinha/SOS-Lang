@@ -96,7 +96,7 @@ function VerifyEmailModal({ email, onClose }: { email: string; onClose: () => vo
   )
 }
 
-// --- Language flags ---
+// --- LANGuage flags ---
 const LANGUAGES = [
   { value: "russian",  label: "Russian",  flag: "🇷🇺" },
   { value: "spanish",  label: "Spanish",  flag: "🇪🇸" },
@@ -234,11 +234,11 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
                   boxShadow: "0 0 30px rgba(249,115,22,0.15)",
                 }}
               >
-                <img src={bullImage} className="w-8 h-9 object-contain" alt="SOS-Lang" />
+                <img src={bullImage} className="w-8 h-9 object-contain" alt="SOS-LANG" />
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-white tracking-tight">Create account</h2>
-                <p className="text-slate-500 text-sm mt-1">Join SOS-Lang and start learning today</p>
+                <p className="text-slate-500 text-sm mt-1">Join SOS-LANG and start learning today</p>
               </div>
             </div>
 
@@ -293,7 +293,7 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
                 )}
               />
 
-              {/* Language */}
+              {/* LANGuage */}
               <Controller
                 name="language"
                 control={form.control}

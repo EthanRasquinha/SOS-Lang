@@ -231,7 +231,7 @@ export const NoteDashboard: React.FC = () => {
       <header className="relative shrink-0 flex items-center px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07] overflow-hidden">
         <img
           src={sosLogo}
-          alt="SOS-Lang Logo"
+          alt="SOS-LANG Logo"
           className="absolute right-4 top-1/2 -translate-y-1/2 h-20 opacity-10 pointer-events-none select-none"
         />
         <div className="relative z-10 flex items-center gap-3">
@@ -239,7 +239,7 @@ export const NoteDashboard: React.FC = () => {
             <FileText size={20} />
           </div>
           <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">
-            SOS-Lang Notes
+            SOS-LANG Notes
           </h1>
         </div>
       </header>

@@ -90,13 +90,13 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
           <div className="prose prose-invert prose-sm max-w-none text-slate-300 font-['Poppins'] space-y-5 text-sm leading-relaxed">
 
             <h3 className="text-white font-semibold text-base">
-              Informed Consent for Use of SOS-Lang Application
+              Informed Consent for Use of SOS-LANG Application
             </h3>
 
             <section>
               <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Introduction</h4>
               <p>
-                Welcome to SOS-Lang. This application is designed to support language learning through interactive
+                Welcome to SOS-LANG. This application is designed to support language learning through interactive
                 tools, note-taking features, and AI-assisted practice. Before using the app, please read the
                 following information carefully.
               </p>
@@ -105,7 +105,7 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
             <section>
               <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Purpose of the Application</h4>
               <p>
-                SOS-Lang provides users with tools to improve language skills in practical, real-world contexts.
+                SOS-LANG provides users with tools to improve language skills in practical, real-world contexts.
                 The app includes features such as vocabulary tracking, personalized review, and interactive
                 learning support.
               </p>
@@ -113,7 +113,7 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
 
             <section>
               <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">User Participation</h4>
-              <p>By using SOS-Lang, you may:</p>
+              <p>By using SOS-LANG, you may:</p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
                 <li>Create and store personal learning notes</li>
                 <li>Interact with AI-based language tools</li>
@@ -125,7 +125,7 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
 
             <section>
               <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Data Collection and Use</h4>
-              <p>SOS-Lang may collect limited user data to support functionality and improve performance. This may include:</p>
+              <p>SOS-LANG may collect limited user data to support functionality and improve performance. This may include:</p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
                 <li>Learning inputs (e.g., notes, vocabulary entries)</li>
                 <li>App usage data (e.g., features used, session activity)</li>
@@ -150,7 +150,7 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
             <section>
               <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">AI-Generated Content Disclaimer and Limitation of Liability</h4>
               <p>
-                SOS-Lang includes features powered by artificial intelligence (AI) that generate suggestions,
+                SOS-LANG includes features powered by artificial intelligence (AI) that generate suggestions,
                 explanations, and language-learning content. While these tools are designed to support learning:
               </p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
@@ -163,8 +163,8 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
                 Regulation (GDPR):
               </p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
-                <li>SOS-Lang and its developers disclaim all liability for errors or inaccuracies in AI-generated content</li>
-                <li>SOS-Lang is not responsible for any decisions, actions, or outcomes resulting from reliance on such content</li>
+                <li>SOS-LANG and its developers disclaim all liability for errors or inaccuracies in AI-generated content</li>
+                <li>SOS-LANG is not responsible for any decisions, actions, or outcomes resulting from reliance on such content</li>
                 <li>AI-generated features are provided "as is" and "as available," without warranties of any kind, whether express or implied</li>
               </ul>
               <p className="mt-2 text-slate-500 text-xs">
@@ -183,7 +183,7 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
             <section>
               <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Voluntary Use</h4>
               <ul className="list-disc list-inside space-y-1 text-slate-400">
-                <li>You are not required to use SOS-Lang</li>
+                <li>You are not required to use SOS-LANG</li>
                 <li>You may stop using the application at any time</li>
                 <li>You may request the deletion of your data where applicable</li>
               </ul>
@@ -192,14 +192,14 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
             <section>
               <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Updates to This Agreement</h4>
               <p>
-                This consent may be updated as the application evolves. Continued use of SOS-Lang indicates
+                This consent may be updated as the application evolves. Continued use of SOS-LANG indicates
                 acceptance of any updated terms.
               </p>
             </section>
 
             <section className="border border-white/10 rounded-xl p-4 bg-white/[0.03]">
               <h4 className="text-white font-semibold text-sm mb-2">Consent Statement</h4>
-              <p>By accessing or using SOS-Lang, you confirm that:</p>
+              <p>By accessing or using SOS-LANG, you confirm that:</p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
                 <li>You have read and understood this information</li>
                 <li>You agree to the collection and use of your data as described</li>
