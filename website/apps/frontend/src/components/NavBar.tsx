@@ -89,7 +89,7 @@ export const NavBar = () => {
           </Link>
 
           {/* ── DESKTOP NAV PILL ── */}
-          <div className="hidden md:flex relative p-1 rounded-full border border-white/[0.08]"
+          <div className="hidden md:flex relative py-1 rounded-full border border-white/[0.08]"
             style={{ background: "rgba(255,255,255,0.03)" }}
           >
             {/* Sliding highlight */}

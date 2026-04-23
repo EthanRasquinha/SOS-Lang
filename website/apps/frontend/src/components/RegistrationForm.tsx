@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
-import bullImage from '../../assets/icon.png'
+import sosLogo from '../../assets/sos-logo.png'
 import {
   Select,
   SelectContent,
@@ -229,12 +229,12 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
               <div
                 className="w-14 h-14 rounded-2xl flex items-center justify-center"
                 style={{
-                  background: "linear-gradient(135deg, rgba(249,115,22,0.2), rgba(249,115,22,0.08))",
+                  background: "white",
                   border: "1px solid rgba(249,115,22,0.3)",
                   boxShadow: "0 0 30px rgba(249,115,22,0.15)",
                 }}
               >
-                <img src={bullImage} className="w-8 h-9 object-contain" alt="SOS-LANG" />
+                <img src={sosLogo} className="w-8 h-9 object-contain" alt="SOS-LANG" />
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-white tracking-tight">Create account</h2>

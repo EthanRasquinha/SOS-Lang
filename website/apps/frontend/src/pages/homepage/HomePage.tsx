@@ -179,8 +179,7 @@ export const HomePage = () => {
 
   return (
     <div
-      className="min-h-screen w-full bg-[#06101a] text-white flex flex-col overflow-x-hidden"
-      style={{ fontFamily: "'Sora', 'Poppins', sans-serif" }}
+      className="min-h-screen w-full bg-[#06101a] text-white flex flex-col overflow-x-hidden font-[Poppins]"
     >
       <style>{`
         @keyframes shimmer { 0% { background-position: 0% center } 100% { background-position: 200% center } }
@@ -204,7 +203,7 @@ export const HomePage = () => {
       {/* ══════════════════════
           HERO
       ══════════════════════ */}
-      <section className="relative flex flex-col items-center justify-center text-center px-6 pt-24 pb-20 overflow-hidden">
+      <section className="relative font-[Poppins] flex flex-col items-center justify-center text-center px-6 pt-24 pb-20 overflow-hidden">
         <img
           src={sosLogo}
           alt=""
@@ -228,10 +227,10 @@ export const HomePage = () => {
             AI-powered language study
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-white max-w-3xl leading-[1.1] mb-6">
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-[Poppins] text-white max-w-3xl leading-[1.1] mb-6">
             SOS-LANG: Study smarter.<br />
             <span
-              className="bg-clip-text text-transparent"
+              className="bg-clip-text font-[Poppins] text-transparent"
               style={{
                 backgroundImage: "linear-gradient(90deg, #dc6505, #f59e0b, #dc6505)",
                 backgroundSize: "200% auto",
@@ -242,11 +241,11 @@ export const HomePage = () => {
             </span>
           </h1>
 
-          <p className="text-base text-slate-400 max-w-xl leading-relaxed mb-10">
-            SOS-LANG\ turns your notes into flashcards and quizzes, then tells you exactly what to review next — so nothing slips through the cracks.
+          <p className="text-base font-[Poppins] text-slate-400 max-w-xl leading-relaxed mb-10">
+            SOS-LANG: Language Learning Application, turns your notes into flashcards and quizzes, then tells you exactly what to review next — so nothing slips through the cracks.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4">
+          <div className="flex flex-col font-[Poppins] sm:flex-row items-center gap-4">
             <button
               onClick={() => setPopupVisible(true)}
               className="flex items-center gap-2 px-7 py-3 rounded-full text-white text-sm font-semibold transition-all hover:scale-105"
@@ -255,9 +254,9 @@ export const HomePage = () => {
                 boxShadow: "0 0 40px rgba(220,101,5,0.4)",
               }}
             >
-              Start for free <IconArrow />
+              Get started for free <IconArrow />
             </button>
-            <p className="text-xs text-slate-600">No credit card needed</p>
+            <p className="text-xs font-[Poppins] text-slate-600">No credit card needed</p>
           </div>
         </div>
       </section>
@@ -281,12 +280,12 @@ export const HomePage = () => {
               <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#185FA5]/30 bg-[#185FA5]/10 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-[#38bdf8]">
                 Academic partner
               </div>
-              <p className="text-[13px] text-slate-300 leading-relaxed max-w-md">
+              <p className="text-[13px] font-[Poppins] text-slate-300 leading-relaxed max-w-md">
   <span className="text-white font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
   <br/>  
   An international initiative at the University of Cádiz focused on fostering academic, scientific, and cultural collaboration between Spain, Eastern Europe, and Central Asia through projects, exchanges, and educational programs.
 </p>
-              <p className="text-[13px] text-slate-500 leading-relaxed max-w-md">
+              <p className="text-[13px] font-[Poppins] text-slate-500 leading-relaxed max-w-md">
                 Through events, sponsorships, and applied projects, CUNEAC bridges the gap between classroom knowledge and practical experience — backing student-led tools like SOS-LANG.
               </p>
               <div className="h-px w-16 bg-[#185FA5]/40" />
@@ -307,9 +306,9 @@ export const HomePage = () => {
 
         {/* FEATURES */}
         <section className="flex flex-col gap-10">
-          <div className="text-center">
+          <div className="text-center font-[Poppins]">
             <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Features</p>
-            <h2 className="text-3xl font-semibold text-white">Everything you need to progress faster</h2>
+            <h2 className="text-3xl font-semibold font-[Poppins] text-white">Everything you need to progress faster</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {FEATURES.map((f) => (
@@ -329,9 +328,9 @@ export const HomePage = () => {
 
         {/* HOW IT WORKS */}
         <section className="flex flex-col gap-10">
-          <div className="text-center">
+          <div className="text-center font-[Poppins]">
             <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Workflow</p>
-            <h2 className="text-3xl font-semibold text-white">Three steps to mastery</h2>
+            <h2 className="text-3xl font-semibold font-[Poppins] text-white">Three steps to mastery</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {STEPS.map((s) => (
@@ -348,7 +347,7 @@ export const HomePage = () => {
         <section className="flex flex-col gap-8">
           <div className="text-center">
             <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Review signals</p>
-            <h2 className="text-3xl font-semibold text-white mb-3">Know exactly what to study next</h2>
+            <h2 className="text-3xl font-semibold text-white mb-3 font-[Poppins]">Know exactly what to study next</h2>
             <p className="text-[13px] text-slate-500 max-w-md mx-auto leading-relaxed">
               Every set is automatically colour-coded based on your performance and how recently you reviewed it.
             </p>
@@ -382,7 +381,7 @@ export const HomePage = () => {
             <span className="h-1.5 w-1.5 rounded-full bg-[#dc6505]" />
             Start today
           </div>
-          <h2 className="relative text-3xl font-semibold text-white">Ready to build better study habits?</h2>
+          <h2 className="relative text-3xl font-semibold text-white font-[Poppins]">Ready to build better study habits?</h2>
           <p className="relative text-[13px] text-slate-400 max-w-md leading-relaxed">
             Join SOS-LANG and start turning your notes into a system that actually helps you retain your target language.
           </p>
@@ -391,7 +390,7 @@ export const HomePage = () => {
             className="relative flex items-center gap-2 px-7 py-3 rounded-full text-white text-sm font-semibold transition-all hover:scale-105"
             style={{ background: "linear-gradient(135deg, #dc6505, #f59e0b)", boxShadow: "0 0 40px rgba(220,101,5,0.4)" }}
           >
-            Get started free <IconArrow />
+            Get started for free <IconArrow />
           </button>
         </section>
       </main>

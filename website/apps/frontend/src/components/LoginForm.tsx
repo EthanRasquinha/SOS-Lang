@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 import { Mail, Lock, ArrowRight, X } from "lucide-react"
-import bullImage from '../../assets/icon.png'
+import sosLogo from "../../assets/sos-logo.png"
 import { supabase } from "@/lib/supabaseClient"
 
 const formSchema = z.object({
@@ -104,12 +104,12 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
             <div
               className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
               style={{
-                background: "linear-gradient(135deg, #1a3050 0%, #0f2a44 100%)",
+                background: "white",
                 border: "1px solid rgba(220,101,5,0.25)",
                 boxShadow: "0 8px 24px rgba(220,101,5,0.15)",
               }}
             >
-              <img src={bullImage} className="w-9 h-10" alt="SOS-Lang" />
+              <img src={sosLogo} className="w-9 h-10" alt="SOS-Lang" />
             </div>
             <h1 className="text-white font-semibold text-2xl tracking-wide">SOS-LANG</h1>
             <p className="text-slate-500 text-xs mt-1 tracking-widest uppercase font-medium">Welcome back</p>

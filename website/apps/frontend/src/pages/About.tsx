@@ -40,7 +40,7 @@ const TEAM = [
   {
     name: "Analuiza de Carvalho",
     role: "Research / Analysis",
-    major: "WPI Civil Engineering 27'",
+    major: "WPI Civil Engineering '27",
     img: analuizaheadshot,
     accent: "#dc6505",
     gradient: "from-[#dc6505] to-[#f59e0b]",
@@ -48,7 +48,7 @@ const TEAM = [
   {
     name: "Julian Espinal",
     role: "Web Development",
-    major: "WPI Computer Science 27'",
+    major: "WPI Computer Science '27",
     img: julianheadshot,
     accent: "#185FA5",
     gradient: "from-[#185FA5] to-[#38bdf8]",
@@ -56,15 +56,15 @@ const TEAM = [
   {
     name: "Ethan Rasquinha",
     role: "Web Development",
-    major: "WPI Computer Science 27'",
+    major: "WPI Computer Science '27",
     img: ethanheadshot,
     accent: "#0F6E56",
     gradient: "from-[#0F6E56] to-[#34d399]",
   },
   {
-    name: "Adriana Navarro",
+    name: "Adriana Valero Navarro",
     role: "Research / Analysis",
-    major: "WPI Aerospace Engineering 27'",
+    major: "WPI Aerospace Engineering '27",
     img: adrianaheadshot,
     accent: "#534AB7",
     gradient: "from-[#534AB7] to-[#a78bfa]",
@@ -113,14 +113,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
           <div className="pointer-events-none absolute top-0 right-1/4 w-[200px] h-[200px] rounded-full bg-[#534AB7]/12 blur-[90px]" />
 
           <div className="inline-flex items-center gap-2.5 rounded-full border border-[#dc6505]/30 bg-[#dc6505]/10 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-[#dc6505]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#dc6505] shadow-[0_0_6px_rgba(220,101,5,1)]" />
+            <span className="h-1.5 w-1.5 rounded-full font-[Poppins] bg-[#dc6505] shadow-[0_0_6px_rgba(220,101,5,1)]" />
             The team behind SOS-LANG
           </div>
 
-          <h1 className="relative text-5xl font-bold tracking-tight text-white">
+          <h1 className="relative text-5xl font-[Poppins] font-bold tracking-tight text-white">
             About Us
           </h1>
-          <p className="relative text-[15px] text-slate-400 max-w-xl leading-relaxed">
+          <p className="relative text-[15px] font-[Poppins] text-slate-400 max-w-xl leading-relaxed">
             Building smarter ways to learn. Our platform blends AI and structured learning
             to help you study faster, retain more, and stay consistent.
           </p>
@@ -153,18 +153,18 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             <motion.div
               key={card.title}
               variants={fadeUp}
-              className={`relative rounded-2xl border ${card.border} ${card.bg} p-7 flex flex-col gap-5 overflow-hidden`}
+              className={`relative rounded-2xl font-[Poppins] border ${card.border} ${card.bg} p-7 flex flex-col gap-5 overflow-hidden`}
             >
-              <div className="pointer-events-none absolute top-0 left-0 w-40 h-40 rounded-full blur-[70px] opacity-30" style={{ background: card.glow }} />
+              <div className="pointer-events-none font-[Poppins] absolute top-0 left-0 w-40 h-40 rounded-full blur-[70px] opacity-30" style={{ background: card.glow }} />
               <div
-                className={`relative w-11 h-11 rounded-xl flex items-center justify-center text-white bg-gradient-to-br ${card.gradient}`}
+                className={`relative w-11 h-11 font-[Poppins] rounded-xl flex items-center justify-center text-white bg-gradient-to-br ${card.gradient}`}
                 style={{ boxShadow: `0 0 20px ${card.glow}` }}
               >
                 {card.icon}
               </div>
               <div className="relative">
-                <h2 className="text-lg font-semibold text-white mb-2">{card.title}</h2>
-                <p className="text-[13px] text-slate-400 leading-relaxed">{card.body}</p>
+                <h2 className="text-lg font-semibold text-white mb-2 font-[Poppins]">{card.title}</h2>
+                <p className="text-[13px] text-slate-400 leading-relaxed font-[Poppins]">{card.body}</p>
               </div>
             </motion.div>
           ))}
@@ -173,12 +173,12 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         {/* ══════════════════════
             SPONSOR
         ══════════════════════ */}
-        <div className="rounded-2xl border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
+        <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
   {/* Logo + headshot row */}
   <div className="grid grid-cols-3 gap-0">
 
     {/* Left headshot */}
-    <div className="relative overflow-hidden h-56">
+    <div className="relative font-[Poppins] overflow-hidden h-56">
       <img
         src={andresheadshot}
         alt="Andres"
@@ -197,7 +197,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     </div>
 
     {/* Right headshot */}
-    <div className="relative overflow-hidden h-56">
+    <div className="relative font-[Poppins] overflow-hidden h-56">
       <img
         src={leonorheadshot}
         alt="Leonor"
@@ -216,12 +216,12 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     <h3 className="text-lg font-semibold text-white text-left">Leonor Acosta Bustamante</h3>
     </div>
     <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
+  <span className="text-white font-[Poppins] font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
   <br/>  
 An international initiative of the University of Cádiz focused on strengthening academic, scientific, and cultural collaboration between Spain and countries in Eastern Europe and Central Asia. It promotes partnerships between universities, supports student and faculty exchanges, and develops joint research and training programs that connect education with real-world challenges. Through its projects, events, and institutional collaborations, CUNEAC helps create opportunities for cross-cultural learning, innovation, and professional development.
 </p>
  <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-semibold">Andrés Santana Arribas</span>
+  <span className="text-white font-[Poppins] font-semibold">Andrés Santana Arribas</span>
   <br/>  
 Andrés Santana Arribas is a lecturer and cultural coordinator at the University of Cádiz and the University of Granada, specializing in Russian language, translation, and international relations. He is responsible for several key initiatives, including the CUNEAC Center for Eastern Europe and Central Asia, the Pushkin Institute, and the Hispanic-Russian University Classroom (AUHR). With extensive experience since the 1990s as a translator, educator, and cultural manager, he has played a major role in developing academic and cultural projects between Spain, Eastern Europe, and Central Asia, as well as organizing international events and exchange programs.
 </p>
@@ -241,7 +241,7 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
         <motion.div {...fadeUp} className="flex flex-col gap-8">
           <div className="text-center">
             <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">The people</p>
-            <h2 className="text-3xl font-semibold text-white">Who We Are</h2>
+            <h2 className="text-3xl font-semibold font-[Poppins] text-white">Who We Are</h2>
           </div>
 
           <motion.div variants={stagger} initial="initial" animate="animate" className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -249,7 +249,7 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
               <motion.div
                 key={member.name}
                 variants={fadeUp}
-                className="group relative rounded-2xl border border-white/[0.06] bg-[#0d1f35] hover:border-white/[0.14] overflow-hidden transition-all duration-200 hover:scale-[1.02]"
+                className="group relative font-[Poppins] rounded-2xl border border-white/[0.06] bg-[#0d1f35] hover:border-white/[0.14] overflow-hidden transition-all duration-200 hover:scale-[1.02]"
               >
                 {/* Photo */}
                 <div className="relative h-60 w-full overflow-hidden">
@@ -278,9 +278,9 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
                     className="h-0.5 w-8 rounded-full mb-3"
                     style={{ background: `linear-gradient(90deg, ${member.accent}, transparent)` }}
                   />
-                  <p className="text-sm font-semibold text-white leading-tight">{member.name}</p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{member.role}</p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{member.major}</p>
+                  <p className="text-sm font-semibold text-white leading-tight font-[Poppins]">{member.name}</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">{member.role}</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">{member.major}</p>
                 </div>
               </motion.div>
             ))}
@@ -304,7 +304,7 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
                 <span className="h-1.5 w-1.5 rounded-full bg-[#dc6505]" />
                 Say hello
               </div>
-              <h2 className="text-3xl font-semibold text-white">Get in Touch</h2>
+              <h2 className="text-3xl font-semibold font-[Poppins] text-white">Get in Touch</h2>
               <p className="text-[13px] text-slate-400 max-w-sm leading-relaxed">
                 Have feedback or ideas? We'd love to hear from you.
               </p>
