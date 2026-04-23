@@ -6,6 +6,7 @@ import ethanheadshot from '../../assets/ethanheadshot.jpg';
 import ucaEmblem from '../../assets/UCA-emblem.png';
 import andresheadshot from '../../assets/andresheadshot.jpg';
 import leonorheadshot from '../../assets/leonorheadshot.jpg';
+import analuizaheadshot from '../../assets/analuizaheadshot.png';
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -37,10 +38,10 @@ const IconSend = () => (
 
 const TEAM = [
   {
-    name: "Analuiza De Carvalho",
+    name: "Analuiza de Carvalho",
     role: "Research / Analysis",
     major: "WPI Civil Engineering 27'",
-    img: null,
+    img: analuizaheadshot,
     accent: "#dc6505",
     gradient: "from-[#dc6505] to-[#f59e0b]",
   },
