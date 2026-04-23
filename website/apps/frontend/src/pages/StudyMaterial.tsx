@@ -85,6 +85,12 @@ const STATUS_CONFIG = {
     bar: "bg-amber-500",
     text: "text-amber-400",
   },
+  "all": {
+    label: "All",
+    dot: "bg-amber-400",
+    bar: "bg-amber-500",
+    text: "text-amber-400",
+  }
 };
 
 const getMaterialStatus = (

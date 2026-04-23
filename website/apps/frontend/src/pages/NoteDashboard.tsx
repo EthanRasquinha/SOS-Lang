@@ -4,10 +4,12 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
 import MCQQuizView from "../components/MCQQuizView";
 import sosLogo from '../../assets/sos-logo.png';
-import { FileText } from "lucide-react";
-
+import { FileText, Eye, Pencil } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 interface MCQQuestion {
+  id: string;
+  created_at: string;
   question: string;
   options: string[];
   correct_answer: string;
@@ -16,6 +18,10 @@ interface MCQQuestion {
 
 interface MCQSet {
   title: string;
+  id: string;
+  note_id: string;
+  created_at: string;
+  
   questions: MCQQuestion[];
 }
 
@@ -36,6 +42,8 @@ const TAGS = [
   { label: "Mistakes",   pill: "bg-[#FCEBEB] text-[#A32D2D]", accent: "#A32D2D", desc: "Errors to review & fix" },
 ];
 
+const Markdown = ReactMarkdown as unknown as React.FC<{ children: string; className?: string }>;
+
 const getTag = (label?: string) =>
   TAGS.find((t) => t.label === label) ?? TAGS[0];
 
@@ -52,41 +60,44 @@ export const NoteDashboard: React.FC = () => {
   const [mcqSet, setMcqSet] = useState<MCQSet | null>(null);
   const [showFlashcardConfirm, setShowFlashcardConfirm] = useState(false);
 
+  // View vs Edit mode for existing notes
+  const [isViewMode, setIsViewMode] = useState(true);
+
   const selectedNote = notes.find((n) => n.id === selectedId) ?? null;
 
   const [editedNote, setEditedNote] = useState<Note | null>(null);
-const [isDirty, setIsDirty] = useState(false);
-const [isEditing, setIsEditing] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-const updateNote = async () => {
-  if (!editedNote) return;
+  const updateNote = async () => {
+    if (!editedNote) return;
 
-  const session = await supabase.auth.getSession();
+    const session = await supabase.auth.getSession();
 
-  const response = await fetch(
-    `https://sos-lang.onrender.com/notes/${editedNote.id}`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${session.data.session?.access_token}`,
-      },
-      body: JSON.stringify({
-        note_title: editedNote.title,
-        content: editedNote.content,
-        tag: editedNote.tag,
-      }),
+    const response = await fetch(
+      `https://sos-lang.onrender.com/notes/${editedNote.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+        body: JSON.stringify({
+          note_title: editedNote.title,
+          content: editedNote.content,
+          tag: editedNote.tag,
+        }),
+      }
+    );
+
+    if (response.ok) {
+      toast.success("Changes saved!");
+      setIsDirty(false);
+      fetchNotes();
+    } else {
+      toast.error("Failed to save changes");
     }
-  );
-
-  if (response.ok) {
-    toast.success("Changes saved!");
-    setIsDirty(false);
-    fetchNotes();
-  } else {
-    toast.error("Failed to save changes");
-  }
-};
+  };
 
   const fetchNotes = async () => {
     const session = await supabase.auth.getSession();
@@ -202,8 +213,14 @@ const updateNote = async () => {
   };
 
   if (mcqSet) {
-    return <MCQQuizView mcqSet={mcqSet} onClose={() => setMcqSet(null)} />;
-  }
+    return <MCQQuizView
+  mcqSet={mcqSet}
+  onComplete={(score, total) => {
+    console.log(`Score: ${score}/${total}`);
+    setMcqSet(null);
+  }}
+  onBack={() => setMcqSet(null)}
+/>;}
 
   return (
     <div
@@ -211,28 +228,21 @@ const updateNote = async () => {
       style={{ fontFamily: "'Poppins'" }}
     >
       {/* TOP BAR */}
-
-<header className="relative shrink-0 flex items-center px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07] overflow-hidden">
-
-  {/* Background Logo */}
-  <img
-    src={sosLogo}
-    alt="SOS-Lang Logo"
-    className="absolute right-4 top-1/2 -translate-y-1/2 h-20 opacity-10 pointer-events-none select-none"
-  />
-
-  {/* LEFT: Icon + Title */}
-  <div className="relative z-10 flex items-center gap-3">
-    <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400">
-      <FileText size={20} />
-    </div>
-
-    <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">
-      SOS-Lang Notes
-    </h1>
-  </div>
-
-</header>
+      <header className="relative shrink-0 flex items-center px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07] overflow-hidden">
+        <img
+          src={sosLogo}
+          alt="SOS-Lang Logo"
+          className="absolute right-4 top-1/2 -translate-y-1/2 h-20 opacity-10 pointer-events-none select-none"
+        />
+        <div className="relative z-10 flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400">
+            <FileText size={20} />
+          </div>
+          <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">
+            SOS-Lang Notes
+          </h1>
+        </div>
+      </header>
 
       <div className="flex flex-1 overflow-hidden">
 
@@ -257,7 +267,7 @@ const updateNote = async () => {
 
           <div className="flex-1 overflow-y-auto py-3 px-3 space-y-2">
             {notes.length === 0 && !isCreatingNew && (
-              <p className="text-center text-slate-600 text-xs mt-8 px-4 leading-relaxed">
+              <p className="text-left text-slate-600 text-xs mt-8 px-4 leading-relaxed">
                 No notes yet.<br />
                 Hit <span className="text-[#dc6505] font-semibold">+ New</span> to get started.
               </p>
@@ -292,17 +302,17 @@ const updateNote = async () => {
                 <button
                   key={note.id}
                   onClick={() => {
-  if (isDirty) {
-    const save = window.confirm("You have unsaved changes. Save them?");
-    if (save) updateNote();
-  }
-
-  setSelectedId(note.id);
-  setIsCreatingNew(false);
-  setIsEditing(true);
-  setEditedNote(note);
-  setIsDirty(false);
-}}
+                    if (isDirty) {
+                      const save = window.confirm("You have unsaved changes. Save them?");
+                      if (save) updateNote();
+                    }
+                    setSelectedId(note.id);
+                    setIsCreatingNew(false);
+                    setIsEditing(true);
+                    setEditedNote(note);
+                    setIsDirty(false);
+                    setIsViewMode(true); // always open in view mode
+                  }}
                   className={`w-full text-left rounded-xl p-4 transition-all duration-200 border
                     ${isActive
                       ? "bg-[#122d4a] border-white/20"
@@ -357,7 +367,6 @@ const updateNote = async () => {
               </div>
 
               <div className="flex-1 overflow-y-auto px-12 py-10 flex flex-col gap-6">
-                {/* Title */}
                 <input
                   autoFocus
                   value={newNote.title}
@@ -402,7 +411,6 @@ const updateNote = async () => {
 
                 <div className="h-px w-full bg-white/[0.06]" />
 
-                {/* Content */}
                 <textarea
                   value={newNote.content}
                   onChange={(e) => setNewNote((p) => ({ ...p, content: e.target.value }))}
@@ -417,6 +425,7 @@ const updateNote = async () => {
           {/* ── EXISTING NOTE VIEW ── */}
           {!isCreatingNew && selectedNote && (
             <>
+              {/* Top bar */}
               <div className="shrink-0 flex items-center justify-between px-8 py-3.5 bg-[#0a1628] border-b border-white/[0.07]">
                 <div className="flex items-center gap-3">
                   <span className={`text-[10px] font-semibold px-2.5 py-1 rounded-full ${getTag(selectedNote.tag).pill}`}>
@@ -425,28 +434,57 @@ const updateNote = async () => {
                   <span className="text-[11px] font-mono text-slate-600 truncate max-w-[200px]">
                     {selectedNote.title}
                   </span>
+
+                  {/* ── View / Edit toggle ── */}
+                  <div className="flex items-center rounded-lg border border-white/10 overflow-hidden ml-1">
+                    <button
+                      onClick={() => setIsViewMode(true)}
+                      title="View (rendered markdown)"
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold transition-all duration-150
+                        ${isViewMode
+                          ? "bg-[#122d4a] text-white"
+                          : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                        }`}
+                    >
+                      <Eye size={12} />
+                      View
+                    </button>
+                    <div className="w-px h-4 bg-white/10" />
+                    <button
+                      onClick={() => setIsViewMode(false)}
+                      title="Edit mode"
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold transition-all duration-150
+                        ${!isViewMode
+                          ? "bg-[#122d4a] text-white"
+                          : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                        }`}
+                    >
+                      <Pencil size={12} />
+                      Edit
+                    </button>
+                  </div>
                 </div>
+
                 <div className="flex items-center gap-2">
                   {isDirty && (
-  <>
-    <button
-      onClick={() => {
-        setEditedNote(selectedNote);
-        setIsDirty(false);
-      }}
-      className="text-xs font-semibold px-4 py-1.5 rounded-full border border-white/10 text-slate-300 hover:bg-white/5 transition-all"
-    >
-      Discard
-    </button>
-
-    <button
-      onClick={updateNote}
-      className="text-xs font-semibold px-4 py-1.5 rounded-full bg-[#dc6505] text-white hover:bg-[#b85204] transition-all"
-    >
-      Save
-    </button>
-  </>
-)}
+                    <>
+                      <button
+                        onClick={() => {
+                          setEditedNote(selectedNote);
+                          setIsDirty(false);
+                        }}
+                        className="text-xs font-semibold px-4 py-1.5 rounded-full border border-white/10 text-slate-300 hover:bg-white/5 transition-all"
+                      >
+                        Discard
+                      </button>
+                      <button
+                        onClick={updateNote}
+                        className="text-xs font-semibold px-4 py-1.5 rounded-full bg-[#dc6505] text-white hover:bg-[#b85204] transition-all"
+                      >
+                        Save
+                      </button>
+                    </>
+                  )}
                   <button
                     onClick={() => generateSummary(selectedNote.id)}
                     disabled={isGenerating}
@@ -479,33 +517,58 @@ const updateNote = async () => {
 
               <div className="flex-1 overflow-y-auto px-12 py-10">
 
-  {/* TITLE (now editable) */}
-  <input
-    value={editedNote?.title || ""}
-    onChange={(e) => {
-      setEditedNote((prev) =>
-        prev ? { ...prev, title: e.target.value } : prev
-      );
-      setIsDirty(true);
-    }}
-    className="text-3xl font-semibold text-white mb-6 leading-snug text-left bg-transparent outline-none w-full"
-  />
-
-  <div className="h-px w-full bg-white/[0.06] mb-6" />
-
-  {/* CONTENT (now editable) */}
-  <textarea
-    value={editedNote?.content || ""}
-    onChange={(e) => {
-      setEditedNote((prev) =>
-        prev ? { ...prev, content: e.target.value } : prev
-      );
-      setIsDirty(true);
-    }}
-    className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap text-left bg-transparent outline-none w-full resize-none min-h-[400px]"
-  />
-
-</div>
+                {/* ── VIEW MODE: rendered markdown ── */}
+                {isViewMode ? (
+                  <>
+                    <h1 className="text-3xl font-semibold text-white mb-6 leading-snug text-left">
+                      {editedNote?.title || selectedNote.title}
+                    </h1>
+                    <div className="h-px w-full bg-white/[0.06] mb-6 " />
+                    <div className="prose prose-invert prose-sm max-w-none text-left
+                      prose-headings:text-white prose-headings:font-semibold
+                      prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
+                      prose-p:text-slate-300 prose-p:leading-relaxed
+                      prose-strong:text-white prose-strong:font-semibold
+                      prose-em:text-slate-300
+                      prose-code:text-orange-300 prose-code:bg-orange-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-[13px] prose-code:font-mono prose-code:before:content-none prose-code:after:content-none
+                      prose-pre:bg-[#0d1f35] prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl
+                      prose-blockquote:border-l-[#dc6505] prose-blockquote:text-slate-400 prose-blockquote:bg-[#0d1f35]/60 prose-blockquote:rounded-r-lg prose-blockquote:py-1 prose-blockquote:not-italic
+                      prose-ul:text-slate-300 prose-ol:text-slate-300
+                      prose-li:marker:text-[#dc6505]
+                      prose-hr:border-white/10
+                      prose-a:text-[#185FA5] hover:prose-a:text-blue-300
+                      prose-table:text-slate-300 prose-th:text-white prose-th:border-white/10 prose-td:border-white/10
+                    ">
+                      <Markdown>{editedNote?.content || selectedNote.content}</Markdown>
+                    </div>
+                  </>
+                ) : (
+                  /* ── EDIT MODE: plain textarea ── */
+                  <>
+                    <input
+                      value={editedNote?.title || ""}
+                      onChange={(e) => {
+                        setEditedNote((prev) =>
+                          prev ? { ...prev, title: e.target.value } : prev
+                        );
+                        setIsDirty(true);
+                      }}
+                      className="text-3xl font-semibold text-white mb-6 leading-snug text-left bg-transparent outline-none w-full"
+                    />
+                    <div className="h-px w-full bg-white/[0.06] mb-6" />
+                    <textarea
+                      value={editedNote?.content || ""}
+                      onChange={(e) => {
+                        setEditedNote((prev) =>
+                          prev ? { ...prev, content: e.target.value } : prev
+                        );
+                        setIsDirty(true);
+                      }}
+                      className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap text-left bg-transparent outline-none w-full resize-none min-h-[400px] font-mono"
+                    />
+                  </>
+                )}
+              </div>
             </>
           )}
 
