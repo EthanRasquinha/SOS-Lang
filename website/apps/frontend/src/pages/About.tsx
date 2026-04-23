@@ -213,13 +213,13 @@ export const About: React.FC = () => {
 An international initiative of the University of Cádiz focused on strengthening academic, scientific, and cultural collaboration between Spain and countries in Eastern Europe and Central Asia. It promotes partnerships between universities, supports student and faculty exchanges, and develops joint research and training programs that connect education with real-world challenges. Through its projects, events, and institutional collaborations, CUNEAC helps create opportunities for cross-cultural learning, innovation, and professional development.
 </p>
  <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-semibold">Andres Santana Arribas</span>
+  <span className="text-white font-semibold">Andrés Santana Arribas</span>
   <br/>  
 Andrés Santana Arribas is a lecturer and cultural coordinator at the University of Cádiz and the University of Granada, specializing in Russian language, translation, and international relations. He is responsible for several key initiatives, including the CUNEAC Center for Eastern Europe and Central Asia, the Pushkin Institute, and the Hispanic-Russian University Classroom (AUHR). With extensive experience since the 1990s as a translator, educator, and cultural manager, he has played a major role in developing academic and cultural projects between Spain, Eastern Europe, and Central Asia, as well as organizing international events and exchange programs.
 </p>
 
 <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-semibold">Andres Santana Arribas</span>
+  <span className="text-white font-semibold">Leonor Acosta Bustamante</span>
   <br/>  
 Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) in English Philology at the University of Cádiz, specializing in Cultural Studies and Gender Studies. Her research focuses on the representation of gender in literature, film, and popular culture, with particular emphasis on the deconstruction of gender binaries. She has developed expertise in Masculinity Studies and Transfeminism, exploring how gender identities and roles are constructed and challenged across cultural texts and media. She is also part of the HUM536 research group, which studies the concept of alterity in the contemporary world.</p>
 
