@@ -50,7 +50,7 @@ interface MaterialCard {
   createdAt: string;
   status: FilterOption;
   type: "flashcard" | "mcq";
-  avg: number; // average score percentage across all attempts
+  avg: number;
 }
 
 interface QuizResult {
@@ -154,22 +154,24 @@ interface RowProps {
   onStart: () => void;
   onDelete: () => void;
   loadingSet: boolean;
-  accent: string; // tailwind color key for tint
+  accent: string;
 }
 
 const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingSet, accent }) => {
   const statusInfo = STATUS_CONFIG[material.status] ?? STATUS_CONFIG["not-attempted"];
   return (
-    <div className="relative flex items-center gap-4 pl-4 pr-5 py-4 rounded-2xl border border-white/[0.06] bg-[#0d1f35] hover:bg-[#112540] transition-all">
-      {/* Status dot */}
-      <div className="shrink-0 flex flex-col items-center gap-1.5">
+    // Use flex-wrap so the actions row can drop below on narrow containers
+    <div className="relative flex flex-wrap items-center gap-x-4 gap-y-3 pl-4 pr-4 py-4 rounded-2xl border border-white/[0.06] bg-[#0d1f35] hover:bg-[#112540] transition-all">
+      {/* Status dot — hidden on very small widths to save space */}
+      <div className="shrink-0 hidden sm:flex flex-col items-center gap-1.5">
         <span className={`w-2 h-10 rounded-full ${statusInfo.dot}`} />
       </div>
 
-      {/* Title + meta */}
+      {/* Title + meta — flex-1 with min-w-0 so it shrinks properly */}
       <div className="flex-1 min-w-0">
-        <p className="text-md font-semibold text-left text-slate-100 truncate">{material.title}</p>
-        <div className="flex items-center gap-3 mt-0.5">
+        <p className="text-sm font-semibold text-left text-slate-100 break-words">{material.title}</p>
+        {/* Meta row wraps naturally */}
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1">
           <span className="text-[11px] text-slate-500">
             {material.count} {material.type === "flashcard" ? "cards" : "questions"}
           </span>
@@ -177,7 +179,6 @@ const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingS
           <span className="text-[11px] text-slate-500">{material.date}</span>
           <span className="text-[11px] text-slate-600">·</span>
           <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${statusInfo.text} bg-white/5`}>
-
             {statusInfo.label}
           </span>
           <span className="text-[11px] font-semibold text-slate-300">
@@ -186,12 +187,12 @@ const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingS
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="flex items-center gap-2 shrink-0">
+      {/* Actions — shrink-0 so buttons never compress, but the row wraps if needed */}
+      <div className="flex items-center gap-2 shrink-0 ml-auto">
         <button
           onClick={onStart}
           disabled={loadingSet}
-          className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-all disabled:opacity-40
+          className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all disabled:opacity-40
             ${accent === "orange"
               ? "bg-[#dc6505] hover:bg-[#b85204] text-white"
               : "bg-[#185FA5] hover:bg-[#0C447C] text-white"
@@ -202,7 +203,7 @@ const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingS
         </button>
         <button
           onClick={onDelete}
-          className="flex items-center justify-center w-8 h-8 rounded-full border border-white/[0.06] text-slate-600 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all"
+          className="flex items-center justify-center w-8 h-8 rounded-full border border-white/[0.06] text-slate-600 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all shrink-0"
         >
           <IconTrash />
         </button>
@@ -224,7 +225,6 @@ interface SectionProps {
 
 const Section: React.FC<SectionProps> = ({ title, subtitle, icon, accentBg, children, count }) => (
   <div className="flex flex-col gap-4 bg-[#0b1b2b] border border-white/10 rounded-2xl p-5">
-    {/* Section header */}
     <div className="flex items-center gap-3 mb-1">
       <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${accentBg}`}>
         {icon}
@@ -252,7 +252,7 @@ interface PillProps {
 const FilterPill: React.FC<PillProps> = ({ active, onClick, children }) => (
   <button
     onClick={onClick}
-    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all border
+    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all border whitespace-nowrap
       ${active
         ? "bg-[#0d1f35] border-white/20 text-white"
         : "border-white/[0.06] text-slate-500 hover:text-slate-300 hover:border-white/[0.12]"
@@ -408,7 +408,6 @@ export const AIStudyMaterial: React.FC = () => {
   const flashcards = sorted(filtered(materials.filter((m) => m.type === "flashcard")));
   const mcqs = sorted(filtered(materials.filter((m) => m.type === "mcq")));
 
-  // Summary counts
   const totalAll = materials.length;
   const totalDue = materials.filter((m) => m.status === "stale" || m.status === "not-attempted").length;
   const totalPassed = materials.filter((m) => m.status === "passed").length;
@@ -419,36 +418,27 @@ export const AIStudyMaterial: React.FC = () => {
       style={{ fontFamily: "'Sora', 'Poppins', sans-serif" }}
     >
       {/* ── TOP BAR ── */}
-
-<header className="relative shrink-0 flex items-center px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07] overflow-hidden">
-
-  {/* Background Logo */}
-  <img
-    src={sosLogo}
-    alt="SOS-Lang Logo"
-    className="absolute right-4 top-1/2 -translate-y-1/2 h-20 opacity-10 pointer-events-none select-none"
-  />
-
-  {/* LEFT: Icon + Title */}
-  <div className="relative z-10 flex items-center gap-3">
-    <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400">
-      <BookOpen size={20} />
-    </div>
-
-    <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">
-      SOS-Lang Study Materials
-    </h1>
-  </div>
-
-  {/* RIGHT: Sort Button */}
-  <button
-    onClick={() => setSortOrder((p) => (p === "newest" ? "oldest" : "newest"))}
-    className="ml-auto text-xs font-semibold px-3 py-1.5 rounded-full bg-[#0f2a44] text-white hover:bg-[#11335a] transition-all"
-  >
-    {sortOrder === "newest" ? "↓ Newest first" : "↑ Oldest first"}
-  </button>
-</header>
-
+      <header className="relative shrink-0 flex items-center px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07] overflow-hidden">
+        <img
+          src={sosLogo}
+          alt="SOS-Lang Logo"
+          className="absolute right-4 top-1/2 -translate-y-1/2 h-20 opacity-10 pointer-events-none select-none"
+        />
+        <div className="relative z-10 flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400">
+            <BookOpen size={20} />
+          </div>
+          <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">
+            SOS-Lang Study Materials
+          </h1>
+        </div>
+        <button
+          onClick={() => setSortOrder((p) => (p === "newest" ? "oldest" : "newest"))}
+          className="ml-auto text-xs font-semibold px-3 py-1.5 rounded-full bg-[#0f2a44] text-white hover:bg-[#11335a] transition-all whitespace-nowrap"
+        >
+          {sortOrder === "newest" ? "↓ Newest first" : "↑ Oldest first"}
+        </button>
+      </header>
 
       <div className="flex-1 overflow-y-auto px-8 py-8 flex flex-col gap-10 max-w-6xl w-full mx-auto">
 
@@ -501,8 +491,7 @@ export const AIStudyMaterial: React.FC = () => {
               count={flashcards.length}
             >
               {flashcards.length === 0 ? (
-                <p>No flashcard sets available.</p>
-
+                <p className="text-slate-500 text-sm">No flashcard sets available.</p>
               ) : (
                 <div className="flex flex-col gap-3">
                   {flashcards.map((m) => (
@@ -529,7 +518,7 @@ export const AIStudyMaterial: React.FC = () => {
               count={mcqs.length}
             >
               {mcqs.length === 0 ? (
-                <p>No MCQ sets available.</p>
+                <p className="text-slate-500 text-sm">No MCQ sets available.</p>
               ) : (
                 <div className="flex flex-col gap-3">
                   {mcqs.map((m) => (

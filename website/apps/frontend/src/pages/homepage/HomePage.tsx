@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RegistrationForm } from '@/components/RegistrationForm';
 import ucaEmblem from '../../../assets/UCA-emblem.png';
-import sosLogo from '../../../assets/sos-logo.png'; // rename your uploaded logo to sos-logo.png in assets
+import sosLogo from '../../../assets/sos-logo.png';
 
 // ── Icons ──────────────────────────────────────────────
 const IconNote = () => (
@@ -35,6 +35,18 @@ const IconArrow = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
     <line x1="5" y1="12" x2="19" y2="12"/>
     <polyline points="12 5 19 12 12 19"/>
+  </svg>
+);
+const IconGlobe = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="2" y1="12" x2="22" y2="12"/>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+  </svg>
+);
+const IconX = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
   </svg>
 );
 
@@ -90,8 +102,80 @@ const STATUS_PILLS = [
   { label: "Due",         dot: "bg-amber-400",   ring: "ring-amber-400/30",   card: "bg-amber-500/10 border-amber-500/20",     desc: "Not reviewed in 3 days" },
 ];
 
+// ── Google Translate Tip Banner ─────────────────────────
+const TranslateBanner = ({ onDismiss }: { onDismiss: () => void }) => (
+  <div
+    className="relative flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3 text-sm"
+    style={{
+      background: "linear-gradient(90deg, rgba(24,95,165,0.18), rgba(83,74,183,0.14))",
+      borderBottom: "1px solid rgba(56,189,248,0.15)",
+    }}
+  >
+    {/* Left glow */}
+    <div className="pointer-events-none absolute left-0 top-0 h-full w-32 opacity-20"
+      style={{ background: "linear-gradient(90deg, rgba(56,189,248,0.4), transparent)" }} />
+
+    <div className="flex items-center gap-2 shrink-0">
+      <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+        style={{ background: "rgba(56,189,248,0.15)", color: "#38bdf8" }}>
+        <IconGlobe />
+      </div>
+      <span className="text-slate-300 text-xs font-medium">
+        <span className="text-sky-400 font-semibold">Prefer another language?</span>
+        {" "}Use Google Translate to view this site in your language —
+      </span>
+    </div>
+
+    {/* Steps */}
+    <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
+      {[
+        "Install the Google Translate extension",
+        "Click the extension icon in your browser toolbar",
+        "Choose your language",
+      ].map((step, i) => (
+        <React.Fragment key={i}>
+          <span className="flex items-center gap-1.5">
+            <span
+              className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0"
+              style={{ background: "rgba(56,189,248,0.15)", color: "#38bdf8" }}
+            >
+              {i + 1}
+            </span>
+            {step}
+          </span>
+          {i < 2 && <span className="text-slate-600 hidden sm:inline">→</span>}
+        </React.Fragment>
+      ))}
+    </div>
+
+    <a
+      href="https://chrome.google.com/webstore/detail/google-translate/aapbdbdomjkkjkaonfhkkikfgjllcleb"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="shrink-0 ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:scale-105 whitespace-nowrap"
+      style={{
+        background: "rgba(56,189,248,0.12)",
+        border: "1px solid rgba(56,189,248,0.25)",
+        color: "#38bdf8",
+      }}
+    >
+      <IconGlobe />
+      Get extension
+    </a>
+
+    <button
+      onClick={onDismiss}
+      className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-white/8 transition-all"
+      aria-label="Dismiss"
+    >
+      <IconX />
+    </button>
+  </div>
+);
+
 export const HomePage = () => {
   const [popupVisible, setPopupVisible] = useState(false);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
 
   return (
     <div
@@ -104,41 +188,40 @@ export const HomePage = () => {
           0%, 100% { transform: translate(-50%, -50%) scale(1) }
           50%       { transform: translate(-50%, -50%) scale(1.04) }
         }
+        @keyframes banner-in {
+          from { opacity: 0; transform: translateY(-8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
       `}</style>
 
-      {/* ══════════════════════
-          NAV
-      ══════════════════════ */}
-
+      {/* ── TRANSLATE BANNER ── */}
+      {!bannerDismissed && (
+        <div style={{ animation: "banner-in 0.4s ease both" }}>
+          <TranslateBanner onDismiss={() => setBannerDismissed(true)} />
+        </div>
+      )}
 
       {/* ══════════════════════
           HERO
       ══════════════════════ */}
       <section className="relative flex flex-col items-center justify-center text-center px-6 pt-24 pb-20 overflow-hidden">
-
-        {/* ── Watermark logo — large, centered, behind everything ── */}
         <img
           src={sosLogo}
           alt=""
           aria-hidden="true"
           className="pointer-events-none select-none absolute"
           style={{
-            top: "50%",
-            left: "50%",
+            top: "50%", left: "50%",
             transform: "translate(-50%, -50%) rotate(-6deg)",
-            width: "520px",
-            opacity: 0.045,
+            width: "520px", opacity: 0.045,
             animation: "logo-drift 8s ease-in-out infinite",
             filter: "blur(1px)",
           }}
         />
-
-        {/* Atmospheric color glows — sit on top of watermark */}
         <div className="pointer-events-none absolute top-[-80px] left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#dc6505]/15 blur-[130px]" />
         <div className="pointer-events-none absolute top-20 left-1/4 w-[300px] h-[300px] rounded-full bg-[#185FA5]/15 blur-[100px]" />
         <div className="pointer-events-none absolute top-20 right-1/4 w-[300px] h-[300px] rounded-full bg-[#534AB7]/15 blur-[100px]" />
 
-        {/* Content */}
         <div className="relative z-10 flex flex-col items-center gap-0">
           <div className="inline-flex items-center gap-2.5 rounded-full border border-[#dc6505]/30 bg-[#dc6505]/10 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-8">
             <span className="h-1.5 w-1.5 rounded-full bg-[#dc6505] shadow-[0_0_6px_rgba(220,101,5,1)]" />
@@ -180,20 +263,15 @@ export const HomePage = () => {
       </section>
 
       {/* ══════════════════════
-          SPONSOR — split layout
+          SPONSOR
       ══════════════════════ */}
       <section className="w-full py-10 px-6 pb-10 max-w-5xl mx-auto">
         <div className="rounded-2xl overflow-hidden border border-white/[0.08] grid md:grid-cols-[1fr_1.6fr]">
-          {/* LEFT — white logo panel */}
           <div className="bg-white flex flex-col items-center justify-center gap-4 px-10 py-10">
-            <p className="text-[20px] font-semibold uppercase tracking-[0.3em] text-slate-700">
-              POWERED BY
-            </p>
+            <p className="text-[20px] font-semibold uppercase tracking-[0.3em] text-slate-700">POWERED BY</p>
             <img src={ucaEmblem} alt="CUNEAC" className="w-full max-w-[200px] object-contain" />
             <p className="text-[18px] font-semibold font-[Poppins] text-slate-700 tracking-wide">CUNEAC</p>
           </div>
-
-          {/* RIGHT — dark info panel */}
           <div
             className="relative flex flex-col justify-center gap-5 px-8 py-10 overflow-hidden"
             style={{ background: "linear-gradient(135deg, #0d1e35 0%, #0e1a30 100%)" }}
@@ -204,18 +282,16 @@ export const HomePage = () => {
                 Academic partner
               </div>
               <p className="text-[13px] text-slate-300 leading-relaxed max-w-md">
-                <span className="text-white font-semibold">CUNEAC</span> — University of Cádiz, Escuela Técnica Superior de Ingeniería de Algeciras — is a student-focused initiative connecting engineering education with real-world application.
-              </p>
+  <span className="text-white font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
+  <br/>  
+  An international initiative at the University of Cádiz focused on fostering academic, scientific, and cultural collaboration between Spain, Eastern Europe, and Central Asia through projects, exchanges, and educational programs.
+</p>
               <p className="text-[13px] text-slate-500 leading-relaxed max-w-md">
                 Through events, sponsorships, and applied projects, CUNEAC bridges the gap between classroom knowledge and practical experience — backing student-led tools like SOS-Lang.
               </p>
               <div className="h-px w-16 bg-[#185FA5]/40" />
               <div className="flex items-center gap-6">
-                {[
-                  { val: "UCA",   label: "University" },
-                  { val: "Cádiz", label: "Spain" },
-                  { val: "2025",  label: "Partnership" },
-                ].map((s) => (
+                {[{ val: "UCA", label: "University" }, { val: "Cádiz", label: "Spain" }, { val: "2026", label: "Partnership" }].map((s) => (
                   <div key={s.label} className="flex flex-col gap-0.5">
                     <span className="text-sm font-bold text-white">{s.val}</span>
                     <span className="text-[10px] text-slate-500 uppercase tracking-wider">{s.label}</span>
@@ -229,9 +305,7 @@ export const HomePage = () => {
 
       <main className="flex-1 flex flex-col gap-24 px-6 py-20 max-w-5xl mx-auto w-full">
 
-        {/* ══════════════════════
-            FEATURES
-        ══════════════════════ */}
+        {/* FEATURES */}
         <section className="flex flex-col gap-10">
           <div className="text-center">
             <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Features</p>
@@ -239,15 +313,9 @@ export const HomePage = () => {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {FEATURES.map((f) => (
-              <div
-                key={f.title}
-                className={`group relative rounded-2xl border ${f.border} ${f.bg} hover:scale-[1.02] transition-all duration-200 p-6 flex flex-col gap-4 overflow-hidden`}
-              >
+              <div key={f.title} className={`group relative rounded-2xl border ${f.border} ${f.bg} hover:scale-[1.02] transition-all duration-200 p-6 flex flex-col gap-4 overflow-hidden`}>
                 <div className="pointer-events-none absolute top-0 left-0 w-32 h-32 rounded-full blur-[60px] opacity-40" style={{ background: f.glow }} />
-                <div
-                  className={`relative w-11 h-11 rounded-xl flex items-center justify-center text-white bg-gradient-to-br ${f.gradient}`}
-                  style={{ boxShadow: `0 0 20px ${f.glow}` }}
-                >
+                <div className={`relative w-11 h-11 rounded-xl flex items-center justify-center text-white bg-gradient-to-br ${f.gradient}`} style={{ boxShadow: `0 0 20px ${f.glow}` }}>
                   {f.icon}
                 </div>
                 <div className="relative">
@@ -259,9 +327,7 @@ export const HomePage = () => {
           </div>
         </section>
 
-        {/* ══════════════════════
-            HOW IT WORKS
-        ══════════════════════ */}
+        {/* HOW IT WORKS */}
         <section className="flex flex-col gap-10">
           <div className="text-center">
             <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Workflow</p>
@@ -278,9 +344,7 @@ export const HomePage = () => {
           </div>
         </section>
 
-        {/* ══════════════════════
-            REVIEW SIGNALS
-        ══════════════════════ */}
+        {/* REVIEW SIGNALS */}
         <section className="flex flex-col gap-8">
           <div className="text-center">
             <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Review signals</p>
@@ -304,32 +368,16 @@ export const HomePage = () => {
           </div>
         </section>
 
-        {/* ══════════════════════
-            CTA
-        ══════════════════════ */}
+        {/* CTA */}
         <section
           className="relative rounded-2xl overflow-hidden border border-white/[0.08] px-8 py-16 text-center flex flex-col items-center gap-6"
           style={{ background: "linear-gradient(135deg, #0f1e2e 0%, #0d1a2c 50%, #101428 100%)" }}
         >
-          {/* Watermark logo inside CTA too */}
-          <img
-            src={sosLogo}
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none select-none absolute"
-            style={{
-              bottom: "-40px",
-              right: "-40px",
-              width: "260px",
-              opacity: 0.04,
-              transform: "rotate(12deg)",
-              filter: "blur(0.5px)",
-            }}
-          />
+          <img src={sosLogo} alt="" aria-hidden="true" className="pointer-events-none select-none absolute"
+            style={{ bottom: "-40px", right: "-40px", width: "260px", opacity: 0.04, transform: "rotate(12deg)", filter: "blur(0.5px)" }} />
           <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] rounded-full bg-[#dc6505]/15 blur-[80px]" />
           <div className="pointer-events-none absolute bottom-0 left-1/4 w-[200px] h-[150px] rounded-full bg-[#185FA5]/20 blur-[60px]" />
           <div className="pointer-events-none absolute bottom-0 right-1/4 w-[200px] h-[150px] rounded-full bg-[#534AB7]/20 blur-[60px]" />
-
           <div className="relative inline-flex items-center gap-2.5 rounded-full border border-[#dc6505]/30 bg-[#dc6505]/10 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-[#dc6505]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#dc6505]" />
             Start today
@@ -341,19 +389,14 @@ export const HomePage = () => {
           <button
             onClick={() => setPopupVisible(true)}
             className="relative flex items-center gap-2 px-7 py-3 rounded-full text-white text-sm font-semibold transition-all hover:scale-105"
-            style={{
-              background: "linear-gradient(135deg, #dc6505, #f59e0b)",
-              boxShadow: "0 0 40px rgba(220,101,5,0.4)",
-            }}
+            style={{ background: "linear-gradient(135deg, #dc6505, #f59e0b)", boxShadow: "0 0 40px rgba(220,101,5,0.4)" }}
           >
             Get started free <IconArrow />
           </button>
         </section>
       </main>
 
-      {/* ══════════════════════
-          FOOTER
-      ══════════════════════ */}
+      {/* FOOTER */}
       <footer className="border-t border-white/[0.07] bg-[#06101a] px-8 py-6 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <img src={sosLogo} alt="SOS-Lang" className="w-5 h-5 object-contain opacity-70" />

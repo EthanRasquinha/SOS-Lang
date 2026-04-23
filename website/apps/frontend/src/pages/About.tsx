@@ -5,6 +5,7 @@ import adrianaheadshot from '../../assets/adrianaheadshot.jpg';
 import ethanheadshot from '../../assets/ethanheadshot.jpg';
 import ucaEmblem from '../../assets/UCA-emblem.png';
 import andresheadshot from '../../assets/andresheadshot.jpg';
+import leonorheadshot from '../../assets/leonorheadshot.jpg';
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -35,10 +36,38 @@ const IconSend = () => (
 );
 
 const TEAM = [
-  { name: "Analuiza De Carvalho", role: "Role / Focus", img: null,            accent: "#dc6505", gradient: "from-[#dc6505] to-[#f59e0b]" },
-  { name: "Julian Espinal",       role: "Role / Focus", img: julianheadshot,  accent: "#185FA5", gradient: "from-[#185FA5] to-[#38bdf8]" },
-  { name: "Ethan Rasquinha",      role: "Role / Focus", img: ethanheadshot,   accent: "#0F6E56", gradient: "from-[#0F6E56] to-[#34d399]" },
-  { name: "Adriana Navarro",      role: "Role / Focus", img: adrianaheadshot, accent: "#534AB7", gradient: "from-[#534AB7] to-[#a78bfa]" },
+  {
+    name: "Analuiza De Carvalho",
+    role: "Research / Analysis",
+    major: "WPI Civil Engineering 27'",
+    img: null,
+    accent: "#dc6505",
+    gradient: "from-[#dc6505] to-[#f59e0b]",
+  },
+  {
+    name: "Julian Espinal",
+    role: "Web Development",
+    major: "WPI Computer Science 27'",
+    img: julianheadshot,
+    accent: "#185FA5",
+    gradient: "from-[#185FA5] to-[#38bdf8]",
+  },
+  {
+    name: "Ethan Rasquinha",
+    role: "Web Development",
+    major: "WPI Computer Science 27'",
+    img: ethanheadshot,
+    accent: "#0F6E56",
+    gradient: "from-[#0F6E56] to-[#34d399]",
+  },
+  {
+    name: "Adriana Navarro",
+    role: "Research / Analysis",
+    major: "WPI Aerospace Engineering 27'",
+    img: adrianaheadshot,
+    accent: "#534AB7",
+    gradient: "from-[#534AB7] to-[#a78bfa]",
+  },
 ];
 
 export const About: React.FC = () => {
@@ -135,33 +164,67 @@ export const About: React.FC = () => {
         {/* ══════════════════════
             SPONSOR
         ══════════════════════ */}
-        <motion.div {...fadeUp} className="flex flex-col gap-6">
-          <div className="text-center">
-            <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Supported by</p>
-            <h2 className="text-3xl font-semibold text-white">Our Sponsor</h2>
-          </div>
+        <div className="rounded-2xl border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
+  {/* Logo + headshot row */}
+  <div className="grid grid-cols-3 gap-0">
 
-          <div className="rounded-2xl border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
-            {/* Logo + headshot row */}
-            <div className="grid grid-cols-[2fr_1fr] gap-0">
-              <div className="bg-white p-8 flex items-center justify-center">
-                <img src={ucaEmblem} alt="CUNEAC logo" className="max-h-36 object-contain" />
-              </div>
-              <div className="relative overflow-hidden">
-                <img src={andresheadshot} alt="Andres" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
-              </div>
-            </div>
+    {/* Left headshot */}
+    <div className="relative overflow-hidden h-56">
+      <img
+        src={andresheadshot}
+        alt="Andres"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
+    </div>
 
-            {/* Description */}
-            <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-white">CUNEAC</h3>
-              <p className="text-[13px] text-slate-400 leading-relaxed max-w-3xl">
-                CUNEAC (University of Cádiz – Escuela Técnica Superior de Ingeniería de Algeciras) is a student-focused academic and professional development initiative that connects engineering education with real-world application. It fosters collaboration between students, faculty, and industry partners, supporting innovation, technical growth, and hands-on learning opportunities. Through events, sponsorships, and applied projects, CUNEAC helps bridge the gap between classroom knowledge and practical experience.
-              </p>
-            </div>
-          </div>
-        </motion.div>
+    {/* Center logo */}
+    <div className="bg-white p-8 flex items-center justify-center">
+      <img
+        src={ucaEmblem}
+        alt="CUNEAC logo"
+        className="max-h-36 object-contain"
+      />
+    </div>
+
+    {/* Right headshot */}
+    <div className="relative overflow-hidden h-56">
+      <img
+        src={leonorheadshot}
+        alt="Leonor"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
+    </div>
+
+  </div>
+
+  {/* Description */}
+  <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
+    <div className='flex justify-between w-full'>
+    <h3 className="text-lg font-semibold text-white text-left">Andres Santana Arribas</h3>
+    <h3 className="text-lg font-semibold text-white text-left">CUNEAC</h3>
+    <h3 className="text-lg font-semibold text-white text-left">Leonor Acosta Bustamante</h3>
+    </div>
+    <p className="text-[13px] text-slate-300 leading-relaxed text-left">
+  <span className="text-white font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
+  <br/>  
+An international initiative of the University of Cádiz focused on strengthening academic, scientific, and cultural collaboration between Spain and countries in Eastern Europe and Central Asia. It promotes partnerships between universities, supports student and faculty exchanges, and develops joint research and training programs that connect education with real-world challenges. Through its projects, events, and institutional collaborations, CUNEAC helps create opportunities for cross-cultural learning, innovation, and professional development.
+</p>
+ <p className="text-[13px] text-slate-300 leading-relaxed text-left">
+  <span className="text-white font-semibold">Andres Santana Arribas</span>
+  <br/>  
+Andrés Santana Arribas is a lecturer and cultural coordinator at the University of Cádiz and the University of Granada, specializing in Russian language, translation, and international relations. He is responsible for several key initiatives, including the CUNEAC Center for Eastern Europe and Central Asia, the Pushkin Institute, and the Hispanic-Russian University Classroom (AUHR). With extensive experience since the 1990s as a translator, educator, and cultural manager, he has played a major role in developing academic and cultural projects between Spain, Eastern Europe, and Central Asia, as well as organizing international events and exchange programs.
+</p>
+
+<p className="text-[13px] text-slate-300 leading-relaxed text-left">
+  <span className="text-white font-semibold">Andres Santana Arribas</span>
+  <br/>  
+Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) in English Philology at the University of Cádiz, specializing in Cultural Studies and Gender Studies. Her research focuses on the representation of gender in literature, film, and popular culture, with particular emphasis on the deconstruction of gender binaries. She has developed expertise in Masculinity Studies and Transfeminism, exploring how gender identities and roles are constructed and challenged across cultural texts and media. She is also part of the HUM536 research group, which studies the concept of alterity in the contemporary world.</p>
+
+  </div>
+  
+</div>
 
         {/* ══════════════════════
             TEAM
@@ -180,7 +243,7 @@ export const About: React.FC = () => {
                 className="group relative rounded-2xl border border-white/[0.06] bg-[#0d1f35] hover:border-white/[0.14] overflow-hidden transition-all duration-200 hover:scale-[1.02]"
               >
                 {/* Photo */}
-                <div className="relative h-52 w-full overflow-hidden">
+                <div className="relative h-60 w-full overflow-hidden">
                   {member.img ? (
                     <img
                       src={member.img}
@@ -208,6 +271,7 @@ export const About: React.FC = () => {
                   />
                   <p className="text-sm font-semibold text-white leading-tight">{member.name}</p>
                   <p className="text-[11px] text-slate-500 mt-0.5">{member.role}</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5">{member.major}</p>
                 </div>
               </motion.div>
             ))}
