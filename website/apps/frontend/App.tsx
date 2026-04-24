@@ -11,8 +11,6 @@ import { ProtectedRoute } from './ProtectedRoute'
 import { UserDashboard } from './src/pages/UserDashboard'
 
 function App() {
-  //const [role, setRole] = useState<"guest" | "user">("guest");
-
   return (
     <AuthProvider>
       <div className="min-h-screen w-screen bg-[var(--page-bg)] text-white">
@@ -29,7 +27,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          
+
           <Route path="/studymaterial">
             <Route index 
               element={
