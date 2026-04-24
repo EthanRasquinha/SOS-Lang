@@ -211,7 +211,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   {/* Description */}
   <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
     <div className='flex justify-between w-full'>
-    <h3 className="text-lg font-semibold text-white text-left">Andres Santana Arribas</h3>
+    <h3 className="text-lg font-semibold text-white text-left">Andrés Santana Arribas</h3>
     <h3 className="text-lg font-semibold text-white text-left">CUNEAC</h3>
     <h3 className="text-lg font-semibold text-white text-left">Leonor Acosta Bustamante</h3>
     </div>
