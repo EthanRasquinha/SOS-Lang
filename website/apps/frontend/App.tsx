@@ -21,6 +21,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
 
           <Route path="/about" element={<About />} />
+          
           <Route path="/notes"
             element={
               <ProtectedRoute>
@@ -28,10 +29,24 @@ function App() {
               </ProtectedRoute>
             }
           />
+          
           <Route path="/studymaterial">
-            <Route index element={<AIStudyMaterial />} />
-            <Route path=":setId" element={<AIStudyMaterial />} />
+            <Route index 
+              element={
+                <ProtectedRoute>
+                  <AIStudyMaterial />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path=":setId" 
+              element={
+                  <ProtectedRoute>
+                    <AIStudyMaterial />
+                  </ProtectedRoute>
+                }
+            />
           </Route>
+          
           <Route path="/userdashboard"
             element={
               <ProtectedRoute>
