@@ -10,12 +10,19 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-slot": "^1.2.4",
     "@supabase/supabase-js": "^2.99.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "@tailwindcss/typography": "^0.5.19",
+    "chart.js": "^4.5.1",
+    "framer-motion": "^12.38.0",
+    "react": "^19.2.5",
+    "react-chartjs-2": "^5.3.1",
+    "react-dom": "^19.2.5",
     "react-hook-form": "^7.71.2",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.8.1",
     "sonner": "^2.0.7",
     "zod": "^4.3.6"
   },

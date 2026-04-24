@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 class NoteModel(BaseModel):
     note_title: str
     content: str
+    tag: Optional[str]
     
 
 class UserModel(BaseModel):

@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Request
-from db.client import supabase
-from models import NoteModel
-from services.note_service import create_note
-from services.note_service import get_notes
-from services.note_service import delete_note
+from app.db.client import supabase
+from app.models import NoteModel
+from app.services.note_service import create_note
+from app.services.note_service import get_notes
+from app.services.note_service import delete_note
+from app.services.note_service import edit_note
+
 
 
 router = APIRouter()
@@ -17,7 +19,23 @@ async def create_note_endpoint(data: NoteModel, request: Request):
     return create_note(
         user_id=user_id,
         title=data.note_title,
-        content=data.content
+        content=data.content,
+        tag=data.tag
+    )
+
+@router.put("/{note_id}")
+async def edit_note_endpoint(note_id: str, data: NoteModel, request: Request):
+    token = request.headers.get("Authorization").split(" ")[1]
+
+    user = supabase.auth.get_user(token)
+    user_id = user.user.id
+
+    return edit_note(
+        note_id=note_id,
+        user_id=user_id,
+        title=data.note_title,
+        content=data.content,
+        tag=data.tag
     )
 
 @router.get("/")
