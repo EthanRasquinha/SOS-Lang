@@ -28,7 +28,7 @@ def generate_flashcards(note_content: str) -> dict:
     response = client.models.generate_content(
         model="gemini-2.5-flash-lite",
         contents=f"""
-        Create study flashcards from this note content.
+        Create study flashcards from this note content. The questions of the flashcards should be in the language the notes are written, and the answers should be the language the notes are on.
         Generate flashcards in JSON format with the following structure:
         {{
           "title": "A short descriptive title for this flashcard set",
@@ -90,6 +90,7 @@ def generate_mcqs(note_content: str) -> dict:
         - Make distractors realistic (not obvious)
         - Keep answers concise
         - Ensure correctness based on the note
+        - The questions should be in the language the notes are written, and the answers should be the language the notes are on.
         - make sure options are in the target language the notes are about
 
         Note content:

@@ -21,7 +21,6 @@ interface MCQSet {
   id: string;
   note_id: string;
   created_at: string;
-  
   questions: MCQQuestion[];
 }
 
@@ -59,6 +58,11 @@ export const NoteDashboard: React.FC = () => {
   const [loadingSet, setLoadingSet] = useState(false);
   const [mcqSet, setMcqSet] = useState<MCQSet | null>(null);
   const [showFlashcardConfirm, setShowFlashcardConfirm] = useState(false);
+
+  // Success modal state
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successType, setSuccessType] = useState<"flashcards" | "mcq" | null>(null);
+  const [studyLink, setStudyLink] = useState<string | null>(null);
 
   // View vs Edit mode for existing notes
   const [isViewMode, setIsViewMode] = useState(true);
@@ -166,8 +170,10 @@ export const NoteDashboard: React.FC = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        toast.success("Flashcards generated!");
         setShowFlashcardConfirm(false);
+        setSuccessType("flashcards");
+        setStudyLink(`/studymaterial`); // adjust to your route
+        setShowSuccessModal(true);
         return data.flashcard_set;
       } else {
         toast.error(data.detail || "Failed to generate flashcards");
@@ -206,21 +212,25 @@ export const NoteDashboard: React.FC = () => {
       });
       if (!response.ok) throw new Error();
       const data = await response.json();
-      setMcqSet(data.mcq_set);
-      toast.success("MCQ Quiz generated!");
+      setSuccessType("mcq");
+      setStudyLink(`/studymaterial`); // adjust to your route
+      setShowSuccessModal(true);
     } catch { toast.error("Failed to generate MCQ quiz"); }
     finally { setLoadingSet(false); }
   };
 
   if (mcqSet) {
-    return <MCQQuizView
-  mcqSet={mcqSet}
-  onComplete={(score, total) => {
-    console.log(`Score: ${score}/${total}`);
-    setMcqSet(null);
-  }}
-  onBack={() => setMcqSet(null)}
-/>;}
+    return (
+      <MCQQuizView
+        mcqSet={mcqSet}
+        onComplete={(score, total) => {
+          console.log(`Score: ${score}/${total}`);
+          setMcqSet(null);
+        }}
+        onBack={() => setMcqSet(null)}
+      />
+    );
+  }
 
   return (
     <div
@@ -311,7 +321,7 @@ export const NoteDashboard: React.FC = () => {
                     setIsEditing(true);
                     setEditedNote(note);
                     setIsDirty(false);
-                    setIsViewMode(true); // always open in view mode
+                    setIsViewMode(true);
                   }}
                   className={`w-full text-left rounded-xl p-4 transition-all duration-200 border
                     ${isActive
@@ -523,7 +533,7 @@ export const NoteDashboard: React.FC = () => {
                     <h1 className="text-3xl font-semibold text-white mb-6 leading-snug text-left">
                       {editedNote?.title || selectedNote.title}
                     </h1>
-                    <div className="h-px w-full bg-white/[0.06] mb-6 " />
+                    <div className="h-px w-full bg-white/[0.06] mb-6" />
                     <div className="prose prose-invert prose-sm max-w-none text-left
                       prose-headings:text-white prose-headings:font-semibold
                       prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
@@ -610,7 +620,7 @@ export const NoteDashboard: React.FC = () => {
                 Cancel
               </button>
               <button
-                onClick={async () => { toast.info("Generating..."); await generateFlashcards(selectedNote.id); }}
+                onClick={async () => { await generateFlashcards(selectedNote.id); }}
                 disabled={isGenerating}
                 className="text-sm font-semibold px-5 py-2 rounded-full bg-[#dc6505] text-white hover:bg-[#b85204] transition-all disabled:opacity-40"
               >
@@ -621,21 +631,84 @@ export const NoteDashboard: React.FC = () => {
         </div>
       )}
 
+      {/* ════ MODAL: Generation Success ════ */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+          <div className="bg-[#0e1f35] rounded-2xl border border-white/10 shadow-2xl p-7 max-w-sm w-full flex flex-col items-center gap-4 text-center">
+            <div
+              className="rounded-full bg-green-500/10 border border-green-500/25 flex items-center justify-center"
+              style={{ width: 52, height: 52 }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <p className="text-base font-semibold text-white">
+                {successType === "flashcards" ? "Flashcards generated!" : "MCQ Quiz generated!"}
+              </p>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Your {successType === "flashcards" ? "flashcard set" : "quiz"} for{" "}
+                <span className="text-slate-200 italic">"{selectedNote?.title}"</span> is ready to study.
+              </p>
+            </div>
+            <div className="w-full h-px bg-white/[0.07]" />
+            <div className="flex flex-col gap-2 w-full">
+              <a
+                href={studyLink ?? "#"}
+                className="w-full text-center text-sm font-semibold py-2.5 rounded-xl bg-[#dc6505] text-white hover:bg-[#b85204] transition-all"
+              >
+                Go to study material →
+              </a>
+              <button
+                onClick={() => setShowSuccessModal(false)}
+                className="w-full text-sm font-medium py-2.5 rounded-xl border border-white/10 text-slate-400 hover:bg-white/5 transition-all"
+              >
+                Stay here
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ════ MODAL: Summary ════ */}
       {showSummaryModal && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-          <div className="bg-[#0e1f35] max-w-lg w-full rounded-2xl border border-white/10 shadow-2xl p-6 flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-base font-semibold text-white">AI Summary</h3>
-              <button onClick={() => setShowSummaryModal(false)} className="text-slate-400 hover:text-white text-2xl leading-none">×</button>
-            </div>
-            <div className="bg-[#122437] rounded-xl p-4 max-h-64 overflow-y-auto border border-white/10">
-              <p className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap">{summary}</p>
-            </div>
-            <div className="flex justify-end">
+          <div className="bg-[#0e1f35] max-w-lg w-full rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.07]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc6505" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
+                </div>
+                <span className="text-sm font-semibold text-white">AI Summary</span>
+              </div>
               <button
                 onClick={() => setShowSummaryModal(false)}
-                className="text-sm font-semibold px-5 py-2 rounded-full bg-[#dc6505] text-white hover:bg-[#b85204] transition-all"
+                className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white flex items-center justify-center text-base leading-none transition-all"
+              >
+                ×
+              </button>
+            </div>
+            {/* Body */}
+            <div className="px-5 py-5 flex flex-col gap-3">
+              {selectedNote && (
+                <p className="text-[11px] font-semibold text-slate-600 uppercase tracking-widest">
+                  {selectedNote.title}
+                </p>
+              )}
+              <div className="bg-white/[0.03] border border-white/[0.07] rounded-xl p-4 max-h-60 overflow-y-auto">
+                <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">{summary}</p>
+              </div>
+            </div>
+            {/* Footer */}
+            <div className="px-5 pb-5 flex justify-end">
+              <button
+                onClick={() => setShowSummaryModal(false)}
+                className="text-sm font-semibold px-5 py-2 rounded-xl bg-[#dc6505] text-white hover:bg-[#b85204] transition-all"
               >
                 Close
               </button>
