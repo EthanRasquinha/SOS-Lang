@@ -278,13 +278,14 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
 
   </div>
 
-  {/* Description */}
+  {/* Professor Descriptions */}
   <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
     <div className='flex justify-between w-full'>
     <h3 className="text-lg font-semibold text-white text-left">Svetlana Nikitina</h3>
     <h3 className="text-lg font-semibold text-white text-left">WPI</h3>
     <h3 className="text-lg font-semibold text-white text-left">Brajendra Mishra</h3>
     </div>
+    
     <p className="text-[13px] text-slate-300 leading-relaxed text-left">
   <span className="text-white font-[Poppins] font-semibold">Worcester Polytechnic Institute (WPI) </span>
   <br/>  
@@ -304,9 +305,51 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
 </p>
 
 
+
   </div>
 
+<div className="grid grid-cols-4 gap-0">
 
+    {/* Analuiza */}
+    <div className="relative font-[Poppins] overflow-hidden h-56">
+      <img
+        src={analuizaheadshot}
+        alt="Analuiza de Carvalho"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
+    </div>
+
+    {/* Julian */}
+    <div className="bg-white p-8 flex items-center justify-center">
+      <img
+        src={julianheadshot}
+        alt="Julian Espinal"
+        className="max-h-36 object-contain"
+      />
+    </div>
+
+    {/* Ethan */}
+    <div className="relative font-[Poppins] overflow-hidden h-56">
+      <img
+        src={ethanheadshot}
+        alt="Ethan Rasquinha"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
+    </div>
+
+    {/* Adriana */}
+    <div className="relative font-[Poppins] overflow-hidden h-56">
+      <img
+        src={adrianaheadshot}
+        alt="Adriana Navarro Valero"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
+    </div>
+
+  </div>
 
 
 </div>
