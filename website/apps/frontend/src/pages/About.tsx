@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import julianheadshot from '../../assets/julianheadshot.jpg';
 import adrianaheadshot from '../../assets/adrianaheadshot.jpg';
-import ethanheadshot from '../../assets/ethanheadshot.jpg';
+import ethanheadshot from '../../assets/ethanheadshot.png';
 import ucaEmblem from '../../assets/UCA-emblem.png';
 import andresheadshot from '../../assets/andresheadshot.jpg';
 import leonorheadshot from '../../assets/leonorheadshot.jpg';
 import analuizaheadshot from '../../assets/analuizaheadshot.png';
+import svetlanaheadshot from '../../assets/svetlanaheadshot.jpg';
+import brajendraheadshot from '../../assets/brajendraheadshot.jpg';
+import wpilogo from '../../assets/wpilogo.png';
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -180,8 +183,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     {/* Left headshot */}
     <div className="relative font-[Poppins] overflow-hidden h-56">
       <img
-        src={andresheadshot}
-        alt="Andres"
+        src={leonorheadshot}
+        alt="Leonor"
         className="absolute inset-0 w-full h-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
@@ -199,8 +202,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     {/* Right headshot */}
     <div className="relative font-[Poppins] overflow-hidden h-56">
       <img
-        src={leonorheadshot}
-        alt="Leonor"
+        src={andresheadshot}
+        alt="Andrés"
         className="absolute inset-0 w-full h-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
@@ -211,19 +214,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   {/* Description */}
   <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
     <div className='flex justify-between w-full'>
-    <h3 className="text-lg font-semibold text-white text-left">Andrés Santana Arribas</h3>
-    <h3 className="text-lg font-semibold text-white text-left">CUNEAC</h3>
     <h3 className="text-lg font-semibold text-white text-left">Leonor Acosta Bustamante</h3>
+    <h3 className="text-lg font-semibold text-white text-left">CUNEAC</h3>
+    <h3 className="text-lg font-semibold text-white text-left">Andrés Santana Arribas</h3>
     </div>
     <p className="text-[13px] text-slate-300 leading-relaxed text-left">
   <span className="text-white font-[Poppins] font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
   <br/>  
 An international initiative of the University of Cádiz focused on strengthening academic, scientific, and cultural collaboration between Spain and countries in Eastern Europe and Central Asia. It promotes partnerships between universities, supports student and faculty exchanges, and develops joint research and training programs that connect education with real-world challenges. Through its projects, events, and institutional collaborations, CUNEAC helps create opportunities for cross-cultural learning, innovation, and professional development.
-</p>
- <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-[Poppins] font-semibold">Andrés Santana Arribas</span>
-  <br/>  
-Andrés Santana Arribas is a lecturer and cultural coordinator at the University of Cádiz and the University of Granada, specializing in Russian language, translation, and international relations. He is responsible for several key initiatives, including the CUNEAC Center for Eastern Europe and Central Asia, the Pushkin Institute, and the Hispanic-Russian University Classroom (AUHR). With extensive experience since the 1990s as a translator, educator, and cultural manager, he has played a major role in developing academic and cultural projects between Spain, Eastern Europe, and Central Asia, as well as organizing international events and exchange programs.
 </p>
 
 <p className="text-[13px] text-slate-300 leading-relaxed text-left">
@@ -231,8 +229,86 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
   <br/>  
 Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) in English Philology at the University of Cádiz, specializing in Cultural Studies and Gender Studies. Her research focuses on the representation of gender in literature, film, and popular culture, with particular emphasis on the deconstruction of gender binaries. She has developed expertise in Masculinity Studies and Transfeminism, exploring how gender identities and roles are constructed and challenged across cultural texts and media. She is also part of the HUM536 research group, which studies the concept of alterity in the contemporary world.</p>
 
+ <p className="text-[13px] text-slate-300 leading-relaxed text-left">
+  <span className="text-white font-[Poppins] font-semibold">Andrés Santana Arribas</span>
+  <br/>  
+Andrés Santana Arribas is a lecturer and cultural coordinator at the University of Cádiz and the University of Granada, specializing in Russian language, translation, and international relations. He is responsible for several key initiatives, including the CUNEAC Center for Eastern Europe and Central Asia, the Pushkin Institute, and the Hispanic-Russian University Classroom (AUHR). With extensive experience since the 1990s as a translator, educator, and cultural manager, he has played a major role in developing academic and cultural projects between Spain, Eastern Europe, and Central Asia, as well as organizing international events and exchange programs.
+</p>
+
+
   </div>
-  
+
+</div>
+
+        {/* ══════════════════════
+            WPI PARTNERSHIP
+        ══════════════════════ */}
+        <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
+  {/* Logo + headshot row */}
+  <div className="grid grid-cols-3 gap-0">
+
+    {/* Left headshot */}
+    <div className="relative font-[Poppins] overflow-hidden h-56">
+      <img
+        src={svetlanaheadshot}
+        alt="Svetlana Nikitina"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
+    </div>
+
+    {/* Center logo */}
+    <div className="bg-white p-8 flex items-center justify-center">
+      <img
+        src={wpilogo}
+        alt="WPI logo"
+        className="max-h-36 object-contain"
+      />
+    </div>
+
+    {/* Right headshot */}
+    <div className="relative font-[Poppins] overflow-hidden h-56">
+      <img
+        src={brajendraheadshot}
+        alt="Brajendra Mishra"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
+    </div>
+
+  </div>
+
+  {/* Description */}
+  <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
+    <div className='flex justify-between w-full'>
+    <h3 className="text-lg font-semibold text-white text-left">Svetlana Nikitina</h3>
+    <h3 className="text-lg font-semibold text-white text-left">WPI</h3>
+    <h3 className="text-lg font-semibold text-white text-left">Brajendra Mishra</h3>
+    </div>
+    <p className="text-[13px] text-slate-300 leading-relaxed text-left">
+  <span className="text-white font-[Poppins] font-semibold">Worcester Polytechnic Institute (WPI) </span>
+  <br/>  
+  [Add information about WPI partnership and collaboration here]
+</p>
+
+<p className="text-[13px] text-slate-300 leading-relaxed text-left">
+  <span className="text-white font-semibold">Svetlana</span>
+  <br/>  
+  [Add Svetlana's role, background, and contributions to the SOS-LANG project here]
+</p>
+
+ <p className="text-[13px] text-slate-300 leading-relaxed text-left">
+  <span className="text-white font-[Poppins] font-semibold">Brajendra</span>
+  <br/>  
+  [Add Brajendra's role, background, and contributions to the SOS-LANG project here]
+</p>
+
+
+  </div>
+
+
+
+
 </div>
 
         {/* ══════════════════════
