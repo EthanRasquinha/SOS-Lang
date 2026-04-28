@@ -121,11 +121,12 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
           </div>
 
           <h1 className="relative text-5xl font-[Poppins] font-bold tracking-tight text-white">
-            About Us
+            ¿Por qué y para qué?
           </h1>
           <p className="relative text-[15px] font-[Poppins] text-slate-400 max-w-xl leading-relaxed">
-            Building smarter ways to learn. Our platform blends AI and structured learning
-            to help you study faster, retain more, and stay consistent.
+            Nuestro Equipo está compuesto por docentes y alumnos de varios países. Nuestra experiencia de enseñanza y aprendizaje nos demuestra que lo más difícil es organizar nuestros apuntes y repasar constantemente lo aprendido.
+Por ello, somos conscientes de que necesitamos formas más inteligentes de aprender. Nuestra plataforma combina la IA y un sencillo sistema de aprendizaje estructurado para ayudarte a estudiar más rápido, retener más y mantener siempre activos todos tus conocimientos.
+
           </p>
         </motion.div>
 
@@ -140,8 +141,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               glow: "rgba(220,101,5,0.3)",
               border: "border-[#dc6505]/20",
               bg: "bg-[#dc6505]/6",
-              title: "Our Mission",
-              body: "We aim to transform studying into an intelligent, personalized experience. By combining AI with proven learning techniques, we help you focus on what actually matters.",
+              title: "Nuestro Misión",
+              body: "Nuestro objetivo es transformar el estudio en una experiencia inteligente y personalizada. Al combinar IA con técnicas de aprendizaje probadas, te ayudamos a centrarte en lo que realmente importa y que siempre tengas activados todos tus conocimientos.",
             },
             {
               icon: <IconZap />,
@@ -150,7 +151,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               border: "border-[#185FA5]/20",
               bg: "bg-[#185FA5]/6",
               title: "What We Do",
-              body: "Generate flashcards, quizzes, and insights directly from your notes. Track performance, identify weak areas, and continuously improve your language learning.",
+              body: "Te facilitamos crear tus tarjetas de estudio de la manera más sencilla, con resúmenes y cuestionarios para ordenar, resumir y repasar tus apuntes. Podrás hacer un seguimiento regular y en tiempo real de tus progresos, identificar tus áreas más débiles y mejorar continuamente tu aprendizaje.",
             },
           ].map((card) => (
             <motion.div
@@ -176,6 +177,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         {/* ══════════════════════
             SPONSOR
         ══════════════════════ */}
+<div>
+        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Our Sponsors</h2>
         <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
   {/* Logo + headshot row */}
   <div className="grid grid-cols-3 gap-0">
@@ -210,6 +213,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     </div>
 
   </div>
+ </div>
 
   {/* Description */}
   <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
@@ -243,168 +247,139 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
         {/* ══════════════════════
             WPI PARTNERSHIP
         ══════════════════════ */}
+        <div>
+        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Our Professors</h2>
         <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
-  {/* Logo + headshot row */}
-  <div className="grid grid-cols-3 gap-0">
 
-    {/* Left headshot */}
-    <div className="relative font-[Poppins] overflow-hidden h-56">
-      <img
-        src={svetlanaheadshot}
-        alt="Svetlana Nikitina"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
-    </div>
-
-    {/* Center logo */}
-    <div className="bg-white p-8 flex items-center justify-center">
-      <img
-        src={wpilogo}
-        alt="WPI logo"
-        className="max-h-36 object-contain"
-      />
-    </div>
-
-    {/* Right headshot */}
-    <div className="relative font-[Poppins] overflow-hidden h-56">
-      <img
-        src={brajendraheadshot}
-        alt="Brajendra Mishra"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
-    </div>
-
-  </div>
-
-  {/* Professor Descriptions */}
-  <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
-    <div className='flex justify-between w-full'>
-    <h3 className="text-lg font-semibold text-white text-left">Svetlana Nikitina</h3>
-    <h3 className="text-lg font-semibold text-white text-left">WPI</h3>
-    <h3 className="text-lg font-semibold text-white text-left">Brajendra Mishra</h3>
-    </div>
-    
-    <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-[Poppins] font-semibold">Worcester Polytechnic Institute (WPI) </span>
-  <br/>  
-  [Add information about WPI partnership and collaboration here]
-</p>
-
-<p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-semibold">Svetlana</span>
-  <br/>  
-  [Add Svetlana's role, background, and contributions to the SOS-LANG project here]
-</p>
-
- <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-[Poppins] font-semibold">Brajendra</span>
-  <br/>  
-  [Add Brajendra's role, background, and contributions to the SOS-LANG project here]
-</p>
-
-
-
-  </div>
-
-<div className="grid grid-cols-4 gap-0">
-
-    {/* Analuiza */}
-    <div className="relative font-[Poppins] overflow-hidden h-56">
-      <img
-        src={analuizaheadshot}
-        alt="Analuiza de Carvalho"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
-    </div>
-
-    {/* Julian */}
-    <div className="bg-white p-8 flex items-center justify-center">
-      <img
-        src={julianheadshot}
-        alt="Julian Espinal"
-        className="max-h-36 object-contain"
-      />
-    </div>
-
-    {/* Ethan */}
-    <div className="relative font-[Poppins] overflow-hidden h-56">
-      <img
-        src={ethanheadshot}
-        alt="Ethan Rasquinha"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
-    </div>
-
-    {/* Adriana */}
-    <div className="relative font-[Poppins] overflow-hidden h-56">
-      <img
-        src={adrianaheadshot}
-        alt="Adriana Navarro Valero"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
-    </div>
-
-  </div>
-
-
-</div>
-
-        {/* ══════════════════════
-            TEAM
-        ══════════════════════ */}
-        <motion.div {...fadeUp} className="flex flex-col gap-8">
-          <div className="text-center">
-            <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">The people</p>
-            <h2 className="text-3xl font-semibold font-[Poppins] text-white">Who We Are</h2>
+          {/* ── Professors: photo row ── */}
+          <div className="grid grid-cols-3 gap-0">
+            {/* Svetlana */}
+            <div className="relative overflow-hidden h-56">
+              <img src={svetlanaheadshot} alt="Svetlana Nikitina" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
+            </div>
+            {/* WPI logo */}
+            <div className="bg-white p-8 flex items-center justify-center">
+              <img src={wpilogo} alt="WPI logo" className="max-h-36 object-contain" />
+            </div>
+            {/* Brajendra */}
+            <div className="relative overflow-hidden h-56">
+              <img src={brajendraheadshot} alt="Brajendra Mishra" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
+            </div>
           </div>
 
-          <motion.div variants={stagger} initial="initial" animate="animate" className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {TEAM.map((member) => (
-              <motion.div
-                key={member.name}
-                variants={fadeUp}
-                className="group relative font-[Poppins] rounded-2xl border border-white/[0.06] bg-[#0d1f35] hover:border-white/[0.14] overflow-hidden transition-all duration-200 hover:scale-[1.02]"
-              >
-                {/* Photo */}
-                <div className="relative h-60 w-full overflow-hidden">
-                  {member.img ? (
-                    <img
-                      src={member.img}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div
-                      className={`w-full h-full flex items-center justify-center bg-gradient-to-br ${member.gradient}`}
-                    >
-                      <span className="text-4xl font-bold text-white/30">
-                        {member.name.charAt(0)}
-                      </span>
-                    </div>
-                  )}
-                  {/* Gradient overlay at bottom */}
-                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0d1f35] to-transparent pointer-events-none" />
-                </div>
+          {/* ── Professors: info row ── */}
+          <div className="grid grid-cols-3 divide-x divide-white/[0.06]">
+            {/* Svetlana info */}
+            <div className="px-6 py-5">
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
+              <p className="text-sm font-semibold text-white font-[Poppins]">Svetlana Nikitina</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Directora del Centro de Proyectos en Cádiz</p>
+              <p className="text-[12px] text-slate-400 mt-3 leading-relaxed font-[Poppins]">
+                [Add Svetlana's role, background, and contributions to the SOS-LANG project here]
+              </p>
+            </div>
+            {/* WPI info */}
+            <div className="px-6 py-5">
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
+              <p className="text-sm font-semibold text-white font-[Poppins]">Worcester Polytechnic Institute</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Academic Partner</p>
+              <p className="text-[12px] text-slate-400 mt-3 leading-relaxed font-[Poppins]">
+                [Add information about WPI partnership and collaboration here]
+              </p>
+            </div>
+            {/* Brajendra info */}
+            <div className="px-6 py-5">
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
+              <p className="text-sm font-semibold text-white font-[Poppins]">Brajendra Mishra</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Profesor de Ingeniería Mecánica</p>
+              <p className="text-[12px] text-slate-400 mt-3 leading-relaxed font-[Poppins]">
+                [Add Brajendra's role, background, and contributions to the SOS-LANG project here]
+              </p>
+            </div>
+          </div>
+        </div>
+</div>
 
-                {/* Info */}
-                <div className="px-5 pb-5 pt-2">
-                  <div
-                    className="h-0.5 w-8 rounded-full mb-3"
-                    style={{ background: `linear-gradient(90deg, ${member.accent}, transparent)` }}
-                  />
-                  <p className="text-sm font-semibold text-white leading-tight font-[Poppins]">{member.name}</p>
-                  <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">{member.role}</p>
-                  <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">{member.major}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
+
+
+        {/* ══════════════════════
+                    THE TEAM
+                ══════════════════════ */}
+          <div>
+          <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Our Team</h2>
+           <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
+
+          {/* ── Students: 4-col cards ── */}
+
+          {/* ── Students: photo row ── */}
+          <div className="grid grid-cols-4 gap-0">
+            {/* Analuiza */}
+            <div className="relative overflow-hidden h-56">
+              <img src={analuizaheadshot} alt="Analuiza" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 pointer-events-none" />
+            </div>
+            {/* Julian */}
+            <div className="relative overflow-hidden h-56">
+              <img src={julianheadshot} alt="Julian" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 pointer-events-none" />
+            </div>
+            {/* Ethan */}
+            <div className="relative overflow-hidden h-56">
+              <img src={ethanheadshot} alt="Ethan" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 pointer-events-none" />
+            </div>
+            {/* Adriana */}
+            <div className="relative overflow-hidden h-56">
+              <img src={adrianaheadshot} alt="Adriana" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 pointer-events-none" />
+            </div>
+          </div>
+          
+
+          {/* ── Students: info row ── */}
+          <div className="grid grid-cols-4 divide-x divide-white/[0.06]">
+            {/* Analuiza info */}
+            <div className="px-6 py-5">
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
+              <p className="text-sm font-semibold text-white font-[Poppins]">Analuiza de Carvalho</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Research / Analysis
+              </p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
+                WPI Civil Engineering '27
+              </p>
+            </div>
+            {/* Julian info */}
+            <div className="px-6 py-5">
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
+              <p className="text-sm font-semibold text-white font-[Poppins]">Julian Espinal</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Web Development</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
+                WPI Computer Science '27
+              </p>
+            </div>
+            {/* Ethan info */}
+            <div className="px-6 py-5">
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
+              <p className="text-sm font-semibold text-white font-[Poppins]">Ethan Rasquinha</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Web Development</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
+                WPI Computer Science '27
+              </p>
+            </div>
+            {/* Adriana info */}
+            <div className="px-6 py-5">
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
+              <p className="text-sm font-semibold text-white font-[Poppins]">Adriana Navarro Valero</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Research / Analysis</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
+                WPI Aerospace Engineering '27
+              </p>
+            </div>
+          </div>
+          </div>
+        </div>
 
         {/* ══════════════════════
             CONTACT
