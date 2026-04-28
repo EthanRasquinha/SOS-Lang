@@ -48,7 +48,7 @@ const DEFAULT_TAGS = [
   { label: "Vocabulario",  pill: "bg-[#E6F1FB] text-[#185FA5]", accent: "#185FA5", desc: "Palabras nuevas y definiciones" },
   { label: "Gramática",    pill: "bg-[#FAEEDA] text-[#854F0B]", accent: "#dc6505", desc: "Reglas, tiempos, conjugaciones" },
   { label: "Frases",       pill: "bg-[#E1F5EE] text-[#0F6E56]", accent: "#0F6E56", desc: "Modismos y expresiones" },
-  { label: "Escucha",      pill: "bg-[#EEEDFE] text-[#534AB7]", accent: "#534AB7", desc: "Notas de audio y vídeo" },
+  { label: "Escucha",      pill: "bg-[#EEEDFE] text-[#534AB7]", accent: "#534AB7", desc: "Apuntes de audio y vídeo" },
   { label: "Lectura",      pill: "bg-[#FAECE7] text-[#993C1D]", accent: "#993C1D", desc: "Textos y artículos" },
   { label: "Cultura",      pill: "bg-[#FBEAF0] text-[#993556]", accent: "#993556", desc: "Contexto cultural y costumbres" },
   { label: "Errores",      pill: "bg-[#FCEBEB] text-[#A32D2D]", accent: "#A32D2D", desc: "Errores para revisar y corregir" },
@@ -81,7 +81,7 @@ Esta es tu **nota de tutorial**. No se guardará en tu cuenta — siempre estar�
 
 ---
 
-## 📝 1. Notas
+## 📝 1. Apuntes
 
 Las notas son la base de todo en SOS-LANG. Así es como usarlas:
 
@@ -461,7 +461,7 @@ export const NoteDashboard: React.FC = () => {
             <FileText size={20} />
           </div>
           <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">
-            Notas SOS-LANG
+            Apuntes SOS-LANG
           </h1>
         </div>
       </header>
@@ -527,7 +527,7 @@ export const NoteDashboard: React.FC = () => {
           {/* Encabezado */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.07]">
             <div>
-              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-0.5">Mis Notas</p>
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-0.5">Mis Apuntes</p>
               <p className="text-[12px] text-slate-400">
                 {filteredNotes.length !== notes.length
                   ? `${filteredNotes.length} de ${notes.length}`
@@ -709,7 +709,7 @@ export const NoteDashboard: React.FC = () => {
             <div className="flex items-center gap-2 px-1 py-1">
               <div className="flex-1 h-px bg-white/[0.05]" />
               <p className="text-[9px] font-semibold text-slate-600 uppercase tracking-widest">
-                {activeFilter ? activeFilter : searchQuery ? "Resultados" : "Mis Notas"}
+                {activeFilter ? activeFilter : searchQuery ? "Resultados" : "Mis Apuntes"}
               </p>
               <div className="flex-1 h-px bg-white/[0.05]" />
             </div>
@@ -802,7 +802,7 @@ export const NoteDashboard: React.FC = () => {
           {isCreatingNew && (
             <>
               <div className="shrink-0 flex items-center justify-between px-8 py-3.5 bg-[#0a1628] border-b border-white/[0.07]">
-                <span className="text-[11px] font-mono text-slate-600"># Notas / Borrador nuevo</span>
+                <span className="text-[11px] font-mono text-slate-600"># Apuntes / Borrador nuevo</span>
                 <div className="flex items-center gap-2">
                   <button onClick={() => { setIsCreatingNew(false); setNewNote({ title: "", content: "", tag: "" }); }}
                     className="text-xs font-semibold px-4 py-1.5 rounded-full border border-white/10 text-slate-400 hover:bg-white/5 transition-all">

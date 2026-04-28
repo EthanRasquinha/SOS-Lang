@@ -111,24 +111,28 @@ const TranslateBanner = ({ onDismiss }: { onDismiss: () => void }) => (
       borderBottom: "1px solid rgba(56,189,248,0.15)",
     }}
   >
-    <div className="pointer-events-none absolute left-0 top-0 h-full w-32 opacity-20"
-      style={{ background: "linear-gradient(90deg, rgba(56,189,248,0.4), transparent)" }} />
+    <div
+      className="pointer-events-none absolute left-0 top-0 h-full w-32 opacity-20"
+      style={{ background: "linear-gradient(90deg, rgba(56,189,248,0.4), transparent)" }}
+    />
 
     <div className="flex items-center gap-2 shrink-0">
-      <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
-        style={{ background: "rgba(56,189,248,0.15)", color: "#38bdf8" }}>
+      <div
+        className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+        style={{ background: "rgba(56,189,248,0.15)", color: "#38bdf8" }}
+      >
         <IconGlobe />
       </div>
       <span className="text-slate-300 text-xs font-medium">
         <span className="text-sky-400 font-semibold">¿Prefieres otro idioma?</span>
-        {" "}Usa Google Translate para ver este sitio en tu idioma —
+        {" "}Puedes traducir esta página desde tu navegador —
       </span>
     </div>
 
     <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
       {[
-        "Instala la extensión de Google Translate",
-        "Haz clic en el icono de la extensión en tu navegador",
+        "Haz clic en los tres puntos en la esquina superior derecha",
+        "Selecciona “Traducir” o “Traducir esta página”",
         "Elige tu idioma",
       ].map((step, i) => (
         <React.Fragment key={i}>
@@ -146,24 +150,9 @@ const TranslateBanner = ({ onDismiss }: { onDismiss: () => void }) => (
       ))}
     </div>
 
-    <a
-      href="https://chrome.google.com/webstore/detail/google-translate/aapbdbdomjkkjkaonfhkkikfgjllcleb"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="shrink-0 ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:scale-105 whitespace-nowrap"
-      style={{
-        background: "rgba(56,189,248,0.12)",
-        border: "1px solid rgba(56,189,248,0.25)",
-        color: "#38bdf8",
-      }}
-    >
-      <IconGlobe />
-      Obtener extensión
-    </a>
-
     <button
       onClick={onDismiss}
-      className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-white/8 transition-all"
+      className="shrink-0 ml-auto w-6 h-6 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-white/8 transition-all"
       aria-label="Cerrar"
     >
       <IconX />

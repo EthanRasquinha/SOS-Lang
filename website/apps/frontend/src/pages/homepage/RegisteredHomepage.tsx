@@ -226,12 +226,16 @@ const MasterySnapshot: React.FC = () => {
     { label: "Pendiente de revisión", key: "stale"         as DistributionKeys, color: "#f59e0b", bg: "rgba(245,158,11,0.1)" },
     { label: "Sin comenzar",          key: "not-attempted" as DistributionKeys, color: "#475569", bg: "rgba(71,85,105,0.15)" },
   ];
+  
+
+  
 
   return (
     <div
       className="rounded-2xl border border-white/[0.07] overflow-hidden"
       style={{ background: "linear-gradient(145deg, #0d1f35, #0a1828)" }}
     >
+        
       <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
         <div>
           <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold">
@@ -341,6 +345,77 @@ const MasterySnapshot: React.FC = () => {
 
 // ── Componente principal ───────────────────────────────
 export const RegisteredHomePage = () => {
+    const [popupVisible, setPopupVisible] = useState(false);
+    const [bannerDismissed, setBannerDismissed] = useState(false);
+    const IconX = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+);
+
+const IconGlobe = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="2" y1="12" x2="22" y2="12"/>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+  </svg>
+);
+    const TranslateBanner = ({ onDismiss }: { onDismiss: () => void }) => (
+  <div
+    className="relative flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3 text-sm"
+    style={{
+      background: "linear-gradient(90deg, rgba(24,95,165,0.18), rgba(83,74,183,0.14))",
+      borderBottom: "1px solid rgba(56,189,248,0.15)",
+    }}
+  >
+    <div
+      className="pointer-events-none absolute left-0 top-0 h-full w-32 opacity-20"
+      style={{ background: "linear-gradient(90deg, rgba(56,189,248,0.4), transparent)" }}
+    />
+
+    <div className="flex items-center gap-2 shrink-0">
+      <div
+        className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+        style={{ background: "rgba(56,189,248,0.15)", color: "#38bdf8" }}
+      >
+        <IconGlobe />
+      </div>
+      <span className="text-slate-300 text-xs font-medium">
+        <span className="text-sky-400 font-semibold">¿Prefieres otro idioma?</span>
+        {" "}Puedes traducir esta página desde tu navegador —
+      </span>
+    </div>
+
+    <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
+      {[
+        "Haz clic en los tres puntos en la esquina superior derecha",
+        "Selecciona “Traducir” o “Traducir esta página”",
+        "Elige tu idioma",
+      ].map((step, i) => (
+        <React.Fragment key={i}>
+          <span className="flex items-center gap-1.5">
+            <span
+              className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0"
+              style={{ background: "rgba(56,189,248,0.15)", color: "#38bdf8" }}
+            >
+              {i + 1}
+            </span>
+            {step}
+          </span>
+          {i < 2 && <span className="text-slate-600 hidden sm:inline">→</span>}
+        </React.Fragment>
+      ))}
+    </div>
+
+    <button
+      onClick={onDismiss}
+      className="shrink-0 ml-auto w-6 h-6 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-white/8 transition-all"
+      aria-label="Cerrar"
+    >
+      <IconX />
+    </button>
+  </div>
+);
   return (
     <div className="min-h-screen w-full bg-[#06101a] text-white flex flex-col overflow-x-hidden font-[Poppins]">
       <style>{`
@@ -352,6 +427,12 @@ export const RegisteredHomePage = () => {
         @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin     { to   { transform: rotate(360deg); } }
       `}</style>
+
+      {!bannerDismissed && (
+        <div style={{ animation: "banner-in 0.4s ease both" }}>
+          <TranslateBanner onDismiss={() => setBannerDismissed(true)} />
+        </div>
+      )}
 
       {/* HERO */}
       <section className="relative font-[Poppins] flex flex-col items-center justify-center text-center px-6 pt-24 pb-20 overflow-hidden">

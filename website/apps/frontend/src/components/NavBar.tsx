@@ -40,12 +40,12 @@ export const NavBar = () => {
   
   ...(user
     ? [
-        { name: "Nueva nota", path: "/notes" },
-        { name: "Espacio de estudio", path: "/studymaterial" },
-        { name: "Panel", path: "/userdashboard" },
+        { name: "Mis Apuntes", path: "/notes" },
+        { name: "Espacio De Estudio", path: "/studymaterial" },
+        { name: "Mi Progreso", path: "/userdashboard" },
       ]
     : []),
-    { name: "Acerca de", path: "/about" },
+    { name: "Sobre Nosotros", path: "/about" },
 ], [user]);
 
   // Close mobile menu on route change
@@ -133,15 +133,15 @@ export const NavBar = () => {
                 onClick={handleSignOut}
                 className="nav-btn-primary"
               >
-                Sign Out
+                Desconectar
               </button>
             ) : (
               <>
                 <button onClick={openLogin} className="nav-btn-ghost">
-                  Log In
+                  Iniciar Sesión
                 </button>
                 <button onClick={openSignup} className="nav-btn-primary">
-                  Sign Up
+                  Regístrate
                 </button>
               </>
             )}
@@ -188,15 +188,15 @@ export const NavBar = () => {
             <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-white/[0.06]">
               {user ? (
                 <button onClick={handleSignOut} className="nav-btn-primary w-full">
-                  Sign Out
+                  Desconectar
                 </button>
               ) : (
                 <>
                   <button onClick={openLogin} className="nav-btn-ghost w-full">
-                    Log In
+                    Iniciar Sesión
                   </button>
                   <button onClick={openSignup} className="nav-btn-primary w-full">
-                    Sign Up
+                    Regístrate
                   </button>
                 </>
               )}
