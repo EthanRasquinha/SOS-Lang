@@ -45,7 +45,7 @@ export const NavBar = () => {
         { name: "Mi Progreso", path: "/userdashboard" },
       ]
     : []),
-    { name: "Sobre Nosotros", path: "/about" },
+    { name: "Sobre SOS-LANG", path: "/about" },
 ], [user]);
 
   // Close mobile menu on route change
