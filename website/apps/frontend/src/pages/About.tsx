@@ -120,10 +120,12 @@ export const About: React.FC = () => {
           <h1 className="relative text-5xl font-[Poppins] font-bold tracking-tight text-white">
             ¿Por qué y para qué?
           </h1>
-          <p className="relative text-[15px] font-[Poppins] text-slate-400 max-w-xl leading-relaxed">
+          <p className="relative text-[15px] font-[Poppins] font-semibold text-slate-300 leading-relaxed">
+            SOS-LANG es una iniciativa del Centro CUNEAC de la Universidad de Cádiz, desarrollada conjuntamente con el Instituto Politécnico de Worcester (WPI) mediante un convenio de colaboración bilateral para el desarrollo de proyectos técnicos de orientación social.
+          </p>
+          <p className="relative text-[15px] font-[Poppins] text-slate-400 leading-relaxed">
             Nuestro Equipo está compuesto por docentes y alumnos de varios países. Nuestra experiencia de enseñanza y aprendizaje nos demuestra que lo más difícil es organizar nuestros apuntes y repasar constantemente lo aprendido.
-Por ello, somos conscientes de que necesitamos formas más inteligentes de aprender. Nuestra plataforma combina la IA y un sencillo sistema de aprendizaje estructurado para ayudarte a estudiar más rápido, retener más y mantener siempre activos todos tus conocimientos.
-
+            Por ello, somos conscientes de que necesitamos formas más inteligentes de aprender. Nuestra plataforma combina la IA y un sencillo sistema de aprendizaje estructurado para ayudarte a estudiar más rápido, retener más y mantener siempre activos todos tus conocimientos.
           </p>
         </motion.div>
 
@@ -145,7 +147,7 @@ Por ello, somos conscientes de que necesitamos formas más inteligentes de apren
               glow: "rgba(24,95,165,0.3)",
               border: "border-[#185FA5]/20",
               bg: "bg-[#185FA5]/6",
-              title: "What We Do",
+              title: "Que Hacemos",
               body: "Te facilitamos crear tus tarjetas de estudio de la manera más sencilla, con resúmenes y cuestionarios para ordenar, resumir y repasar tus apuntes. Podrás hacer un seguimiento regular y en tiempo real de tus progresos, identificar tus áreas más débiles y mejorar continuamente tu aprendizaje.",
             },
           ].map((card) => (
@@ -169,11 +171,12 @@ Por ello, somos conscientes de que necesitamos formas más inteligentes de apren
           ))}
         </motion.div>
 
+
         {/* ══════════════════════
             SPONSOR
         ══════════════════════ */}
 <div>
-        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Our Sponsors</h2>
+        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Nuestro Patrocinadores</h2>
         <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
           <div className="grid grid-cols-3 gap-0">
 
@@ -218,18 +221,19 @@ Por ello, somos conscientes de que necesitamos formas más inteligentes de apren
     <p className="text-[13px] text-slate-300 leading-relaxed text-left">
   <span className="text-white font-[Poppins] font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
   <br/>  
-An international initiative of the University of Cádiz focused on strengthening academic, scientific, and cultural collaboration between Spain and countries in Eastern Europe and Central Asia. It promotes partnerships between universities, supports student and faculty exchanges, and develops joint research and training programs that connect education with real-world challenges. Through its projects, events, and institutional collaborations, CUNEAC helps create opportunities for cross-cultural learning, innovation, and professional development.
+  Una iniciativa internacional de la Universidad de Cádiz centrada en fortalecer la colaboración académica, científica y cultural entre España y los países de Europa del Este y Asia Central. Promueve alianzas entre universidades, apoya el intercambio de estudiantes y profesores, y desarrolla programas conjuntos de investigación y formación que conectan la educación con los desafíos del mundo real. A través de sus proyectos, eventos y colaboraciones institucionales, CUNEAC contribuye a crear oportunidades de aprendizaje intercultural, innovación y desarrollo profesional.
 </p>
 
 <p className="text-[13px] text-slate-300 leading-relaxed text-left">
   <span className="text-white font-semibold">Leonor Acosta Bustamante</span>
   <br/>  
-Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) in English Philology at the University of Cádiz, specializing in Cultural Studies and Gender Studies. Her research focuses on the representation of gender in literature, film, and popular culture, with particular emphasis on the deconstruction of gender binaries. She has developed expertise in Masculinity Studies and Transfeminism, exploring how gender identities and roles are constructed and challenged across cultural texts and media. She is also part of the HUM536 research group, which studies the concept of alterity in the contemporary world.</p>
+  Leonor Acosta Bustamante es Profesora Contratada Doctora de Filología Inglesa en la Universidad de Cádiz, especializada en Estudios Culturales y Estudios de Género. Su investigación se centra en la representación del género en la literatura, el cine y la cultura popular, con especial énfasis en la deconstrucción de los binarismos de género. Ha desarrollado una especialización en Estudios de Masculinidades y Transfeminismo, explorando cómo se construyen y cuestionan las identidades y roles de género en los textos culturales y los medios de comunicación. También forma parte del grupo de investigación HUM536, que estudia el concepto de alteridad en el mundo contemporáneo.
+</p>
 
  <p className="text-[13px] text-slate-300 leading-relaxed text-left">
   <span className="text-white font-[Poppins] font-semibold">Andrés Santana Arribas</span>
   <br/>  
-Andrés Santana Arribas is a lecturer and cultural coordinator at the University of Cádiz and the University of Granada, specializing in Russian language, translation, and international relations. He is responsible for several key initiatives, including the CUNEAC Center for Eastern Europe and Central Asia, the Pushkin Institute, and the Hispanic-Russian University Classroom (AUHR). With extensive experience since the 1990s as a translator, educator, and cultural manager, he has played a major role in developing academic and cultural projects between Spain, Eastern Europe, and Central Asia, as well as organizing international events and exchange programs.
+  Andrés Santana Arribas es profesor y coordinador cultural en la Universidad de Cádiz y la Universidad de Granada, especializado en lengua rusa, traducción y relaciones internacionales. Es responsable de varias iniciativas clave, entre ellas el Centro CUNEAC para Europa del Este y Asia Central, el Instituto Pushkin y el Aula Universitaria Hispano-Rusa (AUHR). Con una amplia trayectoria desde los años 90 como traductor, docente y gestor cultural, ha desempeñado un papel fundamental en el desarrollo de proyectos académicos y culturales entre España, Europa del Este y Asia Central, así como en la organización de eventos internacionales y programas de intercambio.
 </p>
 
 
@@ -241,7 +245,7 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
             WPI PARTNERSHIP
         ══════════════════════ */}
         <div>
-        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Our Professors</h2>
+        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Nuestro Profesores</h2>
         <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
 
           {/* ── Professors: photo row ── */}
@@ -269,27 +273,20 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Svetlana Nikitina</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Directora del Centro de Proyectos en Cádiz</p>
-              <p className="text-[12px] text-slate-400 mt-3 leading-relaxed font-[Poppins]">
-                [Add Svetlana's role, background, and contributions to the SOS-LANG project here]
-              </p>
+              <p className="text-[12px] text-slate-500 mt-0.5 font-[Poppins]">Dirección académica e institucional</p>
             </div>
             {/* WPI info */}
             <div className="px-6 py-5">
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Worcester Polytechnic Institute</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Academic Partner</p>
-              <p className="text-[12px] text-slate-400 mt-3 leading-relaxed font-[Poppins]">
-                [Add information about WPI partnership and collaboration here]
-              </p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">COORDINACIÓN ACADÉMICA</p>
             </div>
             {/* Brajendra info */}
             <div className="px-6 py-5">
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Brajendra Mishra</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Profesor de Ingeniería Mecánica</p>
-              <p className="text-[12px] text-slate-400 mt-3 leading-relaxed font-[Poppins]">
-                [Add Brajendra's role, background, and contributions to the SOS-LANG project here]
-              </p>
+              <p className="text-[12px] text-slate-500 mt-0.5 font-[Poppins]">Coordinación académica</p>
             </div>
           </div>
         </div>
@@ -301,7 +298,7 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
                     THE TEAM
                 ══════════════════════ */}
           <div>
-          <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Our Team</h2>
+          <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Nuestro Equipo</h2>
            <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
 
           {/* ── Students: 4-col cards ── */}
@@ -337,37 +334,37 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
             <div className="px-6 py-5">
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Analuiza de Carvalho</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Research / Analysis
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Investigación / Análisis
               </p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
-                WPI Civil Engineering '27
+                WPI Ingeniería Civil '27
               </p>
             </div>
             {/* Julian info */}
             <div className="px-6 py-5">
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Julian Espinal</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Web Development</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Desarrollo Web</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
-                WPI Computer Science '27
+                WPI Informática '27
               </p>
             </div>
             {/* Ethan info */}
             <div className="px-6 py-5">
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Ethan Rasquinha</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Web Development</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Desarrollo Web</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
-                WPI Computer Science '27
+                WPI Informática '27
               </p>
             </div>
             {/* Adriana info */}
             <div className="px-6 py-5">
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Adriana Navarro Valero</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Research / Analysis</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Investigación / Análisis</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
-                WPI Aerospace Engineering '27
+                WPI Ingeniería Aeroespacial '27
               </p>
             </div>
           </div>
