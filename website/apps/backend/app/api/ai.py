@@ -351,6 +351,30 @@ async def generate_note_flashcards(note_id: str, request: Request):
     }
 
 
+def delete_mcq_set(user_id: str, mcq_set_id: str):
+    """Delete an MCQ set and all its questions"""
+    # First verify ownership
+    set_response = supabase.table("mcq_sets") \
+        .select("id") \
+        .eq("user_id", user_id) \
+        .eq("id", mcq_set_id) \
+        .single() \
+        .execute()
+    
+    if not set_response.data:
+        raise Exception("MCQ set not found or unauthorized")
+    
+    # Delete all questions in this set
+    supabase.table("mcq_questions").delete().eq("mcq_set_id", mcq_set_id).execute()
+    
+    # Delete the set
+    response = supabase.table("mcq_sets").delete() \
+        .eq("user_id", user_id) \
+        .eq("id", mcq_set_id) \
+        .execute()
+    
+    return response.data
+
 @router.get("/flashcard-sets")
 async def get_user_flashcard_sets(request: Request):
     """Get all flashcard sets for the logged-in user"""
