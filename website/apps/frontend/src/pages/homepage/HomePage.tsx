@@ -57,8 +57,8 @@ const FEATURES = [
     glow: "rgba(220,101,5,0.35)",
     border: "border-[#dc6505]/25",
     bg: "bg-[#dc6505]/8",
-    title: "Tagged notes",
-    body: "Capture vocabulary, grammar rules, phrases and cultural insights — each note tagged by category for instant filtering.",
+    title: "Notas etiquetadas",
+    body: "Captura vocabulario, reglas gramaticales, frases e información cultural — cada nota etiquetada por categoría para filtrado instantáneo.",
   },
   {
     icon: <IconCards />,
@@ -66,8 +66,8 @@ const FEATURES = [
     glow: "rgba(24,95,165,0.35)",
     border: "border-[#185FA5]/25",
     bg: "bg-[#185FA5]/8",
-    title: "AI flashcard sets",
-    body: "Turn any note into a flip-card set automatically. Review front-to-back and let the app track what you know.",
+    title: "Tarjetas con IA",
+    body: "Convierte cualquier nota en un juego de tarjetas automáticamente. Repasa de cara a cara y deja que la app registre lo que ya sabes.",
   },
   {
     icon: <IconMCQ />,
@@ -75,8 +75,8 @@ const FEATURES = [
     glow: "rgba(15,110,86,0.35)",
     border: "border-[#0F6E56]/25",
     bg: "bg-[#0F6E56]/8",
-    title: "MCQ quizzes",
-    body: "Test real comprehension with AI-generated multiple choice questions drawn directly from your own notes.",
+    title: "Exámenes de opción múltiple",
+    body: "Pon a prueba tu comprensión real con preguntas de opción múltiple generadas por IA a partir de tus propias notas.",
   },
   {
     icon: <IconTrend />,
@@ -84,25 +84,25 @@ const FEATURES = [
     glow: "rgba(83,74,183,0.35)",
     border: "border-[#534AB7]/25",
     bg: "bg-[#534AB7]/8",
-    title: "Smart review signals",
-    body: "Every set is colour-coded — passed, needs review, due, or not started — so you always know what to open next.",
+    title: "Señales de revisión inteligente",
+    body: "Cada conjunto está codificado por colores — aprobado, necesita repaso, pendiente o sin comenzar — para que siempre sepas qué abrir a continuación.",
   },
 ];
 
 const STEPS = [
-  { step: "01", color: "text-[#dc6505]", bg: "bg-[#dc6505]/10 border-[#dc6505]/20", title: "Write a note", body: "Tag it as Vocabulary, Grammar, Phrases, and more." },
-  { step: "02", color: "text-[#185FA5]", bg: "bg-[#185FA5]/10 border-[#185FA5]/20", title: "Generate a set", body: "AI creates flashcards or MCQ quizzes from your note in one click." },
-  { step: "03", color: "text-[#0F6E56]", bg: "bg-[#0F6E56]/10 border-[#0F6E56]/20", title: "Review & track", body: "Each set shows your score history and tells you when to revisit." },
+  { step: "01", color: "text-[#dc6505]", bg: "bg-[#dc6505]/10 border-[#dc6505]/20", title: "Escribe una nota", body: "Etiquétala como Vocabulario, Gramática, Frases y más." },
+  { step: "02", color: "text-[#185FA5]", bg: "bg-[#185FA5]/10 border-[#185FA5]/20", title: "Genera un conjunto", body: "La IA crea tarjetas o exámenes de opción múltiple a partir de tu nota con un solo clic." },
+  { step: "03", color: "text-[#0F6E56]", bg: "bg-[#0F6E56]/10 border-[#0F6E56]/20", title: "Repasa y haz seguimiento", body: "Cada conjunto muestra tu historial de puntuaciones y te indica cuándo volver a repasar." },
 ];
 
 const STATUS_PILLS = [
-  { label: "Not started", dot: "bg-slate-400",   ring: "ring-slate-400/30",   card: "bg-slate-500/10 border-slate-500/20",   desc: "Haven't attempted yet" },
-  { label: "Passed",      dot: "bg-emerald-400", ring: "ring-emerald-400/30", card: "bg-emerald-500/10 border-emerald-500/20", desc: "Avg score ≥ 80%" },
-  { label: "Needs review",dot: "bg-red-400",     ring: "ring-red-400/30",     card: "bg-red-500/10 border-red-500/20",         desc: "Avg score < 80%" },
-  { label: "Due",         dot: "bg-amber-400",   ring: "ring-amber-400/30",   card: "bg-amber-500/10 border-amber-500/20",     desc: "Not reviewed in 3 days" },
+  { label: "Sin comenzar",   dot: "bg-slate-400",   ring: "ring-slate-400/30",   card: "bg-slate-500/10 border-slate-500/20",   desc: "Todavía no lo has intentado" },
+  { label: "Aprobado",       dot: "bg-emerald-400", ring: "ring-emerald-400/30", card: "bg-emerald-500/10 border-emerald-500/20", desc: "Puntuación media ≥ 80 %" },
+  { label: "Necesita repaso",dot: "bg-red-400",     ring: "ring-red-400/30",     card: "bg-red-500/10 border-red-500/20",         desc: "Puntuación media < 80 %" },
+  { label: "Pendiente",      dot: "bg-amber-400",   ring: "ring-amber-400/30",   card: "bg-amber-500/10 border-amber-500/20",     desc: "Sin repasar en 3 días" },
 ];
 
-// ── Google Translate Tip Banner ─────────────────────────
+// ── Banner de Google Translate ─────────────────────────
 const TranslateBanner = ({ onDismiss }: { onDismiss: () => void }) => (
   <div
     className="relative flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3 text-sm"
@@ -111,7 +111,6 @@ const TranslateBanner = ({ onDismiss }: { onDismiss: () => void }) => (
       borderBottom: "1px solid rgba(56,189,248,0.15)",
     }}
   >
-    {/* Left glow */}
     <div className="pointer-events-none absolute left-0 top-0 h-full w-32 opacity-20"
       style={{ background: "linear-gradient(90deg, rgba(56,189,248,0.4), transparent)" }} />
 
@@ -121,17 +120,16 @@ const TranslateBanner = ({ onDismiss }: { onDismiss: () => void }) => (
         <IconGlobe />
       </div>
       <span className="text-slate-300 text-xs font-medium">
-        <span className="text-sky-400 font-semibold">Prefer another language?</span>
-        {" "}Use Google Translate to view this site in your language —
+        <span className="text-sky-400 font-semibold">¿Prefieres otro idioma?</span>
+        {" "}Usa Google Translate para ver este sitio en tu idioma —
       </span>
     </div>
 
-    {/* Steps */}
     <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
       {[
-        "Install the Google Translate extension",
-        "Click the extension icon in your browser toolbar",
-        "Choose your language",
+        "Instala la extensión de Google Translate",
+        "Haz clic en el icono de la extensión en tu navegador",
+        "Elige tu idioma",
       ].map((step, i) => (
         <React.Fragment key={i}>
           <span className="flex items-center gap-1.5">
@@ -160,13 +158,13 @@ const TranslateBanner = ({ onDismiss }: { onDismiss: () => void }) => (
       }}
     >
       <IconGlobe />
-      Get extension
+      Obtener extensión
     </a>
 
     <button
       onClick={onDismiss}
       className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-white/8 transition-all"
-      aria-label="Dismiss"
+      aria-label="Cerrar"
     >
       <IconX />
     </button>
@@ -193,7 +191,7 @@ export const HomePage = () => {
         }
       `}</style>
 
-      {/* ── TRANSLATE BANNER ── */}
+      {/* ── BANNER DE TRADUCCIÓN ── */}
       {!bannerDismissed && (
         <div style={{ animation: "banner-in 0.4s ease both" }}>
           <TranslateBanner onDismiss={() => setBannerDismissed(true)} />
@@ -224,11 +222,11 @@ export const HomePage = () => {
         <div className="relative z-10 flex flex-col items-center gap-0">
           <div className="inline-flex items-center gap-2.5 rounded-full border border-[#dc6505]/30 bg-[#dc6505]/10 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-8">
             <span className="h-1.5 w-1.5 rounded-full bg-[#dc6505] shadow-[0_0_6px_rgba(220,101,5,1)]" />
-            AI-powered language study
+            Aprendizaje de idiomas con IA
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-[Poppins] text-white max-w-3xl leading-[1.1] mb-6">
-            SOS-LANG: Study smarter.<br />
+            SOS-LANG: Estudia de forma más inteligente.<br />
             <span
               className="bg-clip-text font-[Poppins] text-transparent"
               style={{
@@ -237,12 +235,12 @@ export const HomePage = () => {
                 animation: "shimmer 3s linear infinite",
               }}
             >
-              Remember longer.
+              Recuerda durante más tiempo.
             </span>
           </h1>
 
           <p className="text-base font-[Poppins] text-slate-400 max-w-xl leading-relaxed mb-10">
-            SOS-LANG: Language Learning Application, turns your notes into flashcards and quizzes, then tells you exactly what to review next — so nothing slips through the cracks.
+            SOS-LANG: Aplicación de Aprendizaje de Idiomas convierte tus notas en tarjetas y exámenes, y luego te indica exactamente qué repasar — para que nada se te escape.
           </p>
 
           <div className="flex flex-col font-[Poppins] sm:flex-row items-center gap-4">
@@ -254,20 +252,20 @@ export const HomePage = () => {
                 boxShadow: "0 0 40px rgba(220,101,5,0.4)",
               }}
             >
-              Get started for free <IconArrow />
+              Comenzar gratis <IconArrow />
             </button>
-            <p className="text-xs font-[Poppins] text-slate-600">No credit card needed</p>
+            <p className="text-xs font-[Poppins] text-slate-600">No se necesita tarjeta de crédito</p>
           </div>
         </div>
       </section>
 
       {/* ══════════════════════
-          SPONSOR
+          PATROCINADOR
       ══════════════════════ */}
       <section className="w-full py-10 px-6 pb-10 max-w-5xl mx-auto">
         <div className="rounded-2xl overflow-hidden border border-white/[0.08] grid md:grid-cols-[1fr_1.6fr]">
           <div className="bg-white flex flex-col items-center justify-center gap-4 px-10 py-10">
-            <p className="text-[20px] font-semibold uppercase tracking-[0.3em] text-slate-700">POWERED BY</p>
+            <p className="text-[20px] font-semibold uppercase tracking-[0.3em] text-slate-700">DESARROLLADO POR</p>
             <img src={ucaEmblem} alt="CUNEAC" className="w-full max-w-[200px] object-contain" />
             <p className="text-[18px] font-semibold font-[Poppins] text-slate-700 tracking-wide">CUNEAC</p>
           </div>
@@ -278,19 +276,19 @@ export const HomePage = () => {
             <div className="pointer-events-none absolute top-0 right-0 w-48 h-48 rounded-full bg-[#185FA5]/20 blur-[70px]" />
             <div className="relative flex flex-col gap-4">
               <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#185FA5]/30 bg-[#185FA5]/10 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-[#38bdf8]">
-                Academic partner
+                Socio académico
               </div>
               <p className="text-[13px] font-[Poppins] text-slate-300 leading-relaxed max-w-md">
-  <span className="text-white font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
-  <br/>  
-  An international initiative at the University of Cádiz focused on fostering academic, scientific, and cultural collaboration between Spain, Eastern Europe, and Central Asia through projects, exchanges, and educational programs.
-</p>
+                <span className="text-white font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
+                <br/>
+                Una iniciativa internacional de la Universidad de Cádiz centrada en fomentar la colaboración académica, científica y cultural entre España, Europa del Este y Asia Central a través de proyectos, intercambios y programas educativos.
+              </p>
               <p className="text-[13px] font-[Poppins] text-slate-500 leading-relaxed max-w-md">
-                Through events, sponsorships, and applied projects, CUNEAC bridges the gap between classroom knowledge and practical experience — backing student-led tools like SOS-LANG.
+                A través de eventos, patrocinios y proyectos aplicados, CUNEAC tiende puentes entre el conocimiento en el aula y la experiencia práctica — respaldando herramientas creadas por estudiantes como SOS-LANG.
               </p>
               <div className="h-px w-16 bg-[#185FA5]/40" />
               <div className="flex items-center gap-6">
-                {[{ val: "UCA", label: "University" }, { val: "Cádiz", label: "Spain" }, { val: "2026", label: "Partnership" }].map((s) => (
+                {[{ val: "UCA", label: "Universidad" }, { val: "Cádiz", label: "España" }, { val: "2026", label: "Colaboración" }].map((s) => (
                   <div key={s.label} className="flex flex-col gap-0.5">
                     <span className="text-sm font-bold text-white">{s.val}</span>
                     <span className="text-[10px] text-slate-500 uppercase tracking-wider">{s.label}</span>
@@ -304,11 +302,11 @@ export const HomePage = () => {
 
       <main className="flex-1 flex flex-col gap-24 px-6 py-20 max-w-5xl mx-auto w-full">
 
-        {/* FEATURES */}
+        {/* CARACTERÍSTICAS */}
         <section className="flex flex-col gap-10">
           <div className="text-center font-[Poppins]">
-            <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Features</p>
-            <h2 className="text-3xl font-semibold font-[Poppins] text-white">Everything you need to progress faster</h2>
+            <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Características</p>
+            <h2 className="text-3xl font-semibold font-[Poppins] text-white">Todo lo que necesitas para progresar más rápido</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {FEATURES.map((f) => (
@@ -326,11 +324,11 @@ export const HomePage = () => {
           </div>
         </section>
 
-        {/* HOW IT WORKS */}
+        {/* CÓMO FUNCIONA */}
         <section className="flex flex-col gap-10">
           <div className="text-center font-[Poppins]">
-            <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Workflow</p>
-            <h2 className="text-3xl font-semibold font-[Poppins] text-white">Three steps to mastery</h2>
+            <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Flujo de trabajo</p>
+            <h2 className="text-3xl font-semibold font-[Poppins] text-white">Tres pasos hacia el dominio</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {STEPS.map((s) => (
@@ -343,13 +341,13 @@ export const HomePage = () => {
           </div>
         </section>
 
-        {/* REVIEW SIGNALS */}
+        {/* SEÑALES DE REVISIÓN */}
         <section className="flex flex-col gap-8">
           <div className="text-center">
-            <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Review signals</p>
-            <h2 className="text-3xl font-semibold text-white mb-3 font-[Poppins]">Know exactly what to study next</h2>
+            <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Señales de revisión</p>
+            <h2 className="text-3xl font-semibold text-white mb-3 font-[Poppins]">Sabe exactamente qué estudiar a continuación</h2>
             <p className="text-[13px] text-slate-500 max-w-md mx-auto leading-relaxed">
-              Every set is automatically colour-coded based on your performance and how recently you reviewed it.
+              Cada conjunto se codifica automáticamente por colores según tu rendimiento y cuándo lo repasaste por última vez.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -379,34 +377,34 @@ export const HomePage = () => {
           <div className="pointer-events-none absolute bottom-0 right-1/4 w-[200px] h-[150px] rounded-full bg-[#534AB7]/20 blur-[60px]" />
           <div className="relative inline-flex items-center gap-2.5 rounded-full border border-[#dc6505]/30 bg-[#dc6505]/10 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-[#dc6505]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#dc6505]" />
-            Start today
+            Empieza hoy
           </div>
-          <h2 className="relative text-3xl font-semibold text-white font-[Poppins]">Ready to build better study habits?</h2>
+          <h2 className="relative text-3xl font-semibold text-white font-[Poppins]">¿Listo para crear mejores hábitos de estudio?</h2>
           <p className="relative text-[13px] text-slate-400 max-w-md leading-relaxed">
-            Join SOS-LANG and start turning your notes into a system that actually helps you retain your target language.
+            Únete a SOS-LANG y empieza a convertir tus notas en un sistema que realmente te ayuda a retener el idioma que estás aprendiendo.
           </p>
           <button
             onClick={() => setPopupVisible(true)}
             className="relative flex items-center gap-2 px-7 py-3 rounded-full text-white text-sm font-semibold transition-all hover:scale-105"
             style={{ background: "linear-gradient(135deg, #dc6505, #f59e0b)", boxShadow: "0 0 40px rgba(220,101,5,0.4)" }}
           >
-            Get started for free <IconArrow />
+            Comenzar gratis <IconArrow />
           </button>
         </section>
       </main>
 
-      {/* FOOTER */}
+      {/* PIE DE PÁGINA */}
       <footer className="border-t border-white/[0.07] bg-[#06101a] px-8 py-6 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <img src={sosLogo} alt="SOS-LANG" className="w-5 h-5 object-contain opacity-70" />
           <span className="text-xs font-semibold text-slate-500">SOS-LANG</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[11px] text-slate-600">Supported by</span>
+          <span className="text-[11px] text-slate-600">Respaldado por</span>
           <img src={ucaEmblem} alt="CUNEAC" className="h-4 object-contain opacity-40" />
           <span className="text-[11px] font-medium text-slate-500">CUNEAC</span>
         </div>
-        <p className="text-xs text-slate-600">Built for fast review and meaningful retention.</p>
+        <p className="text-xs text-slate-600">Diseñado para un repaso rápido y una retención significativa.</p>
       </footer>
 
       <RegistrationForm

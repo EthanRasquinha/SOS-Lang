@@ -62,31 +62,31 @@ interface QuizResult {
 
 const STATUS_CONFIG = {
   "not-attempted": {
-    label: "Not started",
+    label: "Sin comenzar",
     dot: "bg-slate-500",
     bar: "bg-slate-600",
     text: "text-slate-400",
   },
   "passed": {
-    label: "Passed",
+    label: "Aprobado",
     dot: "bg-emerald-400",
     bar: "bg-emerald-500",
     text: "text-emerald-400",
   },
   "failed": {
-    label: "Needs review",
+    label: "Necesita repaso",
     dot: "bg-red-400",
     bar: "bg-red-500",
     text: "text-red-400",
   },
   "stale": {
-    label: "Due for review",
+    label: "Pendiente de revisión",
     dot: "bg-amber-400",
     bar: "bg-amber-500",
     text: "text-amber-400",
   },
   "all": {
-    label: "All",
+    label: "Todos",
     dot: "bg-amber-400",
     bar: "bg-amber-500",
     text: "text-amber-400",
@@ -148,7 +148,7 @@ const IconTrash = () => (
   </svg>
 );
 
-// ── Single material row ────────────────────────────────
+// ── Fila de material individual ────────────────────────
 interface RowProps {
   material: MaterialCard;
   onStart: () => void;
@@ -160,20 +160,16 @@ interface RowProps {
 const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingSet, accent }) => {
   const statusInfo = STATUS_CONFIG[material.status] ?? STATUS_CONFIG["not-attempted"];
   return (
-    // Use flex-wrap so the actions row can drop below on narrow containers
     <div className="relative flex flex-wrap items-center gap-x-4 gap-y-3 pl-4 pr-4 py-4 rounded-2xl border border-white/[0.06] bg-[#0d1f35] hover:bg-[#112540] transition-all">
-      {/* Status dot — hidden on very small widths to save space */}
       <div className="shrink-0 hidden sm:flex flex-col items-center gap-1.5">
         <span className={`w-2 h-10 rounded-full ${statusInfo.dot}`} />
       </div>
 
-      {/* Title + meta — flex-1 with min-w-0 so it shrinks properly */}
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-left text-slate-100 break-words">{material.title}</p>
-        {/* Meta row wraps naturally */}
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1">
           <span className="text-[11px] text-slate-500">
-            {material.count} {material.type === "flashcard" ? "cards" : "questions"}
+            {material.count} {material.type === "flashcard" ? "tarjetas" : "preguntas"}
           </span>
           <span className="text-[11px] text-slate-600">·</span>
           <span className="text-[11px] text-slate-500">{material.date}</span>
@@ -182,12 +178,11 @@ const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingS
             {statusInfo.label}
           </span>
           <span className="text-[11px] font-semibold text-slate-300">
-            Avg: {material.avg.toFixed(1)}%
+            Media: {material.avg.toFixed(1)}%
           </span>
         </div>
       </div>
 
-      {/* Actions — shrink-0 so buttons never compress, but the row wraps if needed */}
       <div className="flex items-center gap-2 shrink-0 ml-auto">
         <button
           onClick={onStart}
@@ -199,7 +194,7 @@ const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingS
             }`}
         >
           <IconPlay />
-          {loadingSet ? "Loading..." : "Start"}
+          {loadingSet ? "Cargando..." : "Empezar"}
         </button>
         <button
           onClick={onDelete}
@@ -212,7 +207,7 @@ const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingS
   );
 };
 
-// ── Section block ──────────────────────────────────────
+// ── Bloque de sección ──────────────────────────────────
 interface SectionProps {
   title: string;
   subtitle: string;
@@ -243,7 +238,7 @@ const Section: React.FC<SectionProps> = ({ title, subtitle, icon, accentBg, chil
   </div>
 );
 
-// ── Filter pill ────────────────────────────────────────
+// ── Píldora de filtro ──────────────────────────────────
 interface PillProps {
   active: boolean;
   onClick: () => void;
@@ -262,7 +257,7 @@ const FilterPill: React.FC<PillProps> = ({ active, onClick, children }) => (
   </button>
 );
 
-// ── Main component ─────────────────────────────────────
+// ── Componente principal ───────────────────────────────
 export const AIStudyMaterial: React.FC = () => {
   const [materials, setMaterials] = useState<MaterialCard[]>([]);
   const [loading, setLoading] = useState(false);
@@ -334,7 +329,7 @@ export const AIStudyMaterial: React.FC = () => {
 
       setMaterials([...flashcardMaterials, ...mcqMaterials]);
     } catch {
-      toast.error("Failed to load study materials");
+      toast.error("Error al cargar los materiales de estudio.");
     } finally {
       setLoading(false);
     }
@@ -348,8 +343,8 @@ export const AIStudyMaterial: React.FC = () => {
         : `https://sos-lang.onrender.com/ai/mcq-sets/${id}`;
       await fetch(endpoint, { method: "DELETE", headers: { Authorization: `Bearer ${session.data.session?.access_token}` } });
       setMaterials((prev) => prev.filter((m) => m.id !== id));
-      toast.success("Deleted");
-    } catch { toast.error("Failed to delete"); }
+      toast.success("Eliminado");
+    } catch { toast.error("Error al eliminar."); }
   };
 
   const loadFlashcardSet = async (id: string) => {
@@ -362,7 +357,7 @@ export const AIStudyMaterial: React.FC = () => {
       if (!res.ok) throw new Error();
       const data = await res.json();
       setSelectedFlashcardSet(data.flashcard_set);
-    } catch { toast.error("Failed to load flashcard set"); }
+    } catch { toast.error("Error al cargar el juego de tarjetas."); }
     finally { setLoadingSet(false); }
   };
 
@@ -376,7 +371,7 @@ export const AIStudyMaterial: React.FC = () => {
       if (!res.ok) throw new Error();
       const data = await res.json();
       setSelectedMCQSet(data.mcq_set);
-    } catch { toast.error("Failed to load MCQ set"); }
+    } catch { toast.error("Error al cargar el examen."); }
     finally { setLoadingSet(false); }
   };
 
@@ -417,11 +412,11 @@ export const AIStudyMaterial: React.FC = () => {
       className="min-h-screen bg-[#080f1a] text-white flex flex-col"
       style={{ fontFamily: "'Sora', 'Poppins', sans-serif" }}
     >
-      {/* ── TOP BAR ── */}
+      {/* BARRA SUPERIOR */}
       <header className="relative shrink-0 flex items-center px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07] overflow-hidden">
         <img
           src={sosLogo}
-          alt="SOS-Lang Logo"
+          alt="Logo SOS-Lang"
           className="absolute right-4 top-1/2 -translate-y-1/2 h-20 opacity-10 pointer-events-none select-none"
         />
         <div className="relative z-10 flex items-center gap-3">
@@ -429,25 +424,25 @@ export const AIStudyMaterial: React.FC = () => {
             <BookOpen size={20} />
           </div>
           <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">
-            SOS-Lang Study Materials
+            Material de estudio SOS-Lang
           </h1>
         </div>
         <button
           onClick={() => setSortOrder((p) => (p === "newest" ? "oldest" : "newest"))}
           className="ml-auto text-xs font-semibold px-3 py-1.5 rounded-full bg-[#0f2a44] text-white hover:bg-[#11335a] transition-all whitespace-nowrap"
         >
-          {sortOrder === "newest" ? "↓ Newest first" : "↑ Oldest first"}
+          {sortOrder === "newest" ? "↓ Más recientes primero" : "↑ Más antiguos primero"}
         </button>
       </header>
 
       <div className="flex-1 overflow-y-auto px-8 py-8 flex flex-col gap-10 max-w-6xl w-full mx-auto">
 
-        {/* ── STATS ROW ── */}
+        {/* FILA DE ESTADÍSTICAS */}
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: "Total sets", value: totalAll, sub: "flashcards + MCQs" },
-            { label: "Due for review", value: totalDue, sub: "not started or stale" },
-            { label: "Passed", value: totalPassed, sub: "avg score ≥ 80%" },
+            { label: "Total de conjuntos", value: totalAll, sub: "tarjetas + exámenes" },
+            { label: "Pendientes de revisión", value: totalDue, sub: "sin comenzar o sin repasar" },
+            { label: "Aprobados", value: totalPassed, sub: "puntuación media ≥ 80 %" },
           ].map((stat) => (
             <div key={stat.label} className="rounded-2xl bg-[#0d1f35] border border-white/[0.06] px-5 py-4">
               <p className="text-2xl font-semibold text-white">{stat.value}</p>
@@ -457,15 +452,15 @@ export const AIStudyMaterial: React.FC = () => {
           ))}
         </div>
 
-        {/* ── FILTER PILLS ── */}
+        {/* PÍLDORAS DE FILTRO */}
         <div className="flex items-center gap-2 flex-wrap">
           {(["all", "not-attempted", "passed", "failed", "stale"] as FilterOption[]).map((f) => (
             <FilterPill key={f} active={filter === f} onClick={() => setFilter(f)}>
-              {f === "all" ? "All"
-                : f === "not-attempted" ? "Not started"
-                  : f === "passed" ? "Passed"
-                    : f === "failed" ? "Needs review"
-                      : "Due for review"}
+              {f === "all" ? "Todos"
+                : f === "not-attempted" ? "Sin comenzar"
+                  : f === "passed" ? "Aprobado"
+                    : f === "failed" ? "Necesita repaso"
+                      : "Pendiente de revisión"}
             </FilterPill>
           ))}
         </div>
@@ -474,24 +469,24 @@ export const AIStudyMaterial: React.FC = () => {
           <div className="flex items-center justify-center py-16">
             <div className="flex flex-col items-center gap-3">
               <div className="w-6 h-6 border-2 border-[#dc6505] border-t-transparent rounded-full animate-spin" />
-              <p className="text-xs text-slate-500">Loading your materials...</p>
+              <p className="text-xs text-slate-500">Cargando tus materiales...</p>
             </div>
           </div>
         )}
 
         {!loading && (
           <div className="grid lg:grid-cols-2 gap-6">
-            {/* FLASHCARDS */}
+            {/* TARJETAS */}
             <Section
-              title="Flashcard Sets"
-              subtitle="Flip-card style memorisation"
+              title="Juegos de tarjetas"
+              subtitle="Memorización con tarjetas de cara y vuelta"
               icon={<span className="text-[#dc6505]"><IconCards /></span>}
               accent="orange"
               accentBg="bg-[#dc6505]/10"
               count={flashcards.length}
             >
               {flashcards.length === 0 ? (
-                <p className="text-slate-500 text-sm">No flashcard sets available.</p>
+                <p className="text-slate-500 text-sm">No hay juegos de tarjetas disponibles.</p>
               ) : (
                 <div className="flex flex-col gap-3">
                   {flashcards.map((m) => (
@@ -508,17 +503,17 @@ export const AIStudyMaterial: React.FC = () => {
               )}
             </Section>
 
-            {/* MCQ */}
+            {/* EXÁMENES */}
             <Section
-              title="MCQ Quizzes"
-              subtitle="Multiple choice question sets"
+              title="Exámenes de opción múltiple"
+              subtitle="Conjuntos de preguntas de opción múltiple"
               icon={<span className="text-[#185FA5]"><IconMCQ /></span>}
               accent="blue"
               accentBg="bg-[#185FA5]/10"
               count={mcqs.length}
             >
               {mcqs.length === 0 ? (
-                <p className="text-slate-500 text-sm">No MCQ sets available.</p>
+                <p className="text-slate-500 text-sm">No hay exámenes disponibles.</p>
               ) : (
                 <div className="flex flex-col gap-3">
                   {mcqs.map((m) => (

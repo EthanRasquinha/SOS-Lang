@@ -36,16 +36,17 @@ export const NavBar = () => {
   };
 
   const navItems = useMemo(() => [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    ...(user
-      ? [
-          { name: "New Note", path: "/notes" },
-          { name: "Study Material", path: "/studymaterial" },
-          { name: "Dashboard", path: "/userdashboard" },
-        ]
-      : []),
-  ], [user]);
+  { name: "Inicio", path: "/" },
+  
+  ...(user
+    ? [
+        { name: "Nueva nota", path: "/notes" },
+        { name: "Espacio de estudio", path: "/studymaterial" },
+        { name: "Panel", path: "/userdashboard" },
+      ]
+    : []),
+    { name: "Acerca de", path: "/about" },
+], [user]);
 
   // Close mobile menu on route change
   useEffect(() => { setMobileOpen(false); }, [location.pathname]);

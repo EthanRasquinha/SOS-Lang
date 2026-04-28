@@ -351,6 +351,8 @@ async def generate_note_flashcards(note_id: str, request: Request):
     }
 
 
+
+
 @router.get("/flashcard-sets")
 async def get_user_flashcard_sets(request: Request):
     """Get all flashcard sets for the logged-in user"""
@@ -425,7 +427,55 @@ async def delete_flashcards(flashcard_set_id: str, request: Request):
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
+@router.delete("/mcq-sets/{mcq_set_id}")
+async def delete_mcq_set(mcq_set_id: str, request: Request):
+    """Delete an MCQ set"""
+    # 🔐 Auth
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        raise HTTPException(status_code=401, detail="Missing auth")
 
+    token = auth_header.split(" ")[1]
+    user = supabase.auth.get_user(token)
+
+    if not user or not user.user:
+        raise HTTPException(status_code=401, detail="Invalid user")
+
+    user_id = user.user.id
+
+    try:
+        delete_mcq_set_from_db(user_id, mcq_set_id)
+        return {
+            "message": "MCQ set deleted successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    
+
+def delete_mcq_set_from_db(user_id: str, mcq_set_id: str):
+    """Delete an MCQ set and all its questions"""
+    # First verify ownership
+    set_response = supabase.table("mcq_sets") \
+        .select("id") \
+        .eq("user_id", user_id) \
+        .eq("id", mcq_set_id) \
+        .single() \
+        .execute()
+    
+    if not set_response.data:
+        raise Exception("MCQ set not found or unauthorized")
+    
+    # Delete all questions in this set
+    supabase.table("mcq_questions").delete().eq("mcq_set_id", mcq_set_id).execute()
+    
+    # Delete the set
+    response = supabase.table("mcq_sets").delete() \
+        .eq("user_id", user_id) \
+        .eq("id", mcq_set_id) \
+        .execute()
+    
+    return response.data
+    
 @router.post("/quiz-results")
 async def submit_quiz_result(result_data: dict, request: Request):
     """Submit quiz results for flashcards OR MCQ"""

@@ -21,7 +21,7 @@ ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Filler, 
 
 import sosLogo from "../../assets/sos-logo.png";
 
-/* ── TYPES ── */
+/* ── TIPOS ── */
 type FilterOption = "all" | "not-attempted" | "passed" | "failed" | "stale";
 type DistributionKeys = Exclude<FilterOption, "all">;
 
@@ -49,7 +49,7 @@ type StatCardProps = {
   accent?: string;
 };
 
-/* ── STAT CARD ── */
+/* ── TARJETA DE ESTADÍSTICA ── */
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon, accent = "#dc6505" }) => (
   <div
     className="relative overflow-hidden rounded-2xl p-5 flex flex-col gap-4 transition-all hover:scale-[1.01]"
@@ -58,7 +58,6 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon, accent = "#dc65
       border: "1px solid rgba(255,255,255,0.07)",
     }}
   >
-    {/* Ambient corner glow */}
     <div className="absolute top-0 right-0 w-20 h-20 rounded-full pointer-events-none opacity-10"
       style={{ background: `radial-gradient(circle, ${accent}, transparent 70%)`, transform: "translate(30%, -30%)" }} />
 
@@ -74,7 +73,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon, accent = "#dc65
   </div>
 );
 
-/* ── MAIN COMPONENT ── */
+/* ── COMPONENTE PRINCIPAL ── */
 export const UserDashboard = () => {
   const navigate = useNavigate();
 
@@ -85,7 +84,6 @@ export const UserDashboard = () => {
   const [materials, setMaterials] = useState<MaterialCard[]>([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "good" | "mid" | "bad">("all");
-  // Track MCQ set count separately to add to total_sets
   const [mcqCount, setMcqCount] = useState(0);
 
   const reviewSet = (setId: string) => navigate(`/studymaterial/${setId}?autostart=true`);
@@ -142,24 +140,23 @@ export const UserDashboard = () => {
       const mcqData = mcqRes.ok ? await mcqRes.json() : { mcq_sets: [] };
       const mcqSets = mcqData.mcq_sets || [];
 
-      // Track MCQ count to add onto stats.total_sets
       setMcqCount(mcqSets.length);
 
       const [flashEnriched, mcqEnriched] = await Promise.all([
         Promise.all((flashData.flashcard_sets || []).map(async (set: any) => {
           const results = await fetchResultsForSet(set.id);
           const status = getMaterialStatus(results);
-          return { id: set.id, title: set.title, content: `${set.flashcards?.length || 0} flashcards`, date: new Date(set.created_at).toLocaleDateString(), createdAt: set.created_at, ...status };
+          return { id: set.id, title: set.title, content: `${set.flashcards?.length || 0} tarjetas`, date: new Date(set.created_at).toLocaleDateString(), createdAt: set.created_at, ...status };
         })),
         Promise.all(mcqSets.map(async (set: any) => {
           const results = await fetchResultsForSet(set.id);
           const status = getMaterialStatus(results);
-          return { id: set.id, title: set.title, content: `${set.questions?.length || 0} questions`, date: new Date(set.created_at).toLocaleDateString(), createdAt: set.created_at, ...status };
+          return { id: set.id, title: set.title, content: `${set.questions?.length || 0} preguntas`, date: new Date(set.created_at).toLocaleDateString(), createdAt: set.created_at, ...status };
         })),
       ]);
 
       setMaterials([...flashEnriched, ...mcqEnriched]);
-    } catch { toast.error("Failed to load materials"); }
+    } catch { toast.error("Error al cargar los materiales."); }
   };
 
   useEffect(() => {
@@ -188,11 +185,11 @@ export const UserDashboard = () => {
     fetchStoredMaterials();
   }, []);
 
-  /* ── CHART CONFIG ── */
+  /* ── CONFIGURACIÓN DE GRÁFICOS ── */
   const chartData = {
     labels: activity.map((a) => a.date),
     datasets: [{
-      label: "Daily Attempts",
+      label: "Intentos diarios",
       data: activity.map((a) => a.count),
       borderColor: "#dc6505",
       backgroundColor: "rgba(220,101,5,0.12)",
@@ -214,7 +211,7 @@ export const UserDashboard = () => {
   };
 
   const pieData = {
-    labels: ["Proficient", "Non-Proficient", "Due for Review", "Unattempted"],
+    labels: ["Dominado", "No dominado", "Pendiente de revisión", "Sin intentar"],
     datasets: [{
       data: [distribution.passed, distribution.failed, distribution.stale, distribution["not-attempted"]],
       backgroundColor: ["#22c55e", "#ef4444", "#f59e0b", "#475569"],
@@ -223,7 +220,6 @@ export const UserDashboard = () => {
     }],
   };
 
-  // Total sets = flashcard sets (from API) + MCQ sets
   const totalSets = stats.total_sets + mcqCount;
 
   /* ── RENDER ── */
@@ -232,7 +228,7 @@ export const UserDashboard = () => {
       <style>{DASH_STYLES}</style>
       <div className="min-h-screen text-white" style={{ background: "#07121d", fontFamily: "'Sora', 'Poppins', sans-serif" }}>
 
-        {/* ── HEADER ── */}
+        {/* ENCABEZADO */}
         <header className="relative flex items-center justify-between px-6 py-4 border-b border-white/[0.06] overflow-hidden"
           style={{ background: "linear-gradient(90deg, #0a1628, #0d1f35)" }}>
           <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(220,101,5,0.4), transparent)" }} />
@@ -243,41 +239,41 @@ export const UserDashboard = () => {
               <TrendingUp size={18} />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-white tracking-tight">Learning Dashboard</h1>
-              <p className="text-xs text-slate-500">Track your progress and insights</p>
+              <h1 className="text-lg font-bold text-white tracking-tight">Panel de aprendizaje</h1>
+              <p className="text-xs text-slate-500">Sigue tu progreso e información</p>
             </div>
           </div>
 
           <button className="relative z-10 text-xs font-semibold px-4 py-2 rounded-full text-white transition-all hover:scale-105"
             style={{ background: "linear-gradient(135deg, #dc6505, #b85204)", boxShadow: "0 0 16px rgba(220,101,5,0.25)" }}>
-            Start Review
+            Iniciar repaso
           </button>
         </header>
 
         <main className="max-w-6xl mx-auto px-6 py-8 space-y-7">
 
-          {/* ── STAT CARDS ── */}
+          {/* TARJETAS DE ESTADÍSTICAS */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard title="Total Study Sets" value={totalSets} icon={<Layers size={18} />} />
-            <StatCard title="Quizzes Completed" value={stats.total_quizzes} icon={<Brain size={18} />} accent="#818cf8" />
-            <StatCard title="Avg Performance" value={`${stats.avg_score}%`} icon={<TrendingUp size={18} />} accent="#22c55e" />
-            <StatCard title="Current Streak" value={`${streak}d`} icon={<Flame size={18} />} accent="#f59e0b" />
+            <StatCard title="Total de conjuntos" value={totalSets} icon={<Layers size={18} />} />
+            <StatCard title="Exámenes completados" value={stats.total_quizzes} icon={<Brain size={18} />} accent="#818cf8" />
+            <StatCard title="Rendimiento medio" value={`${stats.avg_score}%`} icon={<TrendingUp size={18} />} accent="#22c55e" />
+            <StatCard title="Racha actual" value={`${streak}d`} icon={<Flame size={18} />} accent="#f59e0b" />
           </div>
 
-          {/* ── CHARTS ── */}
+          {/* GRÁFICOS */}
           <div className="rounded-2xl border border-white/[0.07] overflow-hidden" style={{ background: "#0b1b2b" }}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
-              <h2 className="text-base font-bold text-white tracking-tight">Study Analytics</h2>
+              <h2 className="text-base font-bold text-white tracking-tight">Analíticas de estudio</h2>
             </div>
 
             <div className="grid md:grid-cols-2 gap-px" style={{ background: "rgba(255,255,255,0.04)" }}>
 
-              {/* Line chart */}
+              {/* Gráfico de líneas */}
               <div className="flex flex-col p-6 gap-4" style={{ background: "#0b1b2b" }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold">Activity Trend</p>
-                    <h3 className="text-sm font-bold text-white mt-0.5">Review Frequency</h3>
+                    <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold">Tendencia de actividad</p>
+                    <h3 className="text-sm font-bold text-white mt-0.5">Frecuencia de repaso</h3>
                   </div>
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(220,101,5,0.1)", color: "#dc6505" }}>
                     <Activity size={16} />
@@ -288,12 +284,12 @@ export const UserDashboard = () => {
                 </div>
               </div>
 
-              {/* Pie chart */}
+              {/* Gráfico circular */}
               <div className="flex flex-col p-6 gap-4" style={{ background: "#0b1b2b" }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold">Performance Split</p>
-                    <h3 className="text-sm font-bold text-white mt-0.5">Mastery Breakdown</h3>
+                    <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold">Distribución del rendimiento</p>
+                    <h3 className="text-sm font-bold text-white mt-0.5">Desglose de dominio</h3>
                   </div>
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(220,101,5,0.1)", color: "#dc6505" }}>
                     <PieChart size={16} />
@@ -307,15 +303,15 @@ export const UserDashboard = () => {
             </div>
           </div>
 
-          {/* ── RECENT ACTIVITY ── */}
+          {/* ACTIVIDAD RECIENTE */}
           <div className="rounded-2xl border border-white/[0.07] overflow-hidden" style={{ background: "#0b1b2b" }}>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-4 border-b border-white/[0.06]">
-              <h2 className="text-base font-bold text-white tracking-tight">Recent Activity</h2>
+              <h2 className="text-base font-bold text-white tracking-tight">Actividad reciente</h2>
               <div className="flex gap-2">
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search sets..."
+                  placeholder="Buscar conjuntos..."
                   className="dash-input"
                 />
                 <select
@@ -324,17 +320,17 @@ export const UserDashboard = () => {
                   className="dash-input"
                   style={{ cursor: "pointer" }}
                 >
-                  <option value="all">All scores</option>
-                  <option value="good">≥ 80%</option>
-                  <option value="mid">50–79%</option>
-                  <option value="bad">&lt; 50%</option>
+                  <option value="all">Todas las puntuaciones</option>
+                  <option value="good">≥ 80 %</option>
+                  <option value="mid">50–79 %</option>
+                  <option value="bad">&lt; 50 %</option>
                 </select>
               </div>
             </div>
 
             <div className="divide-y divide-white/[0.05]">
               {filteredRecent.length === 0 ? (
-                <p className="text-slate-500 text-sm text-center py-10">No results found.</p>
+                <p className="text-slate-500 text-sm text-center py-10">No se encontraron resultados.</p>
               ) : filteredRecent.map((item, i) => {
                 const percent = item.total > 0 ? (item.score / item.total) * 100 : 0;
                 const color = percent >= 80 ? "#22c55e" : percent >= 50 ? "#f59e0b" : "#ef4444";
@@ -342,27 +338,20 @@ export const UserDashboard = () => {
 
                 return (
                   <div key={i} className="flex flex-wrap items-center gap-3 px-6 py-3.5 transition-colors hover:bg-white/[0.02]">
-                    {/* Title */}
-                    <span className="flex-1 min-w-0 text-sm font-medium text-slate-200 truncate">{item.title || "Untitled"}</span>
-
-                    {/* Score badge */}
+                    <span className="flex-1 min-w-0 text-sm font-medium text-slate-200 truncate">{item.title || "Sin título"}</span>
                     <span className="text-xs font-bold px-2.5 py-1 rounded-full shrink-0"
                       style={{ color, background: bgColor }}>
                       {percent.toFixed(1)}%
                     </span>
-
-                    {/* Date */}
                     <span className="text-xs text-slate-500 shrink-0 hidden sm:block">
                       {item.completed_at?.slice(0, 16).replace("T", " ")}
                     </span>
-
-                    {/* Review button */}
                     <button
                       onClick={() => reviewSet(item.flashcard_set_id)}
                       className="text-xs font-semibold px-3 py-1.5 rounded-full shrink-0 transition-all hover:scale-105"
                       style={{ background: "rgba(220,101,5,0.12)", color: "#dc6505", border: "1px solid rgba(220,101,5,0.2)" }}
                     >
-                      Review →
+                      Repasar →
                     </button>
                   </div>
                 );

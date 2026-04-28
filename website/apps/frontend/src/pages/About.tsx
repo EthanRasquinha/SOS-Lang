@@ -42,32 +42,32 @@ const IconSend = () => (
 const TEAM = [
   {
     name: "Analuiza de Carvalho",
-    role: "Research / Analysis",
-    major: "WPI Civil Engineering '27",
+    role: "Investigación / Análisis",
+    major: "WPI Ingeniería Civil '27",
     img: analuizaheadshot,
     accent: "#dc6505",
     gradient: "from-[#dc6505] to-[#f59e0b]",
   },
   {
     name: "Julian Espinal",
-    role: "Web Development",
-    major: "WPI Computer Science '27",
+    role: "Desarrollo web",
+    major: "WPI Ciencias de la Computación '27",
     img: julianheadshot,
     accent: "#185FA5",
     gradient: "from-[#185FA5] to-[#38bdf8]",
   },
   {
     name: "Ethan Rasquinha",
-    role: "Web Development",
-    major: "WPI Computer Science '27",
+    role: "Desarrollo web",
+    major: "WPI Ciencias de la Computación '27",
     img: ethanheadshot,
     accent: "#0F6E56",
     gradient: "from-[#0F6E56] to-[#34d399]",
   },
   {
     name: "Adriana Valero Navarro",
-    role: "Research / Analysis",
-    major: "WPI Aerospace Engineering '27",
+    role: "Investigación / Análisis",
+    major: "WPI Ingeniería Aeroespacial '27",
     img: adrianaheadshot,
     accent: "#534AB7",
     gradient: "from-[#534AB7] to-[#a78bfa]",
@@ -83,21 +83,21 @@ export const About: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  
-  const res = await fetch('https://formspree.io/f/mwvaaeqo', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify(formData),
-  });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  if (res.ok) {
-    setFormData({ name: '', email: '', message: '' });
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
-  }
-};
+    const res = await fetch('https://formspree.io/f/mwvaaeqo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    if (res.ok) {
+      setFormData({ name: '', email: '', message: '' });
+      setSent(true);
+      setTimeout(() => setSent(false), 3000);
+    }
+  };
 
   return (
     <div
@@ -106,18 +106,15 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     >
       <div className="max-w-5xl w-full flex flex-col gap-20 px-6 py-20">
 
-        {/* ══════════════════════
-            HEADER
-        ══════════════════════ */}
+        {/* ENCABEZADO */}
         <motion.div {...fadeUp} className="relative text-center flex flex-col items-center gap-5">
-          {/* Glows */}
           <div className="pointer-events-none absolute top-[-60px] left-1/2 -translate-x-1/2 w-[500px] h-[260px] rounded-full bg-[#dc6505]/12 blur-[120px]" />
           <div className="pointer-events-none absolute top-0 left-1/4 w-[200px] h-[200px] rounded-full bg-[#185FA5]/12 blur-[90px]" />
           <div className="pointer-events-none absolute top-0 right-1/4 w-[200px] h-[200px] rounded-full bg-[#534AB7]/12 blur-[90px]" />
 
           <div className="inline-flex items-center gap-2.5 rounded-full border border-[#dc6505]/30 bg-[#dc6505]/10 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-[#dc6505]">
             <span className="h-1.5 w-1.5 rounded-full font-[Poppins] bg-[#dc6505] shadow-[0_0_6px_rgba(220,101,5,1)]" />
-            The team behind SOS-LANG
+            El equipo detrás de SOS-LANG
           </div>
 
           <h1 className="relative text-5xl font-[Poppins] font-bold tracking-tight text-white">
@@ -130,9 +127,7 @@ Por ello, somos conscientes de que necesitamos formas más inteligentes de apren
           </p>
         </motion.div>
 
-        {/* ══════════════════════
-            MISSION + WHAT WE DO
-        ══════════════════════ */}
+        {/* MISIÓN + QUÉ HACEMOS */}
         <motion.div variants={stagger} initial="initial" animate="animate" className="grid md:grid-cols-2 gap-4">
           {[
             {
@@ -180,8 +175,7 @@ Por ello, somos conscientes de que necesitamos formas más inteligentes de apren
 <div>
         <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Our Sponsors</h2>
         <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
-  {/* Logo + headshot row */}
-  <div className="grid grid-cols-3 gap-0">
+          <div className="grid grid-cols-3 gap-0">
 
     {/* Left headshot */}
     <div className="relative font-[Poppins] overflow-hidden h-56">
@@ -193,14 +187,13 @@ Por ello, somos conscientes de que necesitamos formas más inteligentes de apren
       <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
     </div>
 
-    {/* Center logo */}
-    <div className="bg-white p-8 flex items-center justify-center">
-      <img
-        src={ucaEmblem}
-        alt="CUNEAC logo"
-        className="max-h-36 object-contain"
-      />
-    </div>
+            <div className="bg-white p-8 flex items-center justify-center">
+              <img
+                src={ucaEmblem}
+                alt="Logo CUNEAC"
+                className="max-h-36 object-contain"
+              />
+            </div>
 
     {/* Right headshot */}
     <div className="relative font-[Poppins] overflow-hidden h-56">
@@ -381,13 +374,10 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
           </div>
         </div>
 
-        {/* ══════════════════════
-            CONTACT
-        ══════════════════════ */}
+        {/* CONTACTO */}
         <motion.div {...fadeUp} className="relative rounded-2xl border border-white/[0.08] overflow-hidden"
           style={{ background: "linear-gradient(135deg, #0f1e2e 0%, #0d1a2c 50%, #101428 100%)" }}
         >
-          {/* Glows */}
           <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[160px] rounded-full bg-[#dc6505]/12 blur-[80px]" />
           <div className="pointer-events-none absolute bottom-0 left-1/4 w-[200px] h-[150px] rounded-full bg-[#185FA5]/15 blur-[60px]" />
           <div className="pointer-events-none absolute bottom-0 right-1/4 w-[200px] h-[150px] rounded-full bg-[#534AB7]/15 blur-[60px]" />
@@ -396,11 +386,11 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
             <div className="text-center flex flex-col items-center gap-3">
               <div className="inline-flex items-center gap-2.5 rounded-full border border-[#dc6505]/30 bg-[#dc6505]/10 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-[#dc6505]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#dc6505]" />
-                Say hello
+                Dinos hola
               </div>
-              <h2 className="text-3xl font-semibold font-[Poppins] text-white">Get in Touch</h2>
+              <h2 className="text-3xl font-semibold font-[Poppins] text-white">Ponte en contacto</h2>
               <p className="text-[13px] text-slate-400 max-w-sm leading-relaxed">
-                Have feedback or ideas? We'd love to hear from you.
+                ¿Tienes comentarios o ideas? Nos encantaría saber de ti.
               </p>
             </div>
 
@@ -408,7 +398,7 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
               <div className="grid md:grid-cols-2 gap-4">
                 <input
                   name="name"
-                  placeholder="Your name"
+                  placeholder="Tu nombre"
                   value={formData.name}
                   onChange={handleChange}
                   required
@@ -417,7 +407,7 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
                 <input
                   name="email"
                   type="email"
-                  placeholder="Your email"
+                  placeholder="Tu correo electrónico"
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -427,7 +417,7 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
               <textarea
                 name="message"
                 rows={5}
-                placeholder="Your message..."
+                placeholder="Tu mensaje..."
                 value={formData.message}
                 onChange={handleChange}
                 required
@@ -438,7 +428,7 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-full text-white text-sm font-semibold transition-all hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(220,101,5,0.4)]"
                 style={{ background: "linear-gradient(135deg, #dc6505, #f59e0b)" }}
               >
-                {sent ? "Message sent!" : <><IconSend /> Send Message</>}
+                {sent ? "¡Mensaje enviado!" : <><IconSend /> Enviar mensaje</>}
               </button>
             </form>
           </div>
@@ -446,13 +436,13 @@ Andrés Santana Arribas is a lecturer and cultural coordinator at the University
 
       </div>
 
-      {/* Footer */}
+      {/* Pie de página */}
       <footer className="w-full border-t border-white/[0.07] bg-[#06101a] px-8 py-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-[#dc6505] shadow-[0_0_6px_rgba(220,101,5,0.8)]" />
           <span className="text-xs font-semibold text-slate-500">SOS-LANG</span>
         </div>
-        <p className="text-xs text-slate-600">Built for fast review and meaningful retention.</p>
+        <p className="text-xs text-slate-600">Diseñado para un repaso rápido y una retención significativa.</p>
       </footer>
     </div>
   );
