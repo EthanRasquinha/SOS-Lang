@@ -39,32 +39,32 @@ const IconSend = () => (
 const TEAM = [
   {
     name: "Analuiza de Carvalho",
-    role: "Research / Analysis",
-    major: "WPI Civil Engineering '27",
+    role: "Investigación / Análisis",
+    major: "WPI Ingeniería Civil '27",
     img: analuizaheadshot,
     accent: "#dc6505",
     gradient: "from-[#dc6505] to-[#f59e0b]",
   },
   {
     name: "Julian Espinal",
-    role: "Web Development",
-    major: "WPI Computer Science '27",
+    role: "Desarrollo web",
+    major: "WPI Ciencias de la Computación '27",
     img: julianheadshot,
     accent: "#185FA5",
     gradient: "from-[#185FA5] to-[#38bdf8]",
   },
   {
     name: "Ethan Rasquinha",
-    role: "Web Development",
-    major: "WPI Computer Science '27",
+    role: "Desarrollo web",
+    major: "WPI Ciencias de la Computación '27",
     img: ethanheadshot,
     accent: "#0F6E56",
     gradient: "from-[#0F6E56] to-[#34d399]",
   },
   {
     name: "Adriana Valero Navarro",
-    role: "Research / Analysis",
-    major: "WPI Aerospace Engineering '27",
+    role: "Investigación / Análisis",
+    major: "WPI Ingeniería Aeroespacial '27",
     img: adrianaheadshot,
     accent: "#534AB7",
     gradient: "from-[#534AB7] to-[#a78bfa]",
@@ -80,21 +80,21 @@ export const About: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  
-  const res = await fetch('https://formspree.io/f/mwvaaeqo', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify(formData),
-  });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  if (res.ok) {
-    setFormData({ name: '', email: '', message: '' });
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
-  }
-};
+    const res = await fetch('https://formspree.io/f/mwvaaeqo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    if (res.ok) {
+      setFormData({ name: '', email: '', message: '' });
+      setSent(true);
+      setTimeout(() => setSent(false), 3000);
+    }
+  };
 
   return (
     <div
@@ -103,32 +103,27 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     >
       <div className="max-w-5xl w-full flex flex-col gap-20 px-6 py-20">
 
-        {/* ══════════════════════
-            HEADER
-        ══════════════════════ */}
+        {/* ENCABEZADO */}
         <motion.div {...fadeUp} className="relative text-center flex flex-col items-center gap-5">
-          {/* Glows */}
           <div className="pointer-events-none absolute top-[-60px] left-1/2 -translate-x-1/2 w-[500px] h-[260px] rounded-full bg-[#dc6505]/12 blur-[120px]" />
           <div className="pointer-events-none absolute top-0 left-1/4 w-[200px] h-[200px] rounded-full bg-[#185FA5]/12 blur-[90px]" />
           <div className="pointer-events-none absolute top-0 right-1/4 w-[200px] h-[200px] rounded-full bg-[#534AB7]/12 blur-[90px]" />
 
           <div className="inline-flex items-center gap-2.5 rounded-full border border-[#dc6505]/30 bg-[#dc6505]/10 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-[#dc6505]">
             <span className="h-1.5 w-1.5 rounded-full font-[Poppins] bg-[#dc6505] shadow-[0_0_6px_rgba(220,101,5,1)]" />
-            The team behind SOS-LANG
+            El equipo detrás de SOS-LANG
           </div>
 
           <h1 className="relative text-5xl font-[Poppins] font-bold tracking-tight text-white">
-            About Us
+            Sobre nosotros
           </h1>
           <p className="relative text-[15px] font-[Poppins] text-slate-400 max-w-xl leading-relaxed">
-            Building smarter ways to learn. Our platform blends AI and structured learning
-            to help you study faster, retain more, and stay consistent.
+            Creando formas más inteligentes de aprender. Nuestra plataforma combina IA y aprendizaje estructurado
+            para ayudarte a estudiar más rápido, retener más y mantener la constancia.
           </p>
         </motion.div>
 
-        {/* ══════════════════════
-            MISSION + WHAT WE DO
-        ══════════════════════ */}
+        {/* MISIÓN + QUÉ HACEMOS */}
         <motion.div variants={stagger} initial="initial" animate="animate" className="grid md:grid-cols-2 gap-4">
           {[
             {
@@ -137,8 +132,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               glow: "rgba(220,101,5,0.3)",
               border: "border-[#dc6505]/20",
               bg: "bg-[#dc6505]/6",
-              title: "Our Mission",
-              body: "We aim to transform studying into an intelligent, personalized experience. By combining AI with proven learning techniques, we help you focus on what actually matters.",
+              title: "Nuestra misión",
+              body: "Nuestro objetivo es transformar el estudio en una experiencia inteligente y personalizada. Combinando IA con técnicas de aprendizaje probadas, te ayudamos a centrarte en lo que realmente importa.",
             },
             {
               icon: <IconZap />,
@@ -146,8 +141,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               glow: "rgba(24,95,165,0.3)",
               border: "border-[#185FA5]/20",
               bg: "bg-[#185FA5]/6",
-              title: "What We Do",
-              body: "Generate flashcards, quizzes, and insights directly from your notes. Track performance, identify weak areas, and continuously improve your language learning.",
+              title: "Qué hacemos",
+              body: "Generamos tarjetas, exámenes e información directamente a partir de tus notas. Hacemos seguimiento de tu rendimiento, identificamos tus puntos débiles y mejoramos continuamente tu aprendizaje de idiomas.",
             },
           ].map((card) => (
             <motion.div
@@ -170,78 +165,67 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
           ))}
         </motion.div>
 
-        {/* ══════════════════════
-            SPONSOR
-        ══════════════════════ */}
+        {/* PATROCINADOR */}
         <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
-  {/* Logo + headshot row */}
-  <div className="grid grid-cols-3 gap-0">
+          <div className="grid grid-cols-3 gap-0">
 
-    {/* Left headshot */}
-    <div className="relative font-[Poppins] overflow-hidden h-56">
-      <img
-        src={andresheadshot}
-        alt="Andres"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
-    </div>
+            <div className="relative font-[Poppins] overflow-hidden h-56">
+              <img
+                src={andresheadshot}
+                alt="Andrés"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0d1e35]/60 to-transparent pointer-events-none" />
+            </div>
 
-    {/* Center logo */}
-    <div className="bg-white p-8 flex items-center justify-center">
-      <img
-        src={ucaEmblem}
-        alt="CUNEAC logo"
-        className="max-h-36 object-contain"
-      />
-    </div>
+            <div className="bg-white p-8 flex items-center justify-center">
+              <img
+                src={ucaEmblem}
+                alt="Logo CUNEAC"
+                className="max-h-36 object-contain"
+              />
+            </div>
 
-    {/* Right headshot */}
-    <div className="relative font-[Poppins] overflow-hidden h-56">
-      <img
-        src={leonorheadshot}
-        alt="Leonor"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
-    </div>
+            <div className="relative font-[Poppins] overflow-hidden h-56">
+              <img
+                src={leonorheadshot}
+                alt="Leonor"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-l from-[#0d1e35]/60 to-transparent pointer-events-none" />
+            </div>
 
-  </div>
+          </div>
 
-  {/* Description */}
-  <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
-    <div className='flex justify-between w-full'>
-    <h3 className="text-lg font-semibold text-white text-left">Andrés Santana Arribas</h3>
-    <h3 className="text-lg font-semibold text-white text-left">CUNEAC</h3>
-    <h3 className="text-lg font-semibold text-white text-left">Leonor Acosta Bustamante</h3>
-    </div>
-    <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-[Poppins] font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
-  <br/>  
-An international initiative of the University of Cádiz focused on strengthening academic, scientific, and cultural collaboration between Spain and countries in Eastern Europe and Central Asia. It promotes partnerships between universities, supports student and faculty exchanges, and develops joint research and training programs that connect education with real-world challenges. Through its projects, events, and institutional collaborations, CUNEAC helps create opportunities for cross-cultural learning, innovation, and professional development.
-</p>
- <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-[Poppins] font-semibold">Andrés Santana Arribas</span>
-  <br/>  
-Andrés Santana Arribas is a lecturer and cultural coordinator at the University of Cádiz and the University of Granada, specializing in Russian language, translation, and international relations. He is responsible for several key initiatives, including the CUNEAC Center for Eastern Europe and Central Asia, the Pushkin Institute, and the Hispanic-Russian University Classroom (AUHR). With extensive experience since the 1990s as a translator, educator, and cultural manager, he has played a major role in developing academic and cultural projects between Spain, Eastern Europe, and Central Asia, as well as organizing international events and exchange programs.
-</p>
+          <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
+            <div className='flex justify-between w-full'>
+              <h3 className="text-lg font-semibold text-white text-left">Andrés Santana Arribas</h3>
+              <h3 className="text-lg font-semibold text-white text-left">CUNEAC</h3>
+              <h3 className="text-lg font-semibold text-white text-left">Leonor Acosta Bustamante</h3>
+            </div>
+            <p className="text-[13px] text-slate-300 leading-relaxed text-left">
+              <span className="text-white font-[Poppins] font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
+              <br/>
+              Una iniciativa internacional de la Universidad de Cádiz centrada en fortalecer la colaboración académica, científica y cultural entre España y los países de Europa del Este y Asia Central. Promueve alianzas entre universidades, apoya el intercambio de estudiantes y profesores, y desarrolla programas conjuntos de investigación y formación que conectan la educación con los desafíos del mundo real. A través de sus proyectos, eventos y colaboraciones institucionales, CUNEAC contribuye a crear oportunidades de aprendizaje intercultural, innovación y desarrollo profesional.
+            </p>
+            <p className="text-[13px] text-slate-300 leading-relaxed text-left">
+              <span className="text-white font-[Poppins] font-semibold">Andrés Santana Arribas</span>
+              <br/>
+              Andrés Santana Arribas es profesor y coordinador cultural en la Universidad de Cádiz y la Universidad de Granada, especializado en lengua rusa, traducción y relaciones internacionales. Es responsable de varias iniciativas clave, entre ellas el Centro CUNEAC para Europa del Este y Asia Central, el Instituto Pushkin y el Aula Universitaria Hispano-Rusa (AUHR). Con una amplia trayectoria desde los años 90 como traductor, docente y gestor cultural, ha desempeñado un papel fundamental en el desarrollo de proyectos académicos y culturales entre España, Europa del Este y Asia Central, así como en la organización de eventos internacionales y programas de intercambio.
+            </p>
+            <p className="text-[13px] text-slate-300 leading-relaxed text-left">
+              <span className="text-white font-semibold">Leonor Acosta Bustamante</span>
+              <br/>
+              Leonor Acosta Bustamante es Profesora Contratada Doctora de Filología Inglesa en la Universidad de Cádiz, especializada en Estudios Culturales y Estudios de Género. Su investigación se centra en la representación del género en la literatura, el cine y la cultura popular, con especial énfasis en la deconstrucción de los binarismos de género. Ha desarrollado una especialización en Estudios de Masculinidades y Transfeminismo, explorando cómo se construyen y cuestionan las identidades y roles de género en los textos culturales y los medios de comunicación. También forma parte del grupo de investigación HUM536, que estudia el concepto de alteridad en el mundo contemporáneo.
+            </p>
+          </div>
+        </div>
 
-<p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-semibold">Leonor Acosta Bustamante</span>
-  <br/>  
-Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) in English Philology at the University of Cádiz, specializing in Cultural Studies and Gender Studies. Her research focuses on the representation of gender in literature, film, and popular culture, with particular emphasis on the deconstruction of gender binaries. She has developed expertise in Masculinity Studies and Transfeminism, exploring how gender identities and roles are constructed and challenged across cultural texts and media. She is also part of the HUM536 research group, which studies the concept of alterity in the contemporary world.</p>
-
-  </div>
-  
-</div>
-
-        {/* ══════════════════════
-            TEAM
-        ══════════════════════ */}
+        {/* EQUIPO */}
         <motion.div {...fadeUp} className="flex flex-col gap-8">
           <div className="text-center">
-            <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">The people</p>
-            <h2 className="text-3xl font-semibold font-[Poppins] text-white">Who We Are</h2>
+            <p className="text-[11px] uppercase tracking-[0.35em] text-[#dc6505] mb-3">Las personas</p>
+            <h2 className="text-3xl font-semibold font-[Poppins] text-white">Quiénes somos</h2>
           </div>
 
           <motion.div variants={stagger} initial="initial" animate="animate" className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -251,7 +235,6 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
                 variants={fadeUp}
                 className="group relative font-[Poppins] rounded-2xl border border-white/[0.06] bg-[#0d1f35] hover:border-white/[0.14] overflow-hidden transition-all duration-200 hover:scale-[1.02]"
               >
-                {/* Photo */}
                 <div className="relative h-60 w-full overflow-hidden">
                   {member.img ? (
                     <img
@@ -268,11 +251,9 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
                       </span>
                     </div>
                   )}
-                  {/* Gradient overlay at bottom */}
                   <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0d1f35] to-transparent pointer-events-none" />
                 </div>
 
-                {/* Info */}
                 <div className="px-5 pb-5 pt-2">
                   <div
                     className="h-0.5 w-8 rounded-full mb-3"
@@ -287,13 +268,10 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
           </motion.div>
         </motion.div>
 
-        {/* ══════════════════════
-            CONTACT
-        ══════════════════════ */}
+        {/* CONTACTO */}
         <motion.div {...fadeUp} className="relative rounded-2xl border border-white/[0.08] overflow-hidden"
           style={{ background: "linear-gradient(135deg, #0f1e2e 0%, #0d1a2c 50%, #101428 100%)" }}
         >
-          {/* Glows */}
           <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[160px] rounded-full bg-[#dc6505]/12 blur-[80px]" />
           <div className="pointer-events-none absolute bottom-0 left-1/4 w-[200px] h-[150px] rounded-full bg-[#185FA5]/15 blur-[60px]" />
           <div className="pointer-events-none absolute bottom-0 right-1/4 w-[200px] h-[150px] rounded-full bg-[#534AB7]/15 blur-[60px]" />
@@ -302,11 +280,11 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
             <div className="text-center flex flex-col items-center gap-3">
               <div className="inline-flex items-center gap-2.5 rounded-full border border-[#dc6505]/30 bg-[#dc6505]/10 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-[#dc6505]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#dc6505]" />
-                Say hello
+                Dinos hola
               </div>
-              <h2 className="text-3xl font-semibold font-[Poppins] text-white">Get in Touch</h2>
+              <h2 className="text-3xl font-semibold font-[Poppins] text-white">Ponte en contacto</h2>
               <p className="text-[13px] text-slate-400 max-w-sm leading-relaxed">
-                Have feedback or ideas? We'd love to hear from you.
+                ¿Tienes comentarios o ideas? Nos encantaría saber de ti.
               </p>
             </div>
 
@@ -314,7 +292,7 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
               <div className="grid md:grid-cols-2 gap-4">
                 <input
                   name="name"
-                  placeholder="Your name"
+                  placeholder="Tu nombre"
                   value={formData.name}
                   onChange={handleChange}
                   required
@@ -323,7 +301,7 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
                 <input
                   name="email"
                   type="email"
-                  placeholder="Your email"
+                  placeholder="Tu correo electrónico"
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -333,7 +311,7 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
               <textarea
                 name="message"
                 rows={5}
-                placeholder="Your message..."
+                placeholder="Tu mensaje..."
                 value={formData.message}
                 onChange={handleChange}
                 required
@@ -344,7 +322,7 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-full text-white text-sm font-semibold transition-all hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(220,101,5,0.4)]"
                 style={{ background: "linear-gradient(135deg, #dc6505, #f59e0b)" }}
               >
-                {sent ? "Message sent!" : <><IconSend /> Send Message</>}
+                {sent ? "¡Mensaje enviado!" : <><IconSend /> Enviar mensaje</>}
               </button>
             </form>
           </div>
@@ -352,13 +330,13 @@ Leonor Acosta Bustamante is a Permanent Lecturer (Profesora Contratada Doctora) 
 
       </div>
 
-      {/* Footer */}
+      {/* Pie de página */}
       <footer className="w-full border-t border-white/[0.07] bg-[#06101a] px-8 py-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-[#dc6505] shadow-[0_0_6px_rgba(220,101,5,0.8)]" />
           <span className="text-xs font-semibold text-slate-500">SOS-LANG</span>
         </div>
-        <p className="text-xs text-slate-600">Built for fast review and meaningful retention.</p>
+        <p className="text-xs text-slate-600">Diseñado para un repaso rápido y una retención significativa.</p>
       </footer>
     </div>
   );

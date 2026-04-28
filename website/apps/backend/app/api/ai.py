@@ -425,7 +425,30 @@ async def delete_flashcards(flashcard_set_id: str, request: Request):
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
+@router.delete("/mcq-sets/{mcq_set_id}")
+async def delete_mcq_set(mcq_set_id: str, request: Request):
+    """Delete an MCQ set"""
+    # 🔐 Auth
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        raise HTTPException(status_code=401, detail="Missing auth")
 
+    token = auth_header.split(" ")[1]
+    user = supabase.auth.get_user(token)
+
+    if not user or not user.user:
+        raise HTTPException(status_code=401, detail="Invalid user")
+
+    user_id = user.user.id
+
+    try:
+        delete_mcq_set(user_id, mcq_set_id)
+        return {
+            "message": "MCQ set deleted successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    
 @router.post("/quiz-results")
 async def submit_quiz_result(result_data: dict, request: Request):
     """Submit quiz results for flashcards OR MCQ"""
