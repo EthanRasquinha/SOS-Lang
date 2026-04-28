@@ -61,7 +61,7 @@ const FEATURES = [
     glow: "rgba(220,101,5,0.35)",
     border: "border-[#dc6505]/25",
     bg: "bg-[#dc6505]/8",
-    title: "Notas etiquetadas",
+    title: "Apuntes etiquetadas",
     body: "Captura vocabulario, reglas gramaticales, frases e información cultural — cada nota etiquetada por categoría para filtrado instantáneo.",
   },
   {
@@ -99,7 +99,7 @@ const HOW_TO_USE = [
     color: "text-[#dc6505]",
     bg: "bg-[#dc6505]/10 border-[#dc6505]/20",
     title: "Escribe una nota",
-    body: "Ve a la sección de Notas y crea tu primera nota. Etiquétala con una categoría — Vocabulario, Gramática, Frases o Información Cultural — para que puedas filtrarla y encontrarla al instante más adelante.",
+    body: "Ve a la sección de Apuntes y crea tu primera nota. Etiquétala con una categoría — Vocabulario, Gramática, Frases o Información Cultural — para que puedas filtrarla y encontrarla al instante más adelante.",
   },
   {
     step: "02",
@@ -285,7 +285,7 @@ const MasterySnapshot: React.FC = () => {
                 boxShadow: "0 0 20px rgba(220,101,5,0.3)",
               }}
             >
-              Ir a Notas <IconArrow />
+              Ir a Apuntes <IconArrow />
             </Link>
           </div>
         ) : (
@@ -457,7 +457,7 @@ const IconGlobe = () => (
               className="bg-clip-text font-[Poppins] text-transparent"
               style={{ backgroundImage: "linear-gradient(90deg,#dc6505,#f59e0b,#dc6505)", backgroundSize: "200% auto", animation: "shimmer 3s linear infinite" }}
             >
-              SOS-LANG.
+              SOS-LANG
             </span>
           </h1>
 
@@ -470,7 +470,7 @@ const IconGlobe = () => (
             className="flex items-center gap-2 px-7 py-3 rounded-full text-white text-sm font-semibold transition-all hover:scale-105"
             style={{ background: "linear-gradient(135deg,#dc6505,#f59e0b)", boxShadow: "0 0 40px rgba(220,101,5,0.4)", animation: "fade-up 0.6s ease 0.35s both" }}
           >
-            Ir a mis Notas <IconArrow />
+            Ir a mis Apuntes <IconArrow />
           </Link>
         </div>
       </section>
@@ -494,7 +494,7 @@ const IconGlobe = () => (
               >
                 <IconNote />
               </div>
-              <h3 className="text-base font-bold text-white">Tus Notas</h3>
+              <h3 className="text-base font-bold text-white">Tus Apuntes</h3>
               <p className="text-[13px] text-slate-500 leading-relaxed">
                 Todo tu vocabulario, reglas gramaticales y frases están aquí. Crea una nueva nota y genera un conjunto de estudio en segundos.
               </p>
@@ -504,7 +504,7 @@ const IconGlobe = () => (
               className="relative flex items-center justify-between gap-2 px-5 py-3 rounded-xl text-sm font-semibold text-white transition-all hover:scale-[1.02]"
               style={{ background: "linear-gradient(135deg,#dc6505,#f59e0b)", boxShadow: "0 0 24px rgba(220,101,5,0.3)" }}
             >
-              Abrir Notas <IconArrow />
+              Abrir Apuntes <IconArrow />
             </Link>
           </div>
         </section>

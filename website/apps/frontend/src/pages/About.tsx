@@ -176,7 +176,7 @@ export const About: React.FC = () => {
             SPONSOR
         ══════════════════════ */}
 <div>
-        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Nuestro Patrocinadores</h2>
+        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Nuestros Patrocinadores</h2>
         <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
           <div className="grid grid-cols-3 gap-0">
 
@@ -245,7 +245,7 @@ export const About: React.FC = () => {
             WPI PARTNERSHIP
         ══════════════════════ */}
         <div>
-        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Nuestro Profesores</h2>
+        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Nuestros Profesores</h2>
         <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
 
           {/* ── Professors: photo row ── */}
@@ -272,21 +272,20 @@ export const About: React.FC = () => {
             <div className="px-6 py-5">
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Svetlana Nikitina</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Directora del Centro de Proyectos en Cádiz</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 italic font-serif font-[Poppins]">Directora del Centro de Proyectos en Cádiz</p>
               <p className="text-[12px] text-slate-500 mt-0.5 font-[Poppins]">Dirección académica e institucional</p>
             </div>
             {/* WPI info */}
             <div className="px-6 py-5">
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Worcester Polytechnic Institute</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">COORDINACIÓN ACADÉMICA</p>
             </div>
             {/* Brajendra info */}
             <div className="px-6 py-5">
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Brajendra Mishra</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Profesor de Ingeniería Mecánica</p>
-              <p className="text-[12px] text-slate-500 mt-0.5 font-[Poppins]">Coordinación académica</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 italic font-serif font-[Poppins]">Profesor de Ingeniería Mecánica y Materiales</p>
+              <p className="text-[12px] text-slate-500 mt-0.5 font-[Poppins]">Coordinación Académica</p>
             </div>
           </div>
         </div>
@@ -336,8 +335,8 @@ export const About: React.FC = () => {
               <p className="text-sm font-semibold text-white font-[Poppins]">Analuiza de Carvalho</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Investigación / Análisis
               </p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
-                WPI Ingeniería Civil '27
+              <p className="text-[11px] text-slate-500 italic font-serif mt-0.5 font-[Poppins]">
+                Alumno de Ingeniería Civil '27
               </p>
             </div>
             {/* Julian info */}
@@ -345,8 +344,8 @@ export const About: React.FC = () => {
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Julian Espinal</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Desarrollo Web</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
-                WPI Informática '27
+              <p className="text-[11px] text-slate-500 italic font-serif mt-0.5 font-[Poppins]">
+                Alumno de Informática '27
               </p>
             </div>
             {/* Ethan info */}
@@ -354,8 +353,8 @@ export const About: React.FC = () => {
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Ethan Rasquinha</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Desarrollo Web</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
-                WPI Informática '27
+              <p className="text-[11px] text-slate-500 italic font-serif mt-0.5 font-[Poppins]">
+                Alumno de Informática '27
               </p>
             </div>
             {/* Adriana info */}
@@ -363,8 +362,8 @@ export const About: React.FC = () => {
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Adriana Navarro Valero</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Investigación / Análisis</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">
-                WPI Ingeniería Aeroespacial '27
+              <p className="text-[11px] text-slate-500 italic font-serif mt-0.5 font-[Poppins]">
+                Alumno de Ingeniería Aeroespacial '27
               </p>
             </div>
           </div>

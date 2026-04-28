@@ -57,7 +57,7 @@ const FEATURES = [
     glow: "rgba(220,101,5,0.35)",
     border: "border-[#dc6505]/25",
     bg: "bg-[#dc6505]/8",
-    title: "Notas etiquetadas",
+    title: "Apuntes etiquetadas",
     body: "Captura vocabulario, reglas gramaticales, frases e información cultural — cada nota etiquetada por categoría para filtrado instantáneo.",
   },
   {
