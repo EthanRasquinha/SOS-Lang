@@ -285,7 +285,7 @@ const MasterySnapshot: React.FC = () => {
                 boxShadow: "0 0 20px rgba(220,101,5,0.3)",
               }}
             >
-              Ir a Apuntes <IconArrow />
+              Ir a mis apuntes <IconArrow />
             </Link>
           </div>
         ) : (
@@ -462,7 +462,7 @@ const IconGlobe = () => (
           </h1>
 
           <p className="text-base font-[Poppins] text-slate-400 max-w-xl leading-relaxed mb-10" style={{ animation: "fade-up 0.6s ease 0.2s both" }}>
-            Ahora podrás estudiar de más inteligente, divertida y efectiva, podrás recordar durante más tiempo lo aprendido y repasar con más facilidad lo que vayas olvidando
+            Ahora podrás estudiar de manera más inteligente, divertida y efectiva, podrás recordar durante más tiempo lo aprendido y repasar con más facilidad lo que vayas olvidando
           </p>
 
           <Link
@@ -593,7 +593,7 @@ const IconGlobe = () => (
             <div className="pointer-events-none absolute top-0 right-0 w-48 h-48 rounded-full bg-[#185FA5]/20 blur-[70px]" />
             <div className="relative flex flex-col gap-4">
               <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#185FA5]/30 bg-[#185FA5]/10 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-[#38bdf8]">
-                Socio académico
+                Coordinación Académica
               </div>
               <p className="text-[13px] font-[Poppins] text-slate-300 leading-relaxed max-w-md">
                 <span className="text-white font-semibold">CUNEAC — Centro Universitario para Europa del Este y Asia Central</span>

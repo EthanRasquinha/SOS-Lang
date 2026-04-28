@@ -263,7 +263,7 @@ export const UserDashboard = () => {
           {/* GRÁFICOS */}
           <div className="rounded-2xl border border-white/[0.07] overflow-hidden" style={{ background: "#0b1b2b" }}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
-              <h2 className="text-base font-bold text-white tracking-tight">Analíticas de estudio</h2>
+              <h2 className="text-base font-bold text-white font-[Poppins] tracking-tight">Analíticas de estudio</h2>
             </div>
 
             <div className="grid md:grid-cols-2 gap-px" style={{ background: "rgba(255,255,255,0.04)" }}>
@@ -306,7 +306,7 @@ export const UserDashboard = () => {
           {/* ACTIVIDAD RECIENTE */}
           <div className="rounded-2xl border border-white/[0.07] overflow-hidden" style={{ background: "#0b1b2b" }}>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-4 border-b border-white/[0.06]">
-              <h2 className="text-base font-bold text-white tracking-tight">Actividad reciente</h2>
+              <h2 className="text-base font-bold text-white font-[Poppins] tracking-tight">Actividad reciente</h2>
               <div className="flex gap-2">
                 <input
                   value={search}

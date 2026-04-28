@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { RegistrationForm } from '@/components/RegistrationForm';
+import { InformedConsent } from '@/components/InformedConsent';
 import ucaEmblem from '../../../assets/UCA-emblem.png';
 import sosLogo from '../../../assets/sos-logo.png';
 
@@ -132,7 +133,7 @@ const TranslateBanner = ({ onDismiss }: { onDismiss: () => void }) => (
     <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
       {[
         "Haz clic en los tres puntos en la esquina superior derecha",
-        "Selecciona “Traducir” o “Traducir esta página”",
+        `Selecciona "Traducir" o "Traducir esta página"`,
         "Elige tu idioma",
       ].map((step, i) => (
         <React.Fragment key={i}>
@@ -161,8 +162,16 @@ const TranslateBanner = ({ onDismiss }: { onDismiss: () => void }) => (
 );
 
 export const HomePage = () => {
-  const [popupVisible, setPopupVisible] = useState(false);
+  const [consentOpen, setConsentOpen] = useState(false);
+  const [signupOpen, setSignupOpen] = useState(false);
   const [bannerDismissed, setBannerDismissed] = useState(false);
+
+  const openSignup = () => setConsentOpen(true);
+
+  const handleConsentAccepted = () => {
+    setConsentOpen(false);
+    setSignupOpen(true);
+  };
 
   return (
     <div
@@ -215,7 +224,7 @@ export const HomePage = () => {
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-[Poppins] text-white max-w-3xl leading-[1.1] mb-6">
-            SOS-LANG: Estudia de forma más inteligente.<br />
+            SOS-LANG: Estudia de manera más inteligente.<br />
             <span
               className="bg-clip-text font-[Poppins] text-transparent"
               style={{
@@ -234,7 +243,7 @@ export const HomePage = () => {
 
           <div className="flex flex-col font-[Poppins] sm:flex-row items-center gap-4">
             <button
-              onClick={() => setPopupVisible(true)}
+              onClick={openSignup}
               className="flex items-center gap-2 px-7 py-3 rounded-full text-white text-sm font-semibold transition-all hover:scale-105"
               style={{
                 background: "linear-gradient(135deg, #dc6505, #f59e0b)",
@@ -265,7 +274,7 @@ export const HomePage = () => {
             <div className="pointer-events-none absolute top-0 right-0 w-48 h-48 rounded-full bg-[#185FA5]/20 blur-[70px]" />
             <div className="relative flex flex-col gap-4">
               <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#185FA5]/30 bg-[#185FA5]/10 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-[#38bdf8]">
-                Socio académico
+                Coordinación Académica
               </div>
               <p className="text-[13px] font-[Poppins] text-slate-300 leading-relaxed max-w-md">
                 <span className="text-white font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
@@ -373,7 +382,7 @@ export const HomePage = () => {
             Únete a SOS-LANG y empieza a convertir tus notas en un sistema que realmente te ayuda a retener el idioma que estás aprendiendo.
           </p>
           <button
-            onClick={() => setPopupVisible(true)}
+            onClick={openSignup}
             className="relative flex items-center gap-2 px-7 py-3 rounded-full text-white text-sm font-semibold transition-all hover:scale-105"
             style={{ background: "linear-gradient(135deg, #dc6505, #f59e0b)", boxShadow: "0 0 40px rgba(220,101,5,0.4)" }}
           >
@@ -396,10 +405,16 @@ export const HomePage = () => {
         <p className="text-xs text-slate-600">Diseñado para un repaso rápido y una retención significativa.</p>
       </footer>
 
+      {/* ── MODALS ── */}
+      <InformedConsent
+        open={consentOpen}
+        onClose={() => setConsentOpen(false)}
+        onConsent={handleConsentAccepted}
+      />
       <RegistrationForm
-        open={popupVisible}
-        onClose={() => setPopupVisible(false)}
-        onSuccess={() => console.log("Success")}
+        open={signupOpen}
+        onClose={() => setSignupOpen(false)}
+        onSuccess={() => setSignupOpen(false)}
       />
     </div>
   );

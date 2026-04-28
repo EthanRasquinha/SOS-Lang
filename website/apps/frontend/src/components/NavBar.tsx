@@ -40,9 +40,9 @@ export const NavBar = () => {
   
   ...(user
     ? [
-        { name: "Mis Apuntes", path: "/notes" },
-        { name: "Espacio De Estudio", path: "/studymaterial" },
-        { name: "Mi Progreso", path: "/userdashboard" },
+        { name: "Mis apuntes", path: "/notes" },
+        { name: "Espacio de estudio", path: "/studymaterial" },
+        { name: "Mi progreso", path: "/userdashboard" },
       ]
     : []),
     { name: "Sobre SOS-LANG", path: "/about" },
