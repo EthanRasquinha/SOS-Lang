@@ -235,6 +235,7 @@ export const UserDashboard = () => {
       })));
       setStreak((await streakRes.json()).streak);
       setLoading(false);
+      
     };
 
     load();
