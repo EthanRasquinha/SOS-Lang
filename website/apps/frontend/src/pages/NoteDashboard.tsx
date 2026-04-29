@@ -172,9 +172,34 @@ El **Panel de control** (accesible desde la barra de navegación) te ofrece una 
 `,
 };
 
+// ── Skeleton ───────────────────────────────────────────
+const Skeleton = ({ style = {} }: { style?: React.CSSProperties }) => (
+  <div
+    className="rounded-lg"
+    style={{
+      background: "linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%)",
+      backgroundSize: "200% 100%",
+      animation: "shimmer 1.6s infinite",
+      ...style,
+    }}
+  />
+);
+
+const NoteCardSkeleton = () => (
+  <div className="rounded-xl p-4 bg-[#0d1f35] border border-white/[0.06] flex flex-col gap-3">
+    <div className="flex items-start justify-between gap-2">
+      <Skeleton style={{ width: 64, height: 18, borderRadius: 9999 }} />
+      <Skeleton style={{ flex: 1, height: 14, maxWidth: 140 }} />
+    </div>
+    <Skeleton style={{ height: 11, width: "80%" }} />
+    <Skeleton style={{ height: 11, width: "55%" }} />
+  </div>
+);
+
 // ── Componente ─────────────────────────────────────────────────────────────────
 export const NoteDashboard: React.FC = () => {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [notesLoading, setNotesLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(TUTORIAL_NOTE_ID);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [newNote, setNewNote] = useState({ title: "", content: "", tag: "" });
@@ -197,8 +222,8 @@ export const NoteDashboard: React.FC = () => {
 
   // ── Barra lateral redimensionable y plegable ───────────────────────────────
   const MIN_WIDTH = 220;
-  const MAX_WIDTH = 700;
-  const DEFAULT_WIDTH = 400;
+  const MAX_WIDTH = 900;
+  const DEFAULT_WIDTH = 450;
   const [sidebarWidth, setSidebarWidth] = useState(DEFAULT_WIDTH);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isDragging = React.useRef(false);
@@ -316,6 +341,7 @@ export const NoteDashboard: React.FC = () => {
   };
 
   const fetchNotes = async () => {
+    setNotesLoading(true);
     const session = await supabase.auth.getSession();
     const response = await fetch("https://sos-lang.onrender.com/notes/", {
       method: "GET",
@@ -323,6 +349,7 @@ export const NoteDashboard: React.FC = () => {
     });
     const data = await response.json();
     setNotes(data.map((n: any) => ({ ...n, id: n.note_id })));
+    setNotesLoading(false);
   };
 
   React.useEffect(() => { fetchNotes(); }, []);
@@ -449,6 +476,13 @@ export const NoteDashboard: React.FC = () => {
       className="h-screen w-full flex flex-col overflow-hidden bg-[#080f1a]"
       style={{ fontFamily: "'Poppins'" }}
     >
+      <style>{`
+        @keyframes shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+      `}</style>
+
       {/* BARRA SUPERIOR */}
       <header className="relative shrink-0 flex items-center px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07] overflow-hidden">
         <img
@@ -461,7 +495,7 @@ export const NoteDashboard: React.FC = () => {
             <FileText size={20} />
           </div>
           <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">
-            Apuntes SOS-LANG
+            Mis apuntes
           </h1>
         </div>
       </header>
@@ -529,7 +563,9 @@ export const NoteDashboard: React.FC = () => {
             <div>
               <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-0.5">Mis Apuntes</p>
               <p className="text-[12px] text-slate-400">
-                {filteredNotes.length !== notes.length
+                {notesLoading ? (
+                  <Skeleton style={{ width: 80, height: 12, display: "inline-block" }} />
+                ) : filteredNotes.length !== notes.length
                   ? `${filteredNotes.length} de ${notes.length}`
                   : `${notes.length} nota${notes.length !== 1 ? "s" : ""}`}
               </p>
@@ -554,8 +590,6 @@ export const NoteDashboard: React.FC = () => {
 
           {/* ZONA DE BÚSQUEDA Y FILTRO */}
           <div className="px-4 pt-4 pb-4 flex flex-col gap-3 bg-[#060d1a] border-b-2 border-white/[0.1]">
-
-            {/* Campo de búsqueda */}
             <div className="relative">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
               <input
@@ -563,7 +597,8 @@ export const NoteDashboard: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar notas…"
-                className="w-full bg-[#0d1e32] border-2 border-white/25 rounded-xl pl-9 pr-9 py-2.5 text-[13px] font-medium text-white placeholder:text-slate-500 outline-none focus:border-[#dc6505]/80 focus:bg-[#0f2438] transition-all"
+                disabled={notesLoading}
+                className="w-full bg-[#0d1e32] border-2 border-white/25 rounded-xl pl-9 pr-9 py-2.5 text-[13px] font-medium text-white placeholder:text-slate-500 outline-none focus:border-[#dc6505]/80 focus:bg-[#0f2438] transition-all disabled:opacity-50"
                 style={{ boxShadow: "inset 0 1px 3px rgba(0,0,0,0.4)" }}
               />
               {searchQuery && (
@@ -576,11 +611,11 @@ export const NoteDashboard: React.FC = () => {
               )}
             </div>
 
-            {/* Fila de filtro */}
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowFilterPanel((v) => !v)}
-                className={`flex items-center gap-2 text-[12px] font-bold px-3 py-2 rounded-lg border-2 transition-all duration-150 flex-1 justify-center
+                disabled={notesLoading}
+                className={`flex items-center gap-2 text-[12px] font-bold px-3 py-2 rounded-lg border-2 transition-all duration-150 flex-1 justify-center disabled:opacity-50
                   ${showFilterPanel || activeFilter
                     ? "bg-[#dc6505]/20 border-[#dc6505]/60 text-[#fb923c]"
                     : "bg-white/[0.06] border-white/20 text-slate-300 hover:border-white/35 hover:text-white hover:bg-white/[0.1]"
@@ -604,12 +639,9 @@ export const NoteDashboard: React.FC = () => {
               )}
             </div>
 
-            {/* PANEL DE FILTRO */}
             {showFilterPanel && (
               <div className="flex flex-col gap-2">
                 <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.12em] px-0.5">Seleccionar categoría</p>
-
-                {/* Todas las notas */}
                 <button
                   onClick={() => setActiveFilter(null)}
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[12px] font-bold border-2 transition-all duration-150
@@ -625,7 +657,6 @@ export const NoteDashboard: React.FC = () => {
                   </span>
                 </button>
 
-                {/* Filas de etiquetas */}
                 <div className="flex flex-col gap-1.5 max-h-[220px] overflow-y-auto pr-0.5">
                   {TAGS.map((tag) => {
                     const isActive = activeFilter === tag.label;
@@ -652,7 +683,6 @@ export const NoteDashboard: React.FC = () => {
                   })}
                 </div>
 
-                {/* Nueva categoría personalizada */}
                 <button
                   onClick={() => setShowCustomCatModal(true)}
                   className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border-2 border-dashed border-white/25 text-[12px] font-bold text-slate-400 hover:text-white hover:border-[#dc6505]/60 hover:bg-[#dc6505]/[0.08] transition-all duration-150"
@@ -714,13 +744,22 @@ export const NoteDashboard: React.FC = () => {
               <div className="flex-1 h-px bg-white/[0.05]" />
             </div>
 
-            {notes.length === 0 && !isCreatingNew && (
+            {/* Skeleton loading state */}
+            {notesLoading && (
+              <div className="flex flex-col gap-2 px-1">
+                {[...Array(5)].map((_, i) => (
+                  <NoteCardSkeleton key={i} />
+                ))}
+              </div>
+            )}
+
+            {!notesLoading && notes.length === 0 && !isCreatingNew && (
               <p className="text-left text-slate-600 text-xs mt-4 px-4 leading-relaxed">
                 Aún no hay notas.<br />
                 Pulsa <span className="text-[#dc6505] font-semibold">+ Nueva</span> para empezar.
               </p>
             )}
-            {notes.length > 0 && filteredNotes.length === 0 && (
+            {!notesLoading && notes.length > 0 && filteredNotes.length === 0 && (
               <div className="flex flex-col items-center gap-2 mt-8 px-4 text-center">
                 <Search size={22} className="text-slate-700" />
                 <p className="text-slate-600 text-xs leading-relaxed">
@@ -754,7 +793,7 @@ export const NoteDashboard: React.FC = () => {
               </div>
             )}
 
-            {filteredNotes.map((note) => {
+            {!notesLoading && filteredNotes.map((note) => {
               const tag = getTag(note.tag);
               const isActive = selectedId === note.id && !isCreatingNew;
               return (

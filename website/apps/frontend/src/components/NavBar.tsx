@@ -41,11 +41,11 @@ export const NavBar = () => {
   ...(user
     ? [
         { name: "Mis apuntes", path: "/notes" },
-        { name: "Espacio de estudio", path: "/studymaterial" },
+        { name: "Mi espacio de estudio", path: "/studymaterial" },
         { name: "Mi progreso", path: "/userdashboard" },
       ]
     : []),
-    { name: "Sobre SOS-LANG", path: "/about" },
+    { name: "Sobre equipo", path: "/about" },
 ], [user]);
 
   // Close mobile menu on route change
