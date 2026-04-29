@@ -353,11 +353,6 @@ boxShadow: "0 0 24px rgba(249,115,22,0.35)",
                 "Create Account →"
               )}
             </button>
-
-            <p className="text-center text-slate-600 text-xs">
-              By signing up you agree to our{" "}
-              <span className="text-sky-500 hover:text-sky-400 cursor-pointer transition-colors">Terms of Service</span>
-            </p>
           </div>
         </div>
       </div>
