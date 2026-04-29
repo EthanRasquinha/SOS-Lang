@@ -5,7 +5,7 @@ import google.genai as genai
 import os
 import json
 
-router = APIRouter()
+router = APIRouter(redirect_slashes=False)
 
 @router.get("/")
 async def get_user_stats(user_id: str):
