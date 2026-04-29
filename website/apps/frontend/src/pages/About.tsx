@@ -176,7 +176,7 @@ export const About: React.FC = () => {
             SPONSOR
         ══════════════════════ */}
 <div>
-        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Nuestros Patrocinadores</h2>
+        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">El Equipo</h2>
         <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
           <div className="grid grid-cols-3 gap-0">
 
@@ -209,44 +209,39 @@ export const About: React.FC = () => {
     </div>
 
   </div>
- </div>
-
-  {/* Description */}
-  <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
-    <div className='flex justify-between w-full'>
-    <h3 className="text-lg font-semibold text-white text-left">Leonor Acosta Bustamante</h3>
-    <h3 className="text-lg font-semibold text-white text-left">CUNEAC</h3>
-    <h3 className="text-lg font-semibold text-white text-left">Andrés Santana Arribas</h3>
+  {/* Names and Brief Titles */}
+  <div className="grid grid-cols-3 divide-x divide-white/[0.06]">
+    {/* Leonor info */}
+    <div className="px-6 py-5">
+      <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #024d75, transparent)' }} />
+      <p className="text-sm font-semibold text-white font-[Poppins]">Leonor Acosta Bustamente</p>
+      <p className="text-[11px] text-slate-500 mt-0.5 italic font-serif font-[Poppins]">Doctora y profesora de Filología Inglesa</p>
+      <p className="text-[12px] text-slate-500 mt-0.5 font-[Poppins]">Dirección académica e institucional</p>
     </div>
-    <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-[Poppins] font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
-  <br/>  
-Unidad del Vicerrectorado de Internacionalización de la Universidad de Cádiz creada en 2008 para el fomento de la colaboración académica, científica y cultural entre España, Europa del Este y Asia Central a través de todo tipo de proyectos como programas educativos, actividades culturales, organización de eventos académicos e institucionales, gestión de convenios internacionales, etc.
-Entre las actividades formativas que gestiona el CUNEAC se encuentran cursos de lenguas como el armenio, el georgiano, el ruso, el ucraniano, el uzbeko o el español, para lo cual se promueven herramientas como SOS-LANG para facilitar el aprendizaje a los estudiantes.
-</p>
+    {/* CUNEAC info */}
+    <div className="px-6 py-5">
+      <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #024d75, transparent)' }} />
+      <p className="text-sm font-semibold text-white font-[Poppins]">CUNEAC</p>
+    </div>
+    {/* Andrés info */}
+    <div className="px-6 py-5">
+      <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #024d75, transparent)' }} />
+      <p className="text-sm font-semibold text-white font-[Poppins]">Andrés Santana Arribas</p>
+      <p className="text-[11px] text-slate-500 mt-0.5 italic font-serif font-[Poppins]">Coordinador del CUNEAC</p>
+      <p className="text-[12px] text-slate-500 mt-0.5 font-[Poppins]">Idea original y coordinación</p>
+    </div>
 
-<p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-semibold">Leonor Acosta Bustamante</span>
-  <br/>  
-Doctora y profesora de Filología Inglesa en la Facultad de Filosofía y Letras, Leonor Acosta Bustamante es actualmente directora general de Política Lingüística, directora del Centro Superior de Lenguas Modernas y responsable académica del Centro Universitario Internacional para Europa del Este y Asia Central de la Universidad de Cádiz. Forma parte del Grupo de Investigación “El problema de la alteridad en el mundo actual” y ha sido directora del Máster en Comunicación Internacional y directora general de Posgrado de la Universidad de Cádiz.
-</p>
-
- <p className="text-[13px] text-slate-300 leading-relaxed text-left">
-  <span className="text-white font-[Poppins] font-semibold">Andrés Santana Arribas</span>
-  <br/>  
-Andrés Santana Arribas es técnico superior de la Fundación de la Universidad de Cádiz (FundUCA), coordinador del Centro Universitario Internacional para Europa del Este y Asia Central (CUNEAC) y coordinador de los títulos propios de Máster y Experto en Traducción Especializada de Ruso y Español de la Universidad de Cádiz, donde coordina también los cursos de ruso en colaboración con el Centro Superior de Lenguas Modernas. Desde el CUNEA gestiona una amplia oferta de actividades y cursos de armenio, georgiano, ucraniano y otras lenguas y culturas de Europa del Este y Asia Central. En el pasado, fue responsable del Instituto Pushkin y el Aula Universitaria Hispano-Rusa (AUHR) de la Universidad de Cádiz y ejerció 14 años como traductor en la Embajada de España en Moscú y docente de traducción y español en la Universidad Estatal Lingüística de Moscú. Como gestor cultural, ha desarrollado centenares de proyectos y actividades internacionales de carácter académico, científico y cultural.
-</p>
 
 
   </div>
+ </div>
 
 </div>
 
         {/* ══════════════════════
-            WPI PARTNERSHIP
+            WPI Professors
         ══════════════════════ */}
         <div>
-        <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Nuestros Profesores</h2>
         <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
 
           {/* ── Professors: photo row ── */}
@@ -290,15 +285,15 @@ Andrés Santana Arribas es técnico superior de la Fundación de la Universidad 
             </div>
           </div>
         </div>
-</div>
+
 
 
 
         {/* ══════════════════════
                     THE TEAM
                 ══════════════════════ */}
-          <div>
-          <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Nuestro Equipo</h2>
+
+<div>
            <div className="rounded-2xl font-[Poppins] border border-[#185FA5]/20 bg-[#185FA5]/6 overflow-hidden">
 
           {/* ── Students: 4-col cards ── */}
@@ -332,7 +327,7 @@ Andrés Santana Arribas es técnico superior de la Fundación de la Universidad 
           <div className="grid grid-cols-4 divide-x divide-white/[0.06]">
             {/* Analuiza info */}
             <div className="px-6 py-5">
-              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Analuiza de Carvalho</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Investigación / Análisis
               </p>
@@ -342,7 +337,7 @@ Andrés Santana Arribas es técnico superior de la Fundación de la Universidad 
             </div>
             {/* Julian info */}
             <div className="px-6 py-5">
-              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Julian Espinal</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Desarrollo Web</p>
               <p className="text-[11px] text-slate-500 italic font-serif mt-0.5 font-[Poppins]">
@@ -352,7 +347,7 @@ Andrés Santana Arribas es técnico superior de la Fundación de la Universidad 
             
             {/* Adriana info */}
             <div className="px-6 py-5">
-              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Adriana Navarro Valero</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Investigación / Análisis</p>
               <p className="text-[11px] text-slate-500 italic font-serif mt-0.5 font-[Poppins]">
@@ -361,7 +356,7 @@ Andrés Santana Arribas es técnico superior de la Fundación de la Universidad 
             </div>
             {/* Ethan info */}
             <div className="px-6 py-5">
-              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #AC2B37, transparent)' }} />
               <p className="text-sm font-semibold text-white font-[Poppins]">Ethan Rasquinha</p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Desarrollo Web</p>
               <p className="text-[11px] text-slate-500 italic font-serif mt-0.5 font-[Poppins]">
@@ -371,6 +366,34 @@ Andrés Santana Arribas es técnico superior de la Fundación de la Universidad 
           </div>
           </div>
         </div>
+</div>
+          
+
+  {/* Descriptions */}
+  <div className="px-8 py-6 items-center justify-center flex flex-col gap-4">
+    <h2 className="text-3xl font-semibold font-[Poppins] text-white mb-6 text-center">Mas información</h2>
+    <p className="text-[15px] text-slate-300 leading-relaxed text-left">
+  <span className="text-white font-[Poppins] font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
+  <br/>  
+Unidad del Vicerrectorado de Internacionalización de la Universidad de Cádiz creada en 2008 para el fomento de la colaboración académica, científica y cultural entre España, Europa del Este y Asia Central a través de todo tipo de proyectos como programas educativos, actividades culturales, organización de eventos académicos e institucionales, gestión de convenios internacionales, etc.
+Entre las actividades formativas que gestiona el CUNEAC se encuentran cursos de lenguas como el armenio, el georgiano, el ruso, el ucraniano, el uzbeko o el español, para lo cual se promueven herramientas como SOS-LANG para facilitar el aprendizaje a los estudiantes.
+</p>
+
+<p className="text-[15px] text-slate-300 leading-relaxed text-left">
+  <span className="text-white font-semibold">Leonor Acosta Bustamante</span>
+  <br/>  
+Doctora y profesora de Filología Inglesa en la Facultad de Filosofía y Letras, Leonor Acosta Bustamante es actualmente directora general de Política Lingüística, directora del Centro Superior de Lenguas Modernas y responsable académica del Centro Universitario Internacional para Europa del Este y Asia Central de la Universidad de Cádiz. Forma parte del Grupo de Investigación “El problema de la alteridad en el mundo actual” y ha sido directora del Máster en Comunicación Internacional y directora general de Posgrado de la Universidad de Cádiz.
+</p>
+
+ <p className="text-[15px] text-slate-300 leading-relaxed text-left">
+  <span className="text-white font-[Poppins] font-semibold">Andrés Santana Arribas</span>
+  <br/>  
+Andrés Santana Arribas es técnico superior de la Fundación de la Universidad de Cádiz (FundUCA), coordinador del Centro Universitario Internacional para Europa del Este y Asia Central (CUNEAC) y coordinador de los títulos propios de Máster y Experto en Traducción Especializada de Ruso y Español de la Universidad de Cádiz, donde coordina también los cursos de ruso en colaboración con el Centro Superior de Lenguas Modernas. Desde el CUNEA gestiona una amplia oferta de actividades y cursos de armenio, georgiano, ucraniano y otras lenguas y culturas de Europa del Este y Asia Central. En el pasado, fue responsable del Instituto Pushkin y el Aula Universitaria Hispano-Rusa (AUHR) de la Universidad de Cádiz y ejerció 14 años como traductor en la Embajada de España en Moscú y docente de traducción y español en la Universidad Estatal Lingüística de Moscú. Como gestor cultural, ha desarrollado centenares de proyectos y actividades internacionales de carácter académico, científico y cultural.
+</p>
+
+
+  </div>
+
 
         {/* CONTACTO */}
         <motion.div {...fadeUp} className="relative rounded-2xl border border-white/[0.08] overflow-hidden"
