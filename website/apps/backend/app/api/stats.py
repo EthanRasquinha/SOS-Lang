@@ -9,28 +9,49 @@ router = APIRouter()
 
 @router.get("/")
 async def get_user_stats(user_id: str):
-    flashcard_sets = supabase.table("flashcard_sets") \
-        .select("*") \
-        .eq("user_id", user_id) \
-        .execute().data
+    print(f"[stats] fetching for user_id: {user_id}")
 
-    mcq_sets = supabase.table("mcq_sets") \
-        .select("*") \
-        .eq("user_id", user_id) \
-        .execute().data
+    try:
+        flashcard_sets = supabase.table("flashcard_sets") \
+            .select("*") \
+            .eq("user_id", user_id) \
+            .execute().data
+        print(f"[stats] flashcard_sets OK: {len(flashcard_sets)}")
+    except Exception as e:
+        print(f"[stats] flashcard_sets FAILED: {e}")
+        flashcard_sets = []
 
-    results = supabase.table("quiz_results") \
-        .select("*") \
-        .eq("user_id", user_id) \
-        .execute().data
+    try:
+        mcq_sets = supabase.table("mcq_sets") \
+            .select("*") \
+            .eq("user_id", user_id) \
+            .execute().data
+        print(f"[stats] mcq_sets OK: {len(mcq_sets)}")
+    except Exception as e:
+        print(f"[stats] mcq_sets FAILED: {e}")
+        mcq_sets = []
 
-    total_sets = len(flashcard_sets) + len(mcq_sets)
-    total_quizzes = len(results)
+    try:
+        results = supabase.table("quiz_results") \
+            .select("*") \
+            .eq("user_id", user_id) \
+            .execute().data
+        print(f"[stats] quiz_results OK: {len(results)}")
+    except Exception as e:
+        print(f"[stats] quiz_results FAILED: {e}")
+        results = []
 
-    avg_score = (
-        sum((r["score"] / r["total"] * 100) for r in results) / total_quizzes
-        if total_quizzes > 0 else 0
-    )
+    try:
+        total_sets = len(flashcard_sets) + len(mcq_sets)
+        total_quizzes = len(results)
+        avg_score = (
+            sum((r["score"] / r["total"] * 100) for r in results) / total_quizzes
+            if total_quizzes > 0 else 0
+        )
+        print(f"[stats] computed: total_sets={total_sets}, total_quizzes={total_quizzes}, avg_score={avg_score}")
+    except Exception as e:
+        print(f"[stats] computation FAILED: {e}")
+        raise HTTPException(status_code=500, detail=f"Computation error: {e}")
 
     return {
         "total_sets": total_sets,

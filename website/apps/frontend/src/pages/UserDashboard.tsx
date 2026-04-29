@@ -164,7 +164,7 @@ export const UserDashboard = () => {
       const session = await supabase.auth.getSession();
       const headers = { Authorization: `Bearer ${session.data.session?.access_token}` };
       const [statsRes, activityRes, recentRes, streakRes] = await Promise.all([
-        fetch("https://sos-lang.onrender.com/stats/", { headers }),
+        fetch("https://sos-lang.onrender.com/stats", { headers }),
         fetch("https://sos-lang.onrender.com/stats/activity", { headers }),
         fetch("https://sos-lang.onrender.com/stats/recent", { headers }),
         fetch("https://sos-lang.onrender.com/stats/streak", { headers }),
