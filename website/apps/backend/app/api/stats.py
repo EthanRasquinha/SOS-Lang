@@ -8,7 +8,7 @@ import json
 router = APIRouter()
 
 @router.get("/")
-async def get_user_stats(user_id: str = Depends(get_current_user_id)):
+async def get_user_stats(user_id: str):
     flashcard_sets = supabase.table("flashcard_sets") \
         .select("*") \
         .eq("user_id", user_id) \
