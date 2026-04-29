@@ -43,7 +43,7 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
       return;
     }
 
-    toast("Login successful!", { description: "Welcome back!", position: "bottom-right" });
+    toast("Login successful!", { description: "¡Bienvenidos!", position: "bottom-right" });
     setLoading(false);
     onSuccess();
   }
@@ -112,7 +112,7 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
               <img src={sosLogo} className="w-9 h-10" alt="SOS-Lang" />
             </div>
             <h1 className="text-white font-semibold text-2xl tracking-wide">SOS-LANG</h1>
-            <p className="text-slate-500 text-xs mt-1 tracking-widest uppercase font-medium">Welcome back</p>
+            <p className="text-slate-500 text-xs mt-1 tracking-widest uppercase font-medium">¡Bienvenidos!</p>
           </div>
 
           {/* Divider */}
@@ -128,7 +128,7 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
               render={({ field, fieldState }) => (
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">
-                    Email
+                    Correo electrónico
                   </label>
                   <div
                     className="relative flex items-center rounded-xl transition-all duration-200"
@@ -170,7 +170,7 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
               render={({ field, fieldState }) => (
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">
-                    Password
+                    Contraseña
                   </label>
                   <div
                     className="relative flex items-center rounded-xl transition-all duration-200"
@@ -239,11 +239,6 @@ export const LoginForm = ({ onSuccess, open, onClose, children }: LoginFormProps
               )}
             </button>
           </form>
-
-          {/* Footer note */}
-          <p className="text-center text-[11px] text-slate-600 mt-5">
-            Secured by Supabase Auth
-          </p>
         </div>
       </div>
     </div>
