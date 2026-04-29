@@ -138,7 +138,7 @@ export const NavBar = () => {
             ) : (
               <>
                 <button onClick={openLogin} className="nav-btn-ghost">
-                  Iniciar Sesión
+                  Iniciar sesión
                 </button>
                 <button onClick={openSignup} className="nav-btn-primary">
                   Regístrate
