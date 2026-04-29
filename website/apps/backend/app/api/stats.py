@@ -8,12 +8,13 @@ import json
 router = APIRouter()
 
 @router.get("/")
-async def get_user_stats(request: Request):
-    token = request.headers.get("Authorization").split(" ")[1]
-    user = supabase.auth.get_user(token)
-    user_id = user.user.id
+async def get_user_stats(user_id: str = Depends(get_current_user_id)):
+    flashcard_sets = supabase.table("flashcard_sets") \
+        .select("*") \
+        .eq("user_id", user_id) \
+        .execute().data
 
-    sets = supabase.table("flashcard_sets") \
+    mcq_sets = supabase.table("mcq_sets") \
         .select("*") \
         .eq("user_id", user_id) \
         .execute().data
@@ -23,9 +24,8 @@ async def get_user_stats(request: Request):
         .eq("user_id", user_id) \
         .execute().data
 
-    total_sets = len(sets)
+    total_sets = len(flashcard_sets) + len(mcq_sets)
     total_quizzes = len(results)
-    print(results)
 
     avg_score = (
         sum((r["score"] / r["total"] * 100) for r in results) / total_quizzes
