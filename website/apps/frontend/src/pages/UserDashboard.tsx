@@ -161,26 +161,39 @@ export const UserDashboard = () => {
 
   useEffect(() => {
     const load = async () => {
-      const session = await supabase.auth.getSession();
-      const headers = { Authorization: `Bearer ${session.data.session?.access_token}` };
-      const [statsRes, activityRes, recentRes, streakRes] = await Promise.all([
-        fetch("https://sos-lang.onrender.com/stats/", { headers }),
-        fetch("https://sos-lang.onrender.com/stats/activity", { headers }),
-        fetch("https://sos-lang.onrender.com/stats/recent", { headers }),
-        fetch("https://sos-lang.onrender.com/stats/streak", { headers }),
-      ]);
-      setStats(await statsRes.json());
-      setActivity(await activityRes.json());
-      const recentData = await recentRes.json();
-      setRecent(recentData.map((item: any) => ({
-        title: item.flashcard_sets?.title,
-        score: item.score,
-        total: item.total,
-        completed_at: item.completed_at,
-        flashcard_set_id: item.flashcard_sets?.id,
-      })));
-      setStreak((await streakRes.json()).streak);
-    };
+  const session = await supabase.auth.getSession();
+  
+  if (!session.data.session) {
+    navigate('/');
+    return;
+  }
+
+  const headers = { Authorization: `Bearer ${session.data.session.access_token}` };
+
+  const [statsRes, activityRes, recentRes, streakRes] = await Promise.all([
+    fetch("https://sos-lang.onrender.com/stats/", { headers }),
+    fetch("https://sos-lang.onrender.com/stats/activity", { headers }),
+    fetch("https://sos-lang.onrender.com/stats/recent", { headers }),
+    fetch("https://sos-lang.onrender.com/stats/streak", { headers }),
+  ]);
+
+  if (!statsRes.ok) { toast.error(`Stats error: ${statsRes.status}`); return; }
+  if (!activityRes.ok) { toast.error(`Activity error: ${activityRes.status}`); return; }
+  if (!recentRes.ok) { toast.error(`Recent error: ${recentRes.status}`); return; }
+  if (!streakRes.ok) { toast.error(`Streak error: ${streakRes.status}`); return; }
+
+  setStats(await statsRes.json());
+  setActivity(await activityRes.json());
+  const recentData = await recentRes.json();
+  setRecent(recentData.map((item: any) => ({
+    title: item.flashcard_sets?.title,
+    score: item.score,
+    total: item.total,
+    completed_at: item.completed_at,
+    flashcard_set_id: item.flashcard_sets?.id,
+  })));
+  setStreak((await streakRes.json()).streak);
+};
     load();
     fetchStoredMaterials();
   }, []);
@@ -220,7 +233,6 @@ export const UserDashboard = () => {
     }],
   };
 
-  const totalSets = stats.total_sets + mcqCount;
 
   /* ── RENDER ── */
   return (
@@ -254,7 +266,7 @@ export const UserDashboard = () => {
 
           {/* TARJETAS DE ESTADÍSTICAS */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard title="Total de conjuntos" value={totalSets} icon={<Layers size={18} />} />
+            <StatCard title="Total de conjuntos" value={stats.total_sets} icon={<Layers size={18} />} />
             <StatCard title="Exámenes completados" value={stats.total_quizzes} icon={<Brain size={18} />} accent="#818cf8" />
             <StatCard title="Rendimiento medio" value={`${stats.avg_score}%`} icon={<TrendingUp size={18} />} accent="#22c55e" />
             <StatCard title="Racha actual" value={`${streak}d`} icon={<Flame size={18} />} accent="#f59e0b" />
