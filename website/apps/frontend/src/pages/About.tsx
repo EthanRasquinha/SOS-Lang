@@ -314,14 +314,14 @@ export const About: React.FC = () => {
               <img src={julianheadshot} alt="Julian" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 pointer-events-none" />
             </div>
-            {/* Ethan */}
-            <div className="relative overflow-hidden h-56">
-              <img src={ethanheadshot} alt="Ethan" className="absolute inset-0 w-full h-full object-cover" />
-              <div className="absolute inset-0 pointer-events-none" />
-            </div>
             {/* Adriana */}
             <div className="relative overflow-hidden h-56">
               <img src={adrianaheadshot} alt="Adriana" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 pointer-events-none" />
+            </div>
+            {/* Ethan */}
+            <div className="relative overflow-hidden h-56">
+              <img src={ethanheadshot} alt="Ethan" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 pointer-events-none" />
             </div>
           </div>
@@ -348,15 +348,7 @@ export const About: React.FC = () => {
                 Alumno de Informática '27
               </p>
             </div>
-            {/* Ethan info */}
-            <div className="px-6 py-5">
-              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
-              <p className="text-sm font-semibold text-white font-[Poppins]">Ethan Rasquinha</p>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Desarrollo Web</p>
-              <p className="text-[11px] text-slate-500 italic font-serif mt-0.5 font-[Poppins]">
-                Alumno de Informática '27
-              </p>
-            </div>
+            
             {/* Adriana info */}
             <div className="px-6 py-5">
               <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
@@ -364,6 +356,15 @@ export const About: React.FC = () => {
               <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Investigación / Análisis</p>
               <p className="text-[11px] text-slate-500 italic font-serif mt-0.5 font-[Poppins]">
                 Alumno de Ingeniería Aeroespacial '27
+              </p>
+            </div>
+            {/* Ethan info */}
+            <div className="px-6 py-5">
+              <div className="h-0.5 w-8 rounded-full mb-3" style={{ background: 'linear-gradient(90deg, #185FA5, transparent)' }} />
+              <p className="text-sm font-semibold text-white font-[Poppins]">Ethan Rasquinha</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-[Poppins]">Desarrollo Web</p>
+              <p className="text-[11px] text-slate-500 italic font-serif mt-0.5 font-[Poppins]">
+                Alumno de Informática '27
               </p>
             </div>
           </div>
