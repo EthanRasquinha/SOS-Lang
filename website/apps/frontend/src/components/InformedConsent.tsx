@@ -58,7 +58,7 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-[#dc6505] shadow-[0_0_8px_rgba(220,101,5,0.8)]" />
             <h2 className="text-white font-['Poppins'] font-semibold text-lg tracking-tight">
-              Informed Consent
+              Consemiento Informado
             </h2>
           </div>
           <button
@@ -75,7 +75,7 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
           <div className="bg-[#dc6505]/10 border-b border-[#dc6505]/20 px-7 py-2 shrink-0">
             <p className="text-[#dc6505] text-xs font-['Poppins'] font-medium flex items-center gap-2">
               <span>↓</span>
-              Please scroll through the entire document before proceeding.
+              Por favor, despláce para leer el documento completo antes de continuar.
             </p>
           </div>
         )}
@@ -90,120 +90,118 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
           <div className="prose prose-invert prose-sm max-w-none text-slate-300 font-['Poppins'] space-y-5 text-sm leading-relaxed">
 
             <h3 className="text-white font-semibold text-base">
-              Informed Consent for Use of SOS-LANG Application
+              Consemiento informado por el uso de SOS-LANG
             </h3>
 
             <section>
-              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Introduction</h4>
+              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Introducción</h4>
               <p>
-                Welcome to SOS-LANG. This application is designed to support language learning through interactive
-                tools, note-taking features, and AI-assisted practice. Before using the app, please read the
-                following information carefully.
+                Bienvenido a SOS-Lang. 
+                Esta aplicación está diseñada para apoyar el aprendizaje de idiomas mediante herramientas interactivas, funciones de toma de notas y práctica asistida por inteligencia artificial. 
+                Antes de utilizar la aplicación, por favor lea atentamente la siguiente información.
               </p>
             </section>
 
             <section>
-              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Purpose of the Application</h4>
+              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Propósito de la Aplicación</h4>
               <p>
-                SOS-LANG provides users with tools to improve language skills in practical, real-world contexts.
-                The app includes features such as vocabulary tracking, personalized review, and interactive
-                learning support.
+                SOS-Lang proporciona a los usuarios herramientas para mejorar sus habilidades lingüísticas en contextos prácticos y de la vida real. 
+                La aplicación incluye funciones como seguimiento de vocabulario, revisión personalizada y apoyo interactivo al aprendizaje.
               </p>
             </section>
 
             <section>
-              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">User Participation</h4>
-              <p>By using SOS-LANG, you may:</p>
+              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Participación del Usuario</h4>
+              <p>Al utilizar SOS-Lang, usted puede:</p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
-                <li>Create and store personal learning notes</li>
-                <li>Interact with AI-based language tools</li>
-                <li>Engage with exercises and review materials</li>
-                <li>Provide optional feedback to improve the app</li>
+                <li>Crear y almacenar notas personales de aprendizaje</li>
+                <li>Interactuar con herramientas lingüísticas basadas en inteligencia artificial</li>
+                <li>Participar en ejercicios y materiales de repaso</li>
+                <li>Proporcionar comentarios opcionales para mejorar la aplicación</li>
               </ul>
-              <p className="mt-2">Use of the application is entirely voluntary.</p>
+              <p className="mt-2">El uso de la aplicación es completamente voluntario.</p>
             </section>
 
             <section>
-              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Data Collection and Use</h4>
-              <p>SOS-LANG may collect limited user data to support functionality and improve performance. This may include:</p>
+              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Recopilación y Uso de Datos</h4>
+              <p>SOS-Lang puede recopilar datos limitados del usuario para apoyar su funcionamiento y mejorar su rendimiento. Esto puede incluir:</p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
-                <li>Learning inputs (e.g., notes, vocabulary entries)</li>
-                <li>App usage data (e.g., features used, session activity)</li>
+                <li>Entradas de aprendizaje (por ejemplo, notas, vocabulario)</li>
+                <li>Datos de uso de la aplicación (por ejemplo, funciones utilizadas, actividad de sesión)</li>
               </ul>
-              <p className="mt-2">Your data will be used to:</p>
+              <p className="mt-2">Sus datos se utilizarán para:</p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
-                <li>Personalize your learning experience</li>
-                <li>Improve app features and performance</li>
+                <li>Personalizar su experiencia de aprendizaje</li>
+                <li>Mejorar las funciones y el rendimiento de la aplicación</li>
               </ul>
-              <p className="mt-2">We do not sell your personal data to third parties.</p>
+              <p className="mt-2">No vendemos sus datos personales a terceros.</p>
             </section>
 
             <section>
-              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Privacy and Confidentiality</h4>
+              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Privacidad y Confidencialidad</h4>
               <ul className="list-disc list-inside space-y-1 text-slate-400">
-                <li>Your information will be handled securely and stored using appropriate safeguards</li>
-                <li>Personally identifiable information will not be shared without your consent</li>
-                <li>Data may be analyzed in an aggregated or anonymized form to improve the application</li>
+                <li>Su información será tratada de forma segura y almacenada con las salvaguardas adecuadas</li>
+                <li>La información personal identificable no será compartida sin su consentimiento</li>
+                <li>Los datos pueden ser analizados de forma agregada o anonimizada para mejorar la aplicación</li>
               </ul>
             </section>
 
             <section>
-              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">AI-Generated Content Disclaimer and Limitation of Liability</h4>
+              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Descargo de Responsabilidad sobre Contenido Generado por IA y Limitación de Responsabilidad</h4>
               <p>
-                SOS-LANG includes features powered by artificial intelligence (AI) that generate suggestions,
-                explanations, and language-learning content. While these tools are designed to support learning:
+                SOS-Lang incluye funciones impulsadas por inteligencia artificial (IA) que generan sugerencias, explicaciones y contenido de aprendizaje de idiomas. 
+                Aunque estas herramientas están diseñadas para apoyar el aprendizaje:
               </p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
-                <li>AI-generated content may be inaccurate, incomplete, or contextually incorrect</li>
-                <li>Responses should be used as guidance only, not as definitive or authoritative information</li>
-                <li>Users are responsible for reviewing and verifying any content before relying on it</li>
+                <li>El contenido generado por IA puede ser inexacto, incompleto o incorrecto en contexto</li>
+                <li>Las respuestas deben utilizarse solo como guía, no como información definitiva o autoritativa</li>
+                <li>Los usuarios son responsables de revisar y verificar cualquier contenido antes de confiar en él</li>
               </ul>
               <p className="mt-2">
-                To the fullest extent permitted by applicable law, including under the General Data Protection
-                Regulation (GDPR):
+                En la máxima medida permitida por la ley aplicable, incluyendo el Reglamento General de Protección de Datos (RGPD):
               </p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
-                <li>SOS-LANG and its developers disclaim all liability for errors or inaccuracies in AI-generated content</li>
-                <li>SOS-LANG is not responsible for any decisions, actions, or outcomes resulting from reliance on such content</li>
-                <li>AI-generated features are provided "as is" and "as available," without warranties of any kind, whether express or implied</li>
+                <li>SOS-Lang y sus desarrolladores declinan toda responsabilidad por errores o inexactitudes en el contenido generado por IA</li>
+                <li>SOS-Lang no es responsable de decisiones, acciones o resultados derivados del uso de dicho contenido</li>
+                <li>Las funciones de IA se proporcionan “tal cual” y “según disponibilidad”, sin garantías de ningún tipo, ya sean expresas o implícitas</li>
               </ul>
               <p className="mt-2 text-slate-500 text-xs">
-                Nothing in this section limits or excludes liability where such limitation or exclusion is not permitted under applicable law.
+                Nada en esta sección limita o excluye la responsabilidad cuando dicha limitación o exclusión no esté permitida por la ley aplicable.
               </p>
             </section>
 
             <section>
-              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Risks and Limitations</h4>
+              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Riesgos y Limitaciones</h4>
               <ul className="list-disc list-inside space-y-1 text-slate-400">
-                <li>There are no significant risks associated with using the app</li>
-                <li>AI-generated suggestions may not always be fully accurate and should be used as learning support, not as a sole authoritative source</li>
+                <li>No existen riesgos significativos asociados con el uso de la aplicación</li>
+                <li>Las sugerencias generadas por IA pueden no ser completamente precisas y deben utilizarse como apoyo al aprendizaje, no como única fuente autoritativa</li>
               </ul>
             </section>
 
             <section>
-              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Voluntary Use</h4>
+              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Uso Voluntario</h4>
               <ul className="list-disc list-inside space-y-1 text-slate-400">
-                <li>You are not required to use SOS-LANG</li>
-                <li>You may stop using the application at any time</li>
-                <li>You may request the deletion of your data where applicable</li>
+                <li>No está obligado a utilizar SOS-Lang</li>
+                <li>Puede dejar de usar la aplicación en cualquier momento</li>
+                <li>Puede solicitar la eliminación de sus datos cuando corresponda</li>
               </ul>
             </section>
 
             <section>
-              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Updates to This Agreement</h4>
+              <h4 className="text-[#dc6505] font-semibold uppercase text-xs tracking-widest mb-2">Actualizaciones de Este Acuerdo</h4>
               <p>
-                This consent may be updated as the application evolves. Continued use of SOS-LANG indicates
-                acceptance of any updated terms.
+                Este consentimiento puede actualizarse a medida que evoluciona la aplicación. 
+                El uso continuado de SOS-Lang implica la aceptación de cualquier término actualizado.
               </p>
             </section>
 
             <section className="border border-white/10 rounded-xl p-4 bg-white/[0.03]">
-              <h4 className="text-white font-semibold text-sm mb-2">Consent Statement</h4>
-              <p>By accessing or using SOS-LANG, you confirm that:</p>
+              <h4 className="text-white font-semibold text-sm mb-2">Declaración de Consentimiento</h4>
+              <p>Al acceder o utilizar SOS-Lang, usted confirma que:</p>
               <ul className="list-disc list-inside space-y-1 text-slate-400 mt-2">
-                <li>You have read and understood this information</li>
-                <li>You agree to the collection and use of your data as described</li>
-                <li>You voluntarily choose to use the application</li>
+                <li>Ha leído y comprendido esta información</li>
+                <li>Acepta la recopilación y uso de sus datos según lo descrito</li>
+                <li>Elige voluntariamente utilizar la aplicación</li>
               </ul>
             </section>
 
@@ -246,7 +244,7 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
               </div>
             </div>
             <span className="text-slate-300 text-sm font-['Poppins'] leading-snug select-none">
-              I have read and understood the informed consent document and agree to the terms described above.
+              He leído y entendido el documento de consentimiento informado y acepto los términos descritos anteriormente.
             </span>
           </label>
 
@@ -261,10 +259,10 @@ export const InformedConsent = ({ open, onClose, onConsent }: InformedConsentPro
             `}
           >
             {!hasScrolledToBottom
-              ? "Scroll to read the full document"
+              ? "Desplázate para leer el documento completo"
               : !isChecked
-              ? "Please check the box to continue"
-              : "I Consent — Continue to Sign Up →"}
+              ? "Por favor, marque la casilla para continuar"
+              : "Yo doy consentimiento — Seguir a registrarme →"}
           </Button>
         </div>
       </div>
