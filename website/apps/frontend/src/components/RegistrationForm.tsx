@@ -23,9 +23,9 @@ import { Input } from "@/components/ui/input"
 import { supabase } from "@/lib/supabaseClient"
 
 const formSchema = z.object({
-  email: z.string().email("Please enter a valid email address."),
-  password: z.string().min(6, "Password must be at least 6 characters."),
-  language: z.string().min(2, "Please select a language."),
+  email: z.string().email("Por favor escribe una correo electronico valido."),
+  password: z.string().min(6, "Su contraseña debe tener al menos 6 caracteres."),
+  language: z.string().min(2, "Por favor selecciona un idioma."),
 })
 
 type RegistrationFormProps = {
@@ -69,16 +69,16 @@ function VerifyEmailModal({ email, onClose }: { email: string; onClose: () => vo
         </div>
 
         <div>
-          <h3 className="text-xl font-bold text-white mb-1 tracking-tight">Check your inbox</h3>
+          <h3 className="text-xl font-bold text-white mb-1 tracking-tight">Chequear su bandeja de entrada</h3>
           <p className="text-slate-400 text-sm leading-relaxed">
-            We sent a verification link to
+            Nosotros enviamos un correo de verificación a
           </p>
           <p className="text-sky-400 font-semibold text-sm mt-1 break-all">{email}</p>
         </div>
 
         <div className="w-full bg-[#1a0f07] border border-orange-500/30 rounded-2xl p-4 text-orange-100 text-xs leading-relaxed text-left">
-  <span className="text-orange-400 font-semibold">Note:</span>{" "}
-  You must verify your email before you can log in. Check your spam folder if you don't see it.
+  <span className="text-orange-400 font-semibold">Tengas en cuenta:</span>{" "}
+  Debe verificar tu correo electrónico antes de poder iniciar sesión. Revise tu carpeta de spam si no lo ve.
 </div>
 
         <button
@@ -171,7 +171,7 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
     setLoading(false)
 
     if (error) {
-      toast("Signup failed", { description: error.message, position: "bottom-right" })
+      toast("Registro fallido", { description: error.message, position: "bottom-right" })
       return
     }
 
@@ -237,8 +237,8 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
                 <img src={sosLogo} className="w-8 h-9 object-contain" alt="SOS-LANG" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-white tracking-tight">Create account</h2>
-                <p className="text-slate-500 text-sm mt-1">Join SOS-LANG and start learning today</p>
+                <h2 className="text-2xl font-bold text-white tracking-tight">Crea una cuenta</h2>
+                <p className="text-slate-500 text-sm mt-1">Unete a SOS-LANG y comienza a aprender hoy</p>
               </div>
             </div>
 
@@ -253,12 +253,12 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <div>
-                    <label className="field-label" htmlFor="reg-email">Email</label>
+                    <label className="field-label" htmlFor="reg-email">Correo electronico</label>
                     <input
                       {...field}
                       id="reg-email"
                       type="email"
-                      placeholder="your@email.com"
+                      placeholder="tu@correo.com"
                       autoComplete="email"
                       aria-invalid={fieldState.invalid}
                       className="reg-input"
@@ -276,12 +276,12 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <div>
-                    <label className="field-label" htmlFor="reg-password">Password</label>
+                    <label className="field-label" htmlFor="reg-password">Contraseña</label>
                     <input
                       {...field}
                       id="reg-password"
                       type="password"
-                      placeholder="Min. 6 characters"
+                      placeholder="Mín. 6 caracteres"
                       autoComplete="new-password"
                       aria-invalid={fieldState.invalid}
                       className="reg-input"
@@ -299,7 +299,7 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <div>
-                    <label className="field-label">Language you're learning</label>
+                    <label className="field-label">Idioma que estás aprendiendo</label>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <SelectTrigger
                         className="w-full h-12 rounded-[0.875rem] text-sm font-medium"
@@ -309,7 +309,7 @@ export const RegistrationForm = ({ onSuccess, open, onClose, children }: Registr
                           color: field.value ? "white" : "rgba(148,163,184,0.5)",
                         }}
                       >
-                        <SelectValue placeholder="Select a language" />
+                        <SelectValue placeholder="Elige un idioma" />
                       </SelectTrigger>
                       <SelectContent>
                         {LANGUAGES.map(lang => (
@@ -347,10 +347,10 @@ boxShadow: "0 0 24px rgba(249,115,22,0.35)",
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
-                  Creating account…
+                  Creando cuenta…
                 </span>
               ) : (
-                "Create Account →"
+                "Crear Cuenta →"
               )}
             </button>
           </div>
