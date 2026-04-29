@@ -38,8 +38,11 @@ def generate_flashcards(note_content: str) -> dict:
           ]
         }}
 
-        Create 5-10 flashcards that cover the key concepts and important details.
+        Create 15-20 flashcards that cover the key concepts and important details.
         Make questions clear and answers concise, one word, but complete.
+
+        - The questions should be in the language the notes are written, and the answers should be the language the notes are on.
+        - The title must be in spanish
 
         Note content:
         {note_content}
@@ -90,6 +93,7 @@ def generate_mcqs(note_content: str) -> dict:
         - Make distractors realistic (not obvious)
         - Keep answers concise
         - Ensure correctness based on the note
+        - The title must be in spanish
         - The questions should be in the language the notes are written, and the answers should be the language the notes are on.
         - make sure options are in the target language the notes are about
 

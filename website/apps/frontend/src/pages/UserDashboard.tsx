@@ -47,10 +47,24 @@ type StatCardProps = {
   value: number | string;
   icon: React.ReactNode;
   accent?: string;
+  loading?: boolean;
 };
 
+/* ── SKELETON ── */
+const Skeleton = ({ className = "", style = {} }: { className?: string; style?: React.CSSProperties }) => (
+  <div
+    className={`rounded-lg ${className}`}
+    style={{
+      background: "linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%)",
+      backgroundSize: "200% 100%",
+      animation: "shimmer 1.6s infinite",
+      ...style,
+    }}
+  />
+);
+
 /* ── TARJETA DE ESTADÍSTICA ── */
-const StatCard: React.FC<StatCardProps> = ({ title, value, icon, accent = "#dc6505" }) => (
+const StatCard: React.FC<StatCardProps> = ({ title, value, icon, accent = "#dc6505", loading = false }) => (
   <div
     className="relative overflow-hidden rounded-2xl p-5 flex flex-col gap-4 transition-all hover:scale-[1.01]"
     style={{
@@ -69,7 +83,34 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon, accent = "#dc65
       </div>
     </div>
 
-    <p className="text-3xl font-bold text-white tracking-tight">{value}</p>
+    {loading
+      ? <Skeleton style={{ height: "36px", width: "60%" }} />
+      : <p className="text-3xl font-bold text-white tracking-tight">{value}</p>
+    }
+  </div>
+);
+
+/* ── LOADING SKELETON PARA GRÁFICOS ── */
+const ChartSkeleton = () => (
+  <div className="flex flex-col gap-4 p-6" style={{ background: "#0b1b2b" }}>
+    <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-2">
+        <Skeleton style={{ height: "10px", width: "120px" }} />
+        <Skeleton style={{ height: "14px", width: "160px" }} />
+      </div>
+      <Skeleton style={{ width: "32px", height: "32px", borderRadius: "8px" }} />
+    </div>
+    <Skeleton style={{ height: "220px", borderRadius: "12px" }} />
+  </div>
+);
+
+/* ── LOADING SKELETON PARA FILAS RECIENTES ── */
+const RecentRowSkeleton = () => (
+  <div className="flex items-center gap-3 px-6 py-3.5">
+    <Skeleton style={{ flex: 1, height: "14px", maxWidth: "200px" }} />
+    <Skeleton style={{ width: "52px", height: "24px", borderRadius: "9999px" }} />
+    <Skeleton style={{ width: "100px", height: "12px" }} />
+    <Skeleton style={{ width: "72px", height: "28px", borderRadius: "9999px" }} />
   </div>
 );
 
@@ -77,6 +118,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon, accent = "#dc65
 export const UserDashboard = () => {
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ total_sets: 0, total_quizzes: 0, avg_score: 0 });
   const [activity, setActivity] = useState([{ date: "", avgScore: 0, count: 0 }]);
   const [recent, setRecent] = useState<{ title: string; score: number; total: number; completed_at: string; flashcard_set_id: string }[]>([]);
@@ -84,7 +126,6 @@ export const UserDashboard = () => {
   const [materials, setMaterials] = useState<MaterialCard[]>([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "good" | "mid" | "bad">("all");
-  const [mcqCount, setMcqCount] = useState(0);
 
   const reviewSet = (setId: string) => navigate(`/studymaterial/${setId}?autostart=true`);
 
@@ -140,8 +181,6 @@ export const UserDashboard = () => {
       const mcqData = mcqRes.ok ? await mcqRes.json() : { mcq_sets: [] };
       const mcqSets = mcqData.mcq_sets || [];
 
-      setMcqCount(mcqSets.length);
-
       const [flashEnriched, mcqEnriched] = await Promise.all([
         Promise.all((flashData.flashcard_sets || []).map(async (set: any) => {
           const results = await fetchResultsForSet(set.id);
@@ -156,44 +195,49 @@ export const UserDashboard = () => {
       ]);
 
       setMaterials([...flashEnriched, ...mcqEnriched]);
-    } catch { toast.error("Error al cargar los materiales."); }
+    } catch {
+      toast.error("Error al cargar los materiales.");
+    }
   };
 
   useEffect(() => {
     const load = async () => {
-  const session = await supabase.auth.getSession();
-  
-  if (!session.data.session) {
-    navigate('/');
-    return;
-  }
+      const session = await supabase.auth.getSession();
 
-  const headers = { Authorization: `Bearer ${session.data.session.access_token}` };
+      if (!session.data.session) {
+        navigate('/');
+        return;
+      }
 
-  const [statsRes, activityRes, recentRes, streakRes] = await Promise.all([
-    fetch("https://sos-lang.onrender.com/stats/", { headers }),
-    fetch("https://sos-lang.onrender.com/stats/activity", { headers }),
-    fetch("https://sos-lang.onrender.com/stats/recent", { headers }),
-    fetch("https://sos-lang.onrender.com/stats/streak", { headers }),
-  ]);
+      const headers = { Authorization: `Bearer ${session.data.session.access_token}` };
 
-  if (!statsRes.ok) { toast.error(`Stats error: ${statsRes.status}`); return; }
-  if (!activityRes.ok) { toast.error(`Activity error: ${activityRes.status}`); return; }
-  if (!recentRes.ok) { toast.error(`Recent error: ${recentRes.status}`); return; }
-  if (!streakRes.ok) { toast.error(`Streak error: ${streakRes.status}`); return; }
+      const [statsRes, activityRes, recentRes, streakRes] = await Promise.all([
+        fetch("https://sos-lang.onrender.com/stats/", { headers }),
+        fetch("https://sos-lang.onrender.com/stats/activity", { headers }),
+        fetch("https://sos-lang.onrender.com/stats/recent", { headers }),
+        fetch("https://sos-lang.onrender.com/stats/streak", { headers }),
+      ]);
 
-  setStats(await statsRes.json());
-  setActivity(await activityRes.json());
-  const recentData = await recentRes.json();
-  setRecent(recentData.map((item: any) => ({
-    title: item.flashcard_sets?.title,
-    score: item.score,
-    total: item.total,
-    completed_at: item.completed_at,
-    flashcard_set_id: item.flashcard_sets?.id,
-  })));
-  setStreak((await streakRes.json()).streak);
-};
+      if (!statsRes.ok) { toast.error(`Stats error: ${statsRes.status}`); return; }
+      if (!activityRes.ok) { toast.error(`Activity error: ${activityRes.status}`); return; }
+      if (!recentRes.ok) { toast.error(`Recent error: ${recentRes.status}`); return; }
+      if (!streakRes.ok) { toast.error(`Streak error: ${streakRes.status}`); return; }
+
+      setStats(await statsRes.json());
+      setActivity(await activityRes.json());
+      const recentData = await recentRes.json();
+      setRecent(recentData.map((item: any) => ({
+        title: item.flashcard_sets?.title,
+        score: item.score,
+        total: item.total,
+        completed_at: item.completed_at,
+        flashcard_set_id: item.flashcard_sets?.id,
+      })));
+      setStreak((await streakRes.json()).streak);
+      setLoading(false);
+      
+    };
+
     load();
     fetchStoredMaterials();
   }, []);
@@ -233,7 +277,6 @@ export const UserDashboard = () => {
     }],
   };
 
-
   /* ── RENDER ── */
   return (
     <>
@@ -251,7 +294,7 @@ export const UserDashboard = () => {
               <TrendingUp size={18} />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-white tracking-tight">Panel de aprendizaje</h1>
+              <h1 className="text-lg font-bold text-white font-[Poppins] tracking-tight">Mi progreso personal</h1>
               <p className="text-xs text-slate-500">Sigue tu progreso e información</p>
             </div>
           </div>
@@ -266,10 +309,10 @@ export const UserDashboard = () => {
 
           {/* TARJETAS DE ESTADÍSTICAS */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard title="Total de conjuntos" value={stats.total_sets} icon={<Layers size={18} />} />
-            <StatCard title="Exámenes completados" value={stats.total_quizzes} icon={<Brain size={18} />} accent="#818cf8" />
-            <StatCard title="Rendimiento medio" value={`${stats.avg_score}%`} icon={<TrendingUp size={18} />} accent="#22c55e" />
-            <StatCard title="Racha actual" value={`${streak}d`} icon={<Flame size={18} />} accent="#f59e0b" />
+            <StatCard title="Total de conjuntos" value={stats.total_sets} icon={<Layers size={18} />} loading={loading} />
+            <StatCard title="Exámenes completados" value={stats.total_quizzes} icon={<Brain size={18} />} accent="#818cf8" loading={loading} />
+            <StatCard title="Rendimiento medio" value={`${stats.avg_score}%`} icon={<TrendingUp size={18} />} accent="#22c55e" loading={loading} />
+            <StatCard title="Racha actual" value={`${streak}d`} icon={<Flame size={18} />} accent="#f59e0b" loading={loading} />
           </div>
 
           {/* GRÁFICOS */}
@@ -280,38 +323,46 @@ export const UserDashboard = () => {
 
             <div className="grid md:grid-cols-2 gap-px" style={{ background: "rgba(255,255,255,0.04)" }}>
 
-              {/* Gráfico de líneas */}
-              <div className="flex flex-col p-6 gap-4" style={{ background: "#0b1b2b" }}>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold">Tendencia de actividad</p>
-                    <h3 className="text-sm font-bold text-white mt-0.5">Frecuencia de repaso</h3>
+              {loading ? (
+                <>
+                  <ChartSkeleton />
+                  <ChartSkeleton />
+                </>
+              ) : (
+                <>
+                  {/* Gráfico de líneas */}
+                  <div className="flex flex-col p-6 gap-4" style={{ background: "#0b1b2b" }}>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold">Tendencia de actividad</p>
+                        <h3 className="text-sm font-bold text-white mt-0.5">Frecuencia de repaso</h3>
+                      </div>
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(220,101,5,0.1)", color: "#dc6505" }}>
+                        <Activity size={16} />
+                      </div>
+                    </div>
+                    <div style={{ height: "220px" }}>
+                      <Line data={chartData} options={chartOptions} />
+                    </div>
                   </div>
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(220,101,5,0.1)", color: "#dc6505" }}>
-                    <Activity size={16} />
-                  </div>
-                </div>
-                <div style={{ height: "220px" }}>
-                  <Line data={chartData} options={chartOptions} />
-                </div>
-              </div>
 
-              {/* Gráfico circular */}
-              <div className="flex flex-col p-6 gap-4" style={{ background: "#0b1b2b" }}>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold">Distribución del rendimiento</p>
-                    <h3 className="text-sm font-bold text-white mt-0.5">Desglose de dominio</h3>
+                  {/* Gráfico circular */}
+                  <div className="flex flex-col p-6 gap-4" style={{ background: "#0b1b2b" }}>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold">Distribución del rendimiento</p>
+                        <h3 className="text-sm font-bold text-white mt-0.5">Desglose de dominio</h3>
+                      </div>
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(220,101,5,0.1)", color: "#dc6505" }}>
+                        <PieChart size={16} />
+                      </div>
+                    </div>
+                    <div style={{ height: "220px" }}>
+                      <Pie data={pieData} options={{ maintainAspectRatio: false, responsive: true, plugins: { legend: { position: "bottom", labels: { color: "#64748b", font: { size: 11 }, padding: 12, boxWidth: 10 } } } }} />
+                    </div>
                   </div>
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(220,101,5,0.1)", color: "#dc6505" }}>
-                    <PieChart size={16} />
-                  </div>
-                </div>
-                <div style={{ height: "220px" }}>
-                  <Pie data={pieData} options={{ maintainAspectRatio: false, responsive: true, plugins: { legend: { position: "bottom", labels: { color: "#64748b", font: { size: 11 }, padding: 12, boxWidth: 10 } } } }} />
-                </div>
-              </div>
-
+                </>
+              )}
             </div>
           </div>
 
@@ -325,12 +376,14 @@ export const UserDashboard = () => {
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Buscar conjuntos..."
                   className="dash-input"
+                  disabled={loading}
                 />
                 <select
                   value={filter}
                   onChange={(e) => setFilter(e.target.value as any)}
                   className="dash-input"
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.5 : 1 }}
+                  disabled={loading}
                 >
                   <option value="all">Todas las puntuaciones</option>
                   <option value="good">≥ 80 %</option>
@@ -341,7 +394,15 @@ export const UserDashboard = () => {
             </div>
 
             <div className="divide-y divide-white/[0.05]">
-              {filteredRecent.length === 0 ? (
+              {loading ? (
+                <>
+                  <RecentRowSkeleton />
+                  <RecentRowSkeleton />
+                  <RecentRowSkeleton />
+                  <RecentRowSkeleton />
+                  <RecentRowSkeleton />
+                </>
+              ) : filteredRecent.length === 0 ? (
                 <p className="text-slate-500 text-sm text-center py-10">No se encontraron resultados.</p>
               ) : filteredRecent.map((item, i) => {
                 const percent = item.total > 0 ? (item.score / item.total) * 100 : 0;
@@ -378,6 +439,10 @@ export const UserDashboard = () => {
 };
 
 const DASH_STYLES = `
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
   .dash-input {
     padding: 0.4rem 0.75rem;
     border-radius: 0.625rem;

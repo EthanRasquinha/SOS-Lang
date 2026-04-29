@@ -7,8 +7,6 @@ import MCQQuizView from "../components/MCQQuizView";
 import sosLogo from '../../assets/sos-logo.png';
 import { BookOpen } from "lucide-react";
 
-
-
 interface Flashcard {
   id: string;
   front: string;
@@ -61,63 +59,22 @@ interface QuizResult {
 }
 
 const STATUS_CONFIG = {
-  "not-attempted": {
-    label: "Sin comenzar",
-    dot: "bg-slate-500",
-    bar: "bg-slate-600",
-    text: "text-slate-400",
-  },
-  "passed": {
-    label: "Aprobado",
-    dot: "bg-emerald-400",
-    bar: "bg-emerald-500",
-    text: "text-emerald-400",
-  },
-  "failed": {
-    label: "Necesita repaso",
-    dot: "bg-red-400",
-    bar: "bg-red-500",
-    text: "text-red-400",
-  },
-  "stale": {
-    label: "Pendiente de revisión",
-    dot: "bg-amber-400",
-    bar: "bg-amber-500",
-    text: "text-amber-400",
-  },
-  "all": {
-    label: "Todos",
-    dot: "bg-amber-400",
-    bar: "bg-amber-500",
-    text: "text-amber-400",
-  }
+  "not-attempted": { label: "Sin comenzar", dot: "bg-slate-500", bar: "bg-slate-600", text: "text-slate-400" },
+  "passed":        { label: "Aprobado", dot: "bg-emerald-400", bar: "bg-emerald-500", text: "text-emerald-400" },
+  "failed":        { label: "Necesita repaso", dot: "bg-red-400", bar: "bg-red-500", text: "text-red-400" },
+  "stale":         { label: "Pendiente de revisión", dot: "bg-amber-400", bar: "bg-amber-500", text: "text-amber-400" },
+  "all":           { label: "Todos", dot: "bg-amber-400", bar: "bg-amber-500", text: "text-amber-400" },
 };
 
-const getMaterialStatus = (
-  results: QuizResult[] | null
-): { status: FilterOption; avg: number } => {
-  if (!results || results.length === 0) {
-    return { status: "not-attempted", avg: 0 };
-  }
-
+const getMaterialStatus = (results: QuizResult[] | null): { status: FilterOption; avg: number } => {
+  if (!results || results.length === 0) return { status: "not-attempted", avg: 0 };
   const now = Date.now();
-
-  const last = results.reduce((a, b) =>
-    new Date(b.completed_at) > new Date(a.completed_at) ? b : a
-  );
-
-  const daysSince =
-    (now - new Date(last.completed_at).getTime()) / 86400000;
-
-  const avg =
-    results.reduce(
-      (s, r) => s + (r.total > 0 ? (r.score / r.total) * 100 : 0),
-      0
-    ) / results.length;
-
-  if (daysSince > 3) return { status: "stale", avg: avg };
-  if (avg >= 80) return { status: "passed", avg: avg };
-  return { status: "failed", avg: avg };
+  const last = results.reduce((a, b) => new Date(b.completed_at) > new Date(a.completed_at) ? b : a);
+  const daysSince = (now - new Date(last.completed_at).getTime()) / 86400000;
+  const avg = results.reduce((s, r) => s + (r.total > 0 ? (r.score / r.total) * 100 : 0), 0) / results.length;
+  if (daysSince > 3) return { status: "stale", avg };
+  if (avg >= 80) return { status: "passed", avg };
+  return { status: "failed", avg };
 };
 
 // ── Icons ──────────────────────────────────────────────
@@ -148,6 +105,39 @@ const IconTrash = () => (
   </svg>
 );
 
+// ── Skeleton ───────────────────────────────────────────
+const Skeleton = ({ style = {} }: { style?: React.CSSProperties }) => (
+  <div
+    className="rounded-lg"
+    style={{
+      background: "linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%)",
+      backgroundSize: "200% 100%",
+      animation: "shimmer 1.6s infinite",
+      ...style,
+    }}
+  />
+);
+
+const StatCardSkeleton = () => (
+  <div className="rounded-2xl bg-[#0d1f35] border border-white/[0.06] px-5 py-4 flex flex-col gap-3">
+    <Skeleton style={{ height: 28, width: "40%" }} />
+    <Skeleton style={{ height: 13, width: "60%" }} />
+    <Skeleton style={{ height: 11, width: "75%" }} />
+  </div>
+);
+
+const MaterialRowSkeleton = () => (
+  <div className="flex items-center gap-4 pl-4 pr-4 py-4 rounded-2xl border border-white/[0.06] bg-[#0d1f35]">
+    <Skeleton style={{ width: 8, height: 40, borderRadius: 9999 }} />
+    <div className="flex-1 flex flex-col gap-2">
+      <Skeleton style={{ height: 14, width: "55%" }} />
+      <Skeleton style={{ height: 11, width: "40%" }} />
+    </div>
+    <Skeleton style={{ width: 72, height: 30, borderRadius: 9999 }} />
+    <Skeleton style={{ width: 32, height: 32, borderRadius: 9999 }} />
+  </div>
+);
+
 // ── Fila de material individual ────────────────────────
 interface RowProps {
   material: MaterialCard;
@@ -164,34 +154,23 @@ const MaterialRow: React.FC<RowProps> = ({ material, onStart, onDelete, loadingS
       <div className="shrink-0 hidden sm:flex flex-col items-center gap-1.5">
         <span className={`w-2 h-10 rounded-full ${statusInfo.dot}`} />
       </div>
-
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-left text-slate-100 break-words">{material.title}</p>
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1">
-          <span className="text-[11px] text-slate-500">
-            {material.count} {material.type === "flashcard" ? "tarjetas" : "preguntas"}
-          </span>
+          <span className="text-[11px] text-slate-500">{material.count} ejercicio{material.count !== 1 ? "s" : ""}</span>
           <span className="text-[11px] text-slate-600">·</span>
           <span className="text-[11px] text-slate-500">{material.date}</span>
           <span className="text-[11px] text-slate-600">·</span>
-          <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${statusInfo.text} bg-white/5`}>
-            {statusInfo.label}
-          </span>
-          <span className="text-[11px] font-semibold text-slate-300">
-            Media: {material.avg.toFixed(1)}%
-          </span>
+          <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${statusInfo.text} bg-white/5`}>{statusInfo.label}</span>
+          <span className="text-[11px] font-semibold text-slate-300">Media: {material.avg.toFixed(1)}%</span>
         </div>
       </div>
-
       <div className="flex items-center gap-2 shrink-0 ml-auto">
         <button
           onClick={onStart}
           disabled={loadingSet}
           className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all disabled:opacity-40
-            ${accent === "orange"
-              ? "bg-[#dc6505] hover:bg-[#b85204] text-white"
-              : "bg-[#185FA5] hover:bg-[#0C447C] text-white"
-            }`}
+            ${accent === "orange" ? "bg-[#dc6505] hover:bg-[#b85204] text-white" : "bg-[#185FA5] hover:bg-[#0C447C] text-white"}`}
         >
           <IconPlay />
           {loadingSet ? "Cargando..." : "Empezar"}
@@ -221,15 +200,11 @@ interface SectionProps {
 const Section: React.FC<SectionProps> = ({ title, subtitle, icon, accentBg, children, count }) => (
   <div className="flex flex-col gap-4 bg-[#0b1b2b] border border-white/10 rounded-2xl p-5">
     <div className="flex items-center gap-3 mb-1">
-      <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${accentBg}`}>
-        {icon}
-      </div>
+      <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${accentBg}`}>{icon}</div>
       <div>
         <div className="flex items-center gap-2">
-          <h2 className="text-base font-semibold text-white">{title}</h2>
-          <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-white/[0.07] text-slate-400">
-            {count}
-          </span>
+          <h2 className="text-base font-semibold font-[Poppins] text-white">{title}</h2>
+          <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-white/[0.07] text-slate-400">{count}</span>
         </div>
         <p className="text-[11px] text-slate-500">{subtitle}</p>
       </div>
@@ -239,19 +214,12 @@ const Section: React.FC<SectionProps> = ({ title, subtitle, icon, accentBg, chil
 );
 
 // ── Píldora de filtro ──────────────────────────────────
-interface PillProps {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}
+interface PillProps { active: boolean; onClick: () => void; children: React.ReactNode; }
 const FilterPill: React.FC<PillProps> = ({ active, onClick, children }) => (
   <button
     onClick={onClick}
     className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all border whitespace-nowrap
-      ${active
-        ? "bg-[#0d1f35] border-white/20 text-white"
-        : "border-white/[0.06] text-slate-500 hover:text-slate-300 hover:border-white/[0.12]"
-      }`}
+      ${active ? "bg-[#0d1f35] border-white/20 text-white" : "border-white/[0.06] text-slate-500 hover:text-slate-300 hover:border-white/[0.12]"}`}
   >
     {children}
   </button>
@@ -260,7 +228,7 @@ const FilterPill: React.FC<PillProps> = ({ active, onClick, children }) => (
 // ── Componente principal ───────────────────────────────
 export const AIStudyMaterial: React.FC = () => {
   const [materials, setMaterials] = useState<MaterialCard[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [selectedFlashcardSet, setSelectedFlashcardSet] = useState<FlashcardSet | null>(null);
   const [selectedMCQSet, setSelectedMCQSet] = useState<MCQSet | null>(null);
   const [loadingSet, setLoadingSet] = useState(false);
@@ -299,13 +267,9 @@ export const AIStudyMaterial: React.FC = () => {
         (flashcardData.flashcard_sets || []).map(async (set: any) => {
           const results = await fetchQuizResultsForSet(set.id);
           return {
-            id: set.id,
-            title: set.title,
-            count: set.flashcards?.length || 0,
-            date: new Date(set.created_at).toLocaleDateString(),
-            createdAt: set.created_at,
-            status: getMaterialStatus(results).status,
-            type: "flashcard" as const,
+            id: set.id, title: set.title, count: set.flashcards?.length || 0,
+            date: new Date(set.created_at).toLocaleDateString(), createdAt: set.created_at,
+            status: getMaterialStatus(results).status, type: "flashcard" as const,
             avg: getMaterialStatus(results).avg,
           };
         })
@@ -315,13 +279,9 @@ export const AIStudyMaterial: React.FC = () => {
         (mcqData.mcq_sets || []).map(async (set: any) => {
           const results = await fetchQuizResultsForSet(set.id);
           return {
-            id: set.id,
-            title: set.title,
-            count: set.mcq_questions?.length || 0,
-            date: new Date(set.created_at).toLocaleDateString(),
-            createdAt: set.created_at,
-            status: getMaterialStatus(results).status,
-            type: "mcq" as const,
+            id: set.id, title: set.title, count: set.mcq_questions?.length || 0,
+            date: new Date(set.created_at).toLocaleDateString(), createdAt: set.created_at,
+            status: getMaterialStatus(results).status, type: "mcq" as const,
             avg: getMaterialStatus(results).avg,
           };
         })
@@ -383,12 +343,8 @@ export const AIStudyMaterial: React.FC = () => {
 
   useEffect(() => { fetchStoredMaterials(); }, []);
 
-  if (selectedFlashcardSet) {
-    return <QuizView flashcardSet={selectedFlashcardSet} onComplete={handleQuizComplete} onBack={() => setSelectedFlashcardSet(null)} />;
-  }
-  if (selectedMCQSet) {
-    return <MCQQuizView mcqSet={selectedMCQSet} onComplete={handleQuizComplete} onBack={() => setSelectedMCQSet(null)} />;
-  }
+  if (selectedFlashcardSet) return <QuizView flashcardSet={selectedFlashcardSet} onComplete={handleQuizComplete} onBack={() => setSelectedFlashcardSet(null)} />;
+  if (selectedMCQSet) return <MCQQuizView mcqSet={selectedMCQSet} onComplete={handleQuizComplete} onBack={() => setSelectedMCQSet(null)} />;
 
   const sorted = (items: MaterialCard[]) =>
     [...items].sort((a, b) =>
@@ -397,8 +353,7 @@ export const AIStudyMaterial: React.FC = () => {
         : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     );
 
-  const filtered = (items: MaterialCard[]) =>
-    filter === "all" ? items : items.filter((m) => m.status === filter);
+  const filtered = (items: MaterialCard[]) => filter === "all" ? items : items.filter((m) => m.status === filter);
 
   const flashcards = sorted(filtered(materials.filter((m) => m.type === "flashcard")));
   const mcqs = sorted(filtered(materials.filter((m) => m.type === "mcq")));
@@ -408,28 +363,25 @@ export const AIStudyMaterial: React.FC = () => {
   const totalPassed = materials.filter((m) => m.status === "passed").length;
 
   return (
-    <div
-      className="min-h-screen bg-[#080f1a] text-white flex flex-col"
-      style={{ fontFamily: "'Sora', 'Poppins', sans-serif" }}
-    >
+    <div className="min-h-screen bg-[#080f1a] text-white flex flex-col" style={{ fontFamily: "'Sora', 'Poppins', sans-serif" }}>
+      <style>{`
+        @keyframes shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+      `}</style>
+
       {/* BARRA SUPERIOR */}
       <header className="relative shrink-0 flex items-center px-6 py-3.5 bg-[#0a1628] border-b border-white/[0.07] overflow-hidden">
-        <img
-          src={sosLogo}
-          alt="Logo SOS-Lang"
-          className="absolute right-4 top-1/2 -translate-y-1/2 h-20 opacity-10 pointer-events-none select-none"
-        />
+        <img src={sosLogo} alt="Logo SOS-Lang" className="absolute right-4 top-1/2 -translate-y-1/2 h-20 opacity-10 pointer-events-none select-none" />
         <div className="relative z-10 flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400">
-            <BookOpen size={20} />
-          </div>
-          <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">
-            Material de estudio SOS-Lang
-          </h1>
+          <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400"><BookOpen size={20} /></div>
+          <h1 className="text-[24px] font-[Poppins] font-semibold text-white tracking-wide">Mi espacio de estudio</h1>
         </div>
         <button
           onClick={() => setSortOrder((p) => (p === "newest" ? "oldest" : "newest"))}
-          className="ml-auto text-xs font-semibold px-3 py-1.5 rounded-full bg-[#0f2a44] text-white hover:bg-[#11335a] transition-all whitespace-nowrap"
+          disabled={loading}
+          className="ml-auto text-xs font-semibold px-3 py-1.5 rounded-full bg-[#0f2a44] text-white hover:bg-[#11335a] transition-all whitespace-nowrap disabled:opacity-40"
         >
           {sortOrder === "newest" ? "↓ Más recientes primero" : "↑ Más antiguos primero"}
         </button>
@@ -439,92 +391,98 @@ export const AIStudyMaterial: React.FC = () => {
 
         {/* FILA DE ESTADÍSTICAS */}
         <div className="grid grid-cols-3 gap-4">
-          {[
-            { label: "Total de conjuntos", value: totalAll, sub: "tarjetas + exámenes" },
-            { label: "Pendientes de revisión", value: totalDue, sub: "sin comenzar o sin repasar" },
-            { label: "Aprobados", value: totalPassed, sub: "puntuación media ≥ 80 %" },
-          ].map((stat) => (
-            <div key={stat.label} className="rounded-2xl bg-[#0d1f35] border border-white/[0.06] px-5 py-4">
-              <p className="text-2xl font-semibold text-white">{stat.value}</p>
-              <p className="text-xs font-semibold text-slate-300 mt-0.5">{stat.label}</p>
-              <p className="text-[11px] text-slate-600 mt-0.5">{stat.sub}</p>
-            </div>
-          ))}
+          {loading ? (
+            <>
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+            </>
+          ) : (
+            [
+              { label: "Total de conjuntos", value: totalAll, sub: "ejercicios" },
+              { label: "Pendientes de revisión", value: totalDue, sub: "sin comenzar o sin repasar" },
+              { label: "Aprobados", value: totalPassed, sub: "puntuación media ≥ 80 %" },
+            ].map((stat) => (
+              <div key={stat.label} className="rounded-2xl bg-[#0d1f35] border border-white/[0.06] px-5 py-4">
+                <p className="text-2xl font-semibold text-white">{stat.value}</p>
+                <p className="text-xs font-semibold text-slate-300 mt-0.5">{stat.label}</p>
+                <p className="text-[11px] text-slate-600 mt-0.5">{stat.sub}</p>
+              </div>
+            ))
+          )}
         </div>
 
         {/* PÍLDORAS DE FILTRO */}
         <div className="flex items-center gap-2 flex-wrap">
           {(["all", "not-attempted", "passed", "failed", "stale"] as FilterOption[]).map((f) => (
             <FilterPill key={f} active={filter === f} onClick={() => setFilter(f)}>
-              {f === "all" ? "Todos"
-                : f === "not-attempted" ? "Sin comenzar"
-                  : f === "passed" ? "Aprobado"
-                    : f === "failed" ? "Necesita repaso"
-                      : "Pendiente de revisión"}
+              {f === "all" ? "Todos" : f === "not-attempted" ? "Sin comenzar" : f === "passed" ? "Aprobado" : f === "failed" ? "Necesita repaso" : "Pendiente de revisión"}
             </FilterPill>
           ))}
         </div>
 
-        {loading && (
-          <div className="flex items-center justify-center py-16">
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-6 h-6 border-2 border-[#dc6505] border-t-transparent rounded-full animate-spin" />
-              <p className="text-xs text-slate-500">Cargando tus materiales...</p>
+        {/* CONTENIDO */}
+        {loading ? (
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Skeleton para tarjetas */}
+            <div className="flex flex-col gap-4 bg-[#0b1b2b] border border-white/10 rounded-2xl p-5">
+              <div className="flex items-center gap-3 mb-1">
+                <Skeleton style={{ width: 36, height: 36, borderRadius: 12 }} />
+                <div className="flex flex-col gap-2">
+                  <Skeleton style={{ width: 140, height: 14 }} />
+                  <Skeleton style={{ width: 80, height: 11 }} />
+                </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                <MaterialRowSkeleton />
+                <MaterialRowSkeleton />
+                <MaterialRowSkeleton />
+              </div>
+            </div>
+            {/* Skeleton para exámenes */}
+            <div className="flex flex-col gap-4 bg-[#0b1b2b] border border-white/10 rounded-2xl p-5">
+              <div className="flex items-center gap-3 mb-1">
+                <Skeleton style={{ width: 36, height: 36, borderRadius: 12 }} />
+                <div className="flex flex-col gap-2">
+                  <Skeleton style={{ width: 180, height: 14 }} />
+                  <Skeleton style={{ width: 80, height: 11 }} />
+                </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                <MaterialRowSkeleton />
+                <MaterialRowSkeleton />
+              </div>
             </div>
           </div>
-        )}
-
-        {!loading && (
+        ) : (
           <div className="grid lg:grid-cols-2 gap-6">
-            {/* TARJETAS */}
             <Section
-              title="Juegos de tarjetas"
-              subtitle="Memorización con tarjetas de cara y vuelta"
+              title="Ejercicios de escribir" subtitle=""
               icon={<span className="text-[#dc6505]"><IconCards /></span>}
-              accent="orange"
-              accentBg="bg-[#dc6505]/10"
-              count={flashcards.length}
+              accent="orange" accentBg="bg-[#dc6505]/10" count={flashcards.length}
             >
               {flashcards.length === 0 ? (
-                <p className="text-slate-500 text-sm">No hay juegos de tarjetas disponibles.</p>
+                <p className="text-slate-500 text-sm">No hay ejercicios de escribir disponibles.</p>
               ) : (
                 <div className="flex flex-col gap-3">
                   {flashcards.map((m) => (
-                    <MaterialRow
-                      key={m.id}
-                      material={m}
-                      onStart={() => loadFlashcardSet(m.id)}
-                      onDelete={() => deleteMaterial(m.id, "flashcard")}
-                      loadingSet={loadingSet}
-                      accent="orange"
-                    />
+                    <MaterialRow key={m.id} material={m} onStart={() => loadFlashcardSet(m.id)} onDelete={() => deleteMaterial(m.id, "flashcard")} loadingSet={loadingSet} accent="orange" />
                   ))}
                 </div>
               )}
             </Section>
 
-            {/* EXÁMENES */}
             <Section
-              title="Exámenes de opción múltiple"
-              subtitle="Conjuntos de preguntas de opción múltiple"
+              title="Ejercicios de elegir" subtitle=""
               icon={<span className="text-[#185FA5]"><IconMCQ /></span>}
-              accent="blue"
-              accentBg="bg-[#185FA5]/10"
-              count={mcqs.length}
+              accent="blue" accentBg="bg-[#185FA5]/10" count={mcqs.length}
             >
               {mcqs.length === 0 ? (
                 <p className="text-slate-500 text-sm">No hay exámenes disponibles.</p>
               ) : (
                 <div className="flex flex-col gap-3">
                   {mcqs.map((m) => (
-                    <MaterialRow
-                      key={m.id}
-                      material={m}
-                      onStart={() => loadMCQSet(m.id)}
-                      onDelete={() => deleteMaterial(m.id, "mcq")}
-                      loadingSet={loadingSet}
-                      accent="blue"
-                    />
+                    <MaterialRow key={m.id} material={m} onStart={() => loadMCQSet(m.id)} onDelete={() => deleteMaterial(m.id, "mcq")} loadingSet={loadingSet} accent="blue" />
                   ))}
                 </div>
               )}
