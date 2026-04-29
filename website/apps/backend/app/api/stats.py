@@ -8,8 +8,10 @@ import json
 router = APIRouter(redirect_slashes=False)
 
 @router.get("/")
-async def get_user_stats(user_id: str):
-    print(f"[stats] fetching for user_id: {user_id}")
+async def get_user_stats(request: Request):
+    token = request.headers.get("Authorization").split(" ")[1]
+    user = supabase.auth.get_user(token)
+    user_id = user.user.id
 
     try:
         flashcard_sets = supabase.table("flashcard_sets") \
