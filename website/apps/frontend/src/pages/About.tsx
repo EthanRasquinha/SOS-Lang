@@ -221,19 +221,20 @@ export const About: React.FC = () => {
     <p className="text-[13px] text-slate-300 leading-relaxed text-left">
   <span className="text-white font-[Poppins] font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
   <br/>  
-  Una iniciativa internacional de la Universidad de Cádiz centrada en fortalecer la colaboración académica, científica y cultural entre España y los países de Europa del Este y Asia Central. Promueve alianzas entre universidades, apoya el intercambio de estudiantes y profesores, y desarrolla programas conjuntos de investigación y formación que conectan la educación con los desafíos del mundo real. A través de sus proyectos, eventos y colaboraciones institucionales, CUNEAC contribuye a crear oportunidades de aprendizaje intercultural, innovación y desarrollo profesional.
+Unidad del Vicerrectorado de Internacionalización de la Universidad de Cádiz creada en 2008 para el fomento de la colaboración académica, científica y cultural entre España, Europa del Este y Asia Central a través de todo tipo de proyectos como programas educativos, actividades culturales, organización de eventos académicos e institucionales, gestión de convenios internacionales, etc.
+Entre las actividades formativas que gestiona el CUNEAC se encuentran cursos de lenguas como el armenio, el georgiano, el ruso, el ucraniano, el uzbeko o el español, para lo cual se promueven herramientas como SOS-LANG para facilitar el aprendizaje a los estudiantes.
 </p>
 
 <p className="text-[13px] text-slate-300 leading-relaxed text-left">
   <span className="text-white font-semibold">Leonor Acosta Bustamante</span>
   <br/>  
-  Leonor Acosta Bustamante es Profesora Contratada Doctora de Filología Inglesa en la Universidad de Cádiz, especializada en Estudios Culturales y Estudios de Género. Su investigación se centra en la representación del género en la literatura, el cine y la cultura popular, con especial énfasis en la deconstrucción de los binarismos de género. Ha desarrollado una especialización en Estudios de Masculinidades y Transfeminismo, explorando cómo se construyen y cuestionan las identidades y roles de género en los textos culturales y los medios de comunicación. También forma parte del grupo de investigación HUM536, que estudia el concepto de alteridad en el mundo contemporáneo.
+Doctora y profesora de Filología Inglesa en la Facultad de Filosofía y Letras, Leonor Acosta Bustamante es actualmente directora general de Política Lingüística, directora del Centro Superior de Lenguas Modernas y responsable académica del Centro Universitario Internacional para Europa del Este y Asia Central de la Universidad de Cádiz. Forma parte del Grupo de Investigación “El problema de la alteridad en el mundo actual” y ha sido directora del Máster en Comunicación Internacional y directora general de Posgrado de la Universidad de Cádiz.
 </p>
 
  <p className="text-[13px] text-slate-300 leading-relaxed text-left">
   <span className="text-white font-[Poppins] font-semibold">Andrés Santana Arribas</span>
   <br/>  
-  Andrés Santana Arribas es profesor y coordinador cultural en la Universidad de Cádiz y la Universidad de Granada, especializado en lengua rusa, traducción y relaciones internacionales. Es responsable de varias iniciativas clave, entre ellas el Centro CUNEAC para Europa del Este y Asia Central, el Instituto Pushkin y el Aula Universitaria Hispano-Rusa (AUHR). Con una amplia trayectoria desde los años 90 como traductor, docente y gestor cultural, ha desempeñado un papel fundamental en el desarrollo de proyectos académicos y culturales entre España, Europa del Este y Asia Central, así como en la organización de eventos internacionales y programas de intercambio.
+Andrés Santana Arribas es técnico superior de la Fundación de la Universidad de Cádiz (FundUCA), coordinador del Centro Universitario Internacional para Europa del Este y Asia Central (CUNEAC) y coordinador de los títulos propios de Máster y Experto en Traducción Especializada de Ruso y Español de la Universidad de Cádiz, donde coordina también los cursos de ruso en colaboración con el Centro Superior de Lenguas Modernas. Desde el CUNEA gestiona una amplia oferta de actividades y cursos de armenio, georgiano, ucraniano y otras lenguas y culturas de Europa del Este y Asia Central. En el pasado, fue responsable del Instituto Pushkin y el Aula Universitaria Hispano-Rusa (AUHR) de la Universidad de Cádiz y ejerció 14 años como traductor en la Embajada de España en Moscú y docente de traducción y español en la Universidad Estatal Lingüística de Moscú. Como gestor cultural, ha desarrollado centenares de proyectos y actividades internacionales de carácter académico, científico y cultural.
 </p>
 
 
