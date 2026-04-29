@@ -473,7 +473,7 @@ export const AIStudyMaterial: React.FC = () => {
             </Section>
 
             <Section
-              title="Ejercicios de opción múltiple" subtitle=""
+              title="Ejercicios de elegir" subtitle=""
               icon={<span className="text-[#185FA5]"><IconMCQ /></span>}
               accent="blue" accentBg="bg-[#185FA5]/10" count={mcqs.length}
             >
