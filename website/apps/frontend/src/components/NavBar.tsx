@@ -122,7 +122,7 @@ export const NavBar = () => {
                       className="block px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 whitespace-nowrap"
                       style={{
                         fontFamily: "'Poppins', sans-serif",
-                        color: isActive ? "#fff" : "rgba(148,163,184,0.8)",
+                        color: isActive ? "#fff" : "#fff",
                       }}
                     >
                       {item.name}
