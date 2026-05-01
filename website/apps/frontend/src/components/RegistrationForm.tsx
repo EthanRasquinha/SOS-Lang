@@ -22,6 +22,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { supabase } from "@/lib/supabaseClient"
 
+{/*
+  This component implements a registration form as a modal dialog. It uses react-hook-form for form state management and validation, and supabase for authentication. 
+  The form includes fields for email, password, and language selection, with appropriate validation and error handling. 
+  On successful registration, it shows a confirmation modal prompting the user to verify their email before they can log in.
+*/}
+
 const formSchema = z.object({
   email: z.string().email("Por favor escribe una correo electronico valido."),
   password: z.string().min(6, "Su contraseña debe tener al menos 6 caracteres."),

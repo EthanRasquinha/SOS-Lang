@@ -6,6 +6,13 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
 
+{/*
+  This component implements a flashcard quiz interface. It displays one flashcard at a time, allowing the user to input their answer and check it against the correct answer. 
+  The user can mark their answer as correct or wrong, and the component provides immediate feedback with sound effects and visual cues. 
+  At the end of the quiz, it shows a summary of the user's performance, including their score and accuracy percentage. 
+  The component also handles saving the quiz results to a backend server.
+*/}
+
 interface Flashcard {
   id: string;
   front: string;

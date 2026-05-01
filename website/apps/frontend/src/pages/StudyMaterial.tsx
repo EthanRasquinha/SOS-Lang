@@ -7,6 +7,12 @@ import MCQQuizView from "../components/MCQQuizView";
 import sosLogo from '../../assets/sos-logo.png';
 import { BookOpen } from "lucide-react";
 
+{/*
+  This component implements the flashcard dashboard page. It displays a list of flashcard sets created by the user, along with their review status and performance. 
+  Users can filter the sets based on their review status, start a quiz for a specific set, or delete sets they no longer need. 
+  The component fetches flashcard sets and quiz results from the backend server, and it handles all interactions related to managing and reviewing flashcards.
+*/}
+
 interface Flashcard {
   id: string;
   front: string;

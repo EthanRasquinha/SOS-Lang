@@ -11,6 +11,12 @@ import { AIStudyMaterial } from './src/pages/StudyMaterial'
 import { ProtectedRoute } from './ProtectedRoute'
 import { UserDashboard } from './src/pages/UserDashboard'
 
+{/*
+  This is the main application component that sets up the routing and authentication context for the app. 
+  It uses React Router for client-side routing and provides an AuthProvider to manage user authentication state across the app. 
+  The AppRoutes component defines the different routes and their corresponding components, with protected routes for authenticated users.
+*/}
+
 // Separated so it can access AuthContext (must be inside AuthProvider)
 const AppRoutes = () => {
   const { user, loading } = useAuth()

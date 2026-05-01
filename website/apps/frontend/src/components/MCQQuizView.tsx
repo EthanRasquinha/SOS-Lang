@@ -3,6 +3,13 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
 
+{/*
+  This component implements a multiple-choice quiz interface. It displays one question at a time, with options for the user to select. 
+  When an option is selected, it shows whether the answer is correct or incorrect, along with an explanation. 
+  The user can then proceed to the next question, and at the end, it shows a summary of their performance. 
+  The component also includes sound effects for correct and incorrect answers, as well as visual feedback like particle bursts and shaking animations.
+*/}
+
 interface MCQQuestion {
   id: string;
   created_at: string;

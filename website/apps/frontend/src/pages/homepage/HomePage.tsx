@@ -4,6 +4,11 @@ import { InformedConsent } from '@/components/InformedConsent';
 import ucaEmblem from '../../../assets/UCA-emblem.png';
 import sosLogo from '../../../assets/sos-logo.png';
 
+{/*
+  This component implements the homepage of the application. It includes a hero section with a call to action, a section showcasing the features of the app, and a section about the sponsor. 
+  The component also manages the state for the informed consent and registration modals, as well as a banner for translation instructions.
+*/}
+
 // ── Icons ──────────────────────────────────────────────
 const IconNote = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">

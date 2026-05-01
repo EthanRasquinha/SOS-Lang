@@ -4,6 +4,10 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 
+{/*
+  This component implements the "Contact" page of the application. It includes a form for users to send messages to the team, which are handled through Formspree.
+*/}
+
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 

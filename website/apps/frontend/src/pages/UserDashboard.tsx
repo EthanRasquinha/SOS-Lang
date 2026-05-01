@@ -17,6 +17,12 @@ import {
   ArcElement,
 } from "chart.js";
 
+{/*
+  This component implements the user dashboard page. It displays an overview of the user's study progress, including statistics, activity trends, and recent activity. 
+  The dashboard also includes a section for managing study materials, allowing users to see the status of their flashcard and MCQ sets, and quickly access them for review. 
+  The component fetches data from the backend server to populate the dashboard and handles all interactions related to navigating to study materials and filtering recent activity.
+*/}
+
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Filler, Tooltip, Legend, ArcElement);
 
 import sosLogo from "../../assets/sos-logo.png";

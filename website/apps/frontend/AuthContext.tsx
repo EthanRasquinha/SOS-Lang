@@ -2,6 +2,11 @@ import * as React from "react"
 import { supabase } from "@/lib/supabaseClient"
 import { Session, User } from "@supabase/supabase-js"
 
+{/*
+  This component implements the authentication context for the application. 
+  It provides a way to access the current user's authentication state and session information throughout the app.
+*/}
+
 type AuthContextType = {
   user: User | null
   session: Session | null

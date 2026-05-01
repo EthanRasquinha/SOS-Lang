@@ -7,6 +7,12 @@ import { Mail, Lock, ArrowRight, X } from "lucide-react"
 import sosLogo from "../../assets/sos-logo.png"
 import { supabase } from "@/lib/supabaseClient"
 
+{/*
+  This component implements a login form as a modal dialog. It uses react-hook-form for form state management and validation, and supabase for authentication. 
+  The form includes fields for email and password, with appropriate validation and error handling. 
+  On successful login, it calls the onSuccess callback passed in as a prop.
+*/}
+
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
   password: z.string().min(6, "Password must be at least 6 characters."),

@@ -7,6 +7,13 @@ import { LoginForm } from "./LoginForm";
 import { InformedConsent } from "./InformedConsent";
 import logo from "../../assets/sos-logo.png";
 
+{/*
+  This component implements the navigation bar for the application. It includes links to different pages, as well as authentication buttons for login and registration. 
+  The navigation bar is responsive, with a hamburger menu for mobile devices. 
+  It also includes an active tab indicator that highlights the current page. 
+  The component manages the state for the authentication modals and the mobile menu, and it uses react-router for navigation.
+*/}
+
 export const NavBar = () => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);

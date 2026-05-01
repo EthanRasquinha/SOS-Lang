@@ -2,6 +2,11 @@ import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
+{/*
+  This component implements a modal dialog that presents an informed consent agreement to the user. 
+  The user must scroll to the bottom of the content and check a box to enable the consent button.
+*/}
+
 type InformedConsentProps = {
   open: boolean;
   onClose: () => void;

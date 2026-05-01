@@ -7,6 +7,13 @@ import sosLogo from '../../assets/sos-logo.png';
 import { FileText, Eye, Pencil, BookOpen, Search, X, SlidersHorizontal, Plus, Tag, ChevronLeft, ChevronRight, GripVertical } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
+{/*
+  This component implements the main dashboard for managing notes. It includes a resizable and collapsible sidebar that lists all the user's notes, with search and filter functionality. 
+  The main area displays the content of the selected note, allowing users to view, edit, generate flashcards, and take quizzes based on their notes. 
+  The component also handles creating new notes, deleting existing ones, and managing custom categories for organizing notes. 
+  It interacts with a backend server to fetch and update notes, as well as to generate study materials using AI.
+*/}
+
 interface MCQQuestion {
   id: string;
   created_at: string;

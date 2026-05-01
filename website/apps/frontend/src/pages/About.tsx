@@ -11,6 +11,12 @@ import svetlanaheadshot from '../../assets/svetlanaheadshot.jpg';
 import brajendraheadshot from '../../assets/brajendraheadshot.jpg';
 import wpilogo from '../../assets/wpilogo.png';
 
+{/*
+  This component implements the "About" page of the application. It includes sections about the mission and activities of the project, as well as information about the team members and sponsors. 
+  The page is styled with Tailwind CSS and includes animations using Framer Motion. 
+  The component also manages a contact form that allows users to send messages to the team, which are handled through Formspree.
+*/}
+
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
   animate: { opacity: 1, y: 0 },

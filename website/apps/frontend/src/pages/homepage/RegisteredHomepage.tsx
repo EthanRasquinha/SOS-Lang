@@ -7,6 +7,11 @@ import { supabase } from '@/lib/supabaseClient';
 import ucaEmblem from '../../../assets/UCA-emblem.png';
 import sosLogo from '../../../assets/sos-logo.png';
 
+{/*
+  This component implements the homepage of the application. It includes a hero section with a call to action, a section showcasing the features of the app, and a section about the sponsor. 
+  The component also manages the state for the informed consent and registration modals, as well as a banner for translation instructions.
+*/}
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 // ── Icons ──────────────────────────────────────────────
