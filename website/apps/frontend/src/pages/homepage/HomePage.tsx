@@ -58,7 +58,7 @@ const FEATURES = [
     glow: "rgba(220,101,5,0.35)",
     border: "border-[#dc6505]/25",
     bg: "bg-[#dc6505]/8",
-    title: "Apuntes etiquetadas",
+    title: "Apuntes etiquetados",
     body: "Captura vocabulario, reglas gramaticales, frases e información cultural — cada nota etiquetada por categoría para filtrado instantáneo.",
   },
   {
@@ -263,7 +263,7 @@ export const HomePage = () => {
       <section className="w-full py-10 px-6 pb-10 max-w-5xl mx-auto">
         <div className="rounded-2xl overflow-hidden border border-white/[0.08] grid md:grid-cols-[1fr_1.6fr]">
           <div className="bg-white flex flex-col items-center justify-center gap-4 px-10 py-10">
-            <p className="text-[20px] font-semibold uppercase tracking-[0.3em] text-slate-700">DESARROLLADO POR</p>
+            <p className="text-[20px] font-semibold uppercase tracking-[0.3em] text-slate-700">RESPALDADO POR</p>
             <img src={ucaEmblem} alt="CUNEAC" className="w-full max-w-[200px] object-contain" />
             <p className="text-[18px] font-semibold font-[Poppins] text-slate-700 tracking-wide">CUNEAC</p>
           </div>
@@ -279,14 +279,13 @@ export const HomePage = () => {
               <p className="text-[13px] font-[Poppins] text-slate-300 leading-relaxed max-w-md">
                 <span className="text-white font-semibold">CUNEAC - (Centro Universitario para Europa del Este y Asia Central) </span>
                 <br/>
-                Una iniciativa internacional de la Universidad de Cádiz centrada en fomentar la colaboración académica, científica y cultural entre España, Europa del Este y Asia Central a través de proyectos, intercambios y programas educativos.
-              </p>
+Unidad del Vicerrectorado de Internacionalización de la Universidad de Cádiz creada en 2008 para el fomento de la colaboración académica, científica y cultural entre España, Europa del Este y Asia Central a través de todo tipo de proyectos como programas educativos, actividades culturales, organización de eventos académicos e institucionales, gestión de convenios internacionales, etc. Entre las actividades formativas que gestiona el CUNEAC se encuentran cursos de lenguas como el armenio, el georgiano, el ruso, el ucraniano, el uzbeko o el español, para lo cual se promueven herramientas como SOS-LANG para facilitar el aprendizaje a los estudiantes.              </p>
               <p className="text-[13px] font-[Poppins] text-slate-500 leading-relaxed max-w-md">
                 A través de eventos, patrocinios y proyectos aplicados, CUNEAC tiende puentes entre el conocimiento en el aula y la experiencia práctica — respaldando herramientas creadas por estudiantes como SOS-LANG.
               </p>
               <div className="h-px w-16 bg-[#185FA5]/40" />
               <div className="flex items-center gap-6">
-                {[{ val: "UCA", label: "Universidad" }, { val: "Cádiz", label: "España" }, { val: "2026", label: "Colaboración" }].map((s) => (
+                {[{ val: "UCA", label: "Universidad" }, { val: "Cádiz", label: "España" }, { val: "2026", label: "Proyecto" }].map((s) => (
                   <div key={s.label} className="flex flex-col gap-0.5">
                     <span className="text-sm font-bold text-white">{s.val}</span>
                     <span className="text-[10px] text-slate-500 uppercase tracking-wider">{s.label}</span>

@@ -309,8 +309,8 @@ export const UserDashboard = () => {
 
           {/* TARJETAS DE ESTADÍSTICAS */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard title="Total de conjuntos" value={stats.total_sets} icon={<Layers size={18} />} loading={loading} />
-            <StatCard title="Exámenes completados" value={stats.total_quizzes} icon={<Brain size={18} />} accent="#818cf8" loading={loading} />
+            <StatCard title="Apuntes totales" value={stats.total_sets} icon={<Layers size={18} />} loading={loading} />
+            <StatCard title="Ejercicios completados" value={stats.total_quizzes} icon={<Brain size={18} />} accent="#818cf8" loading={loading} />
             <StatCard title="Rendimiento medio" value={`${stats.avg_score}%`} icon={<TrendingUp size={18} />} accent="#22c55e" loading={loading} />
             <StatCard title="Racha actual" value={`${streak}d`} icon={<Flame size={18} />} accent="#f59e0b" loading={loading} />
           </div>
